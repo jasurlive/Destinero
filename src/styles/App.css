@@ -3,7 +3,8 @@ body {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f0f0f0; /* Light background */
+  background:
+    linear-gradient(185deg, #eef8f4, #f1e9e0);
 }
 
 /* Navigation styles */
@@ -43,18 +44,17 @@ nav ul li a:hover {
 {
 .container {
   max-width: 1900px; /* Adjust as needed */
-  margin: 0 auto;
-  padding: 2rem;
+  padding: 0rem;
 }
 
-/* Responsive map styling */
+
 .map-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh; /* Full viewport height */
   width: 100%; /* Full width */
-  margin-top: -7rem;
+  margin-top: -4rem;
 }
 
 .leaflet-map {
@@ -114,7 +114,9 @@ h1 {
   
   .map-container {
     list-style-type: unset;
-    margin-top: 7rem;
+    display: flex;
+    place-items: center;
+    margin-top: 8rem;
     height: 300px; /* Adjust height for smaller screens */
     width: 98%;
 
