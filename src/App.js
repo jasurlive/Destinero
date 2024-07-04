@@ -11,7 +11,7 @@ const App = () => {
   return (
     <Router>
       <div>
-        <nav>
+        {/* <nav>
           <ul>
             <li>
               <Link to="/itravel">🏠 Home Page New</Link>
@@ -26,7 +26,7 @@ const App = () => {
               <Link to="/itravel/expense-tracker">💰 Expense Tracker</Link>
             </li>
           </ul>
-        </nav>
+        </nav> */}
         <Routes>
           <Route path="/itravel" element={<HomePage />} />
           <Route path="/itravel/itinerary" element={<ItineraryPage />} />

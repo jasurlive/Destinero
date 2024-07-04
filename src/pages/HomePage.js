@@ -31,7 +31,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <h1>Travel Planner</h1>
+      <h1>The places I have been to :)</h1>
       <Map visitedPlaces={visitedPlaces} plannedPlaces={plannedPlaces} />
     </div>
   );

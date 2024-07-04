@@ -62,6 +62,11 @@ nav ul li a:hover {
   height: 100%;
 }
 
+h1 {
+  display: flex;
+  place-content: center;
+}
+
 .unicode-icon {
   font-size: 1rem; /* Adjust the size as needed */
   padding: 0.5rem;
