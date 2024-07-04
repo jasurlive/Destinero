@@ -62,6 +62,20 @@ nav ul li a:hover {
   height: 100%;
 }
 
+.unicode-icon {
+  font-size: 1rem; /* Adjust the size as needed */
+  padding: 0.5rem;
+  display: inline-block;
+}
+
+.custom-div-icon {
+  background: transparent; /* Ensure the background is transparent */
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .place-image {
   width: 100px; /* Adjust image width as needed */
   height: auto; /* Maintain aspect ratio */
@@ -71,7 +85,7 @@ nav ul li a:hover {
 .leaflet-container {
   border: 1px solid #ccc;
   border-radius: 1rem;
-  width: 70%;
+  width: 90%;
   height: 30rem;
   
 }
@@ -80,7 +94,7 @@ nav ul li a:hover {
   background-color: #fff;
   color: #333;
   padding: 10px;
-  border-radius: 5rem;
+  border-radius: 0.1rem;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 }
