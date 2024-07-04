@@ -6,7 +6,7 @@ import 'leaflet/dist/leaflet.css';
 import MapEvents from './MapEvents'; // Assuming MapEvents is in the same folder
 
 // Unicode characters for visited and planned places
-const unicodeVisited = '✅'; // Unicode character for visited places
+const unicodeVisited = '🚩'; // Unicode character for visited places
 const unicodePlanned = '📍'; // Unicode character for planned places
 
 const createCustomIcon = (unicodeChar) => {
