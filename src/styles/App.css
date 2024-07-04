@@ -2,11 +2,12 @@
 body {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   margin: 0;
-  padding: 1rem;
-  height: 95vh;
+  padding: 0rem;
+  height: 100%;
   background:
     linear-gradient(185deg, #eef8f4, #f1e9e0);
     border: #3333331b solid 1px;
+    height: 100%;
 }
 
 /* Navigation styles */
@@ -55,19 +56,23 @@ nav ul li a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh; /* Full viewport height */
+  height: 85vh; /* Full viewport height */
   width: 100%; /* Full width */
-  margin-top: -4rem;
+  
 }
+
+
 
 .leaflet-map {
   width: 100%;
-  height: 80%;
+  height: 100%;
 }
 
 h1 {
+  margin-top: 1.5rem;
   display: flex;
   place-content: center;
+  
 }
 
 .unicode-icon {
@@ -94,8 +99,9 @@ h1 {
   border: 1px solid #ccc;
   border-radius: 1rem;
   width: 90%;
-  height: 30rem;
-  
+  height: 90%;
+  margin: 0;
+  padding: 0;
 }
 
 .leaflet-popup-content {
@@ -121,15 +127,15 @@ h1 {
     display: flex;
     place-content: center;
     font-size: 1.5rem;
+    margin-bottom: 0;
   }
   
   .map-container {
     display: flex;
     justify-content: center; /* Center items horizontally */
     align-items: center; /* Center items vertically */
-    height: 300px; /* Adjust height for smaller screens */
+    height: 92vh; /* Adjust height for smaller screens */
     width: 98%;
-    margin-top: 8rem;
     margin-left: auto; /* Aligns to the center horizontally */
     margin-right: auto; /* Aligns to the center horizontally */
   }
@@ -140,7 +146,7 @@ h1 {
   border: 1px solid #ccc;
   border-radius: 1rem;
   width: 100%;
-  height: 30rem;
+  
   
 }
 
