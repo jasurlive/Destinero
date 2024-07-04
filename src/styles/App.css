@@ -56,7 +56,7 @@ nav ul li a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 85vh; /* Full viewport height */
+  height: 88vh; /* Full viewport height */
   width: 100%; /* Full width */
   
 }
