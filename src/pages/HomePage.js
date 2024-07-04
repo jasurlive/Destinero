@@ -51,63 +51,63 @@ const HomePage = () => {
       imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgZ-gSKxKu9nN59x3CDw61foCAWR227Q_MrNAS2RRJ5WyjmGd4hQUaT6w8fyiM608ksQZ32r0l9WZtwE2h03T2Ep7hGMXzi8KIC_Gefk69gpBSEIOrqxwmBMREhsgEmO6IK0LawPDSHG_TQDyAmwK5ROxKtDkvG1NdWmZIF_mjqpuplzz5YFGElx-fDrDM7/s320/121.webp'
     },
     {
-      name: 'Labi Hovuz Square',
-      coords: [39.773149809611034, 64.42026384794603],
+      name: 'Tashkent State Transport University 🎓',
+      coords: [41.27693714733493, 69.28171277402497],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
-      name: 'Labi Hovuz Square',
-      coords: [39.773149809611034, 64.42026384794603],
+      name: 'Tashkent Railway Station',
+      coords: [41.2913087415986, 69.28667534081151],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
-      name: 'Labi Hovuz Square',
-      coords: [39.773149809611034, 64.42026384794603],
+      name: 'Uzbekistan Locomotive Depot',
+      coords: [41.17574792500475, 69.11880335418036],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
-      name: 'Labi Hovuz Square',
-      coords: [39.773149809611034, 64.42026384794603],
+      name: 'Uzbekistan Station',
+      coords: [41.163629680198014, 69.10566899226976],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
-      name: 'Labi Hovuz Square',
-      coords: [39.773149809611034, 64.42026384794603],
+      name: 'Bakhmal Mountains',
+      coords: [40.06385884843086, 67.66027812330306],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
-      name: 'Labi Hovuz Square',
-      coords: [39.773149809611034, 64.42026384794603],
+      name: 'My Hometown Bulungur',
+      coords: [39.76044032081304, 67.27410899466418],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
-      name: 'Labi Hovuz Square',
-      coords: [39.773149809611034, 64.42026384794603],
+      name: 'SKD Samarkand Airport',
+      coords: [39.69699001918824, 66.99105567261223],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
-      name: 'Labi Hovuz Square',
-      coords: [39.773149809611034, 64.42026384794603],
+      name: 'Manchester City Centre',
+      coords: [53.481441143861986, -2.241878696210726],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
-      name: 'Labi Hovuz Square',
-      coords: [39.773149809611034, 64.42026384794603],
+      name: 'Etihad Stadium 🩵',
+      coords: [53.48008917865102, -2.188915220594217],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
-      name: 'Labi Hovuz Square',
-      coords: [39.773149809611034, 64.42026384794603],
+      name: 'Edinburgh Castle',
+      coords: [55.94874783939112, -3.1972694492410407],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
-      name: 'Labi Hovuz Square',
-      coords: [39.773149809611034, 64.42026384794603],
+      name: 'George Square',
+      coords: [55.86128839286419, -4.25139556409707],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
-      name: 'Labi Hovuz Square',
-      coords: [39.773149809611034, 64.42026384794603],
+      name: 'Stamford Bridge',
+      coords: [51.481677827759704, -0.1910727052852046],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     
@@ -120,6 +120,29 @@ const HomePage = () => {
       coords: [35.6895, 139.6917],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
+    {
+      name: 'Daejeon, South Korea',
+      coords: [36.46695000206827, 127.2868698610206],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'Phuket',
+      coords: [7.883604720685977, 98.38892563265334],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'Tokyo',
+      coords: [35.6895, 139.6917],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'Tokyo',
+      coords: [35.6895, 139.6917],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+
+    
+
     // add more planned places
   ];
 
