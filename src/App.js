@@ -14,24 +14,24 @@ const App = () => {
         <nav>
           <ul>
             <li>
-              <Link to="/">🏠 Home</Link>
+              <Link to="/itravel">🏠 Home Page New</Link>
             </li>
             <li>
-              <Link to="/itinerary">📝 Itinerary</Link>
+              <Link to="/itravel/itinerary">📝 Itinerary</Link>
             </li>
             <li>
-              <Link to="/packing-list">🎒 Packing List</Link>
+              <Link to="/itravel/packing-list">🎒 Packing List</Link>
             </li>
             <li>
-              <Link to="/expense-tracker">💰 Expense Tracker</Link>
+              <Link to="/itravel/expense-tracker">💰 Expense Tracker</Link>
             </li>
           </ul>
         </nav>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/itinerary" element={<ItineraryPage />} />
-          <Route path="/packing-list" element={<PackingListPage />} />
-          <Route path="/expense-tracker" element={<ExpenseTrackerPage />} />
+          <Route path="/itravel" element={<HomePage />} />
+          <Route path="/itravel/itinerary" element={<ItineraryPage />} />
+          <Route path="/itravel/packing-list" element={<PackingListPage />} />
+          <Route path="/itravel/expense-tracker" element={<ExpenseTrackerPage />} />
         </Routes>
       </div>
     </Router>
