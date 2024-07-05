@@ -288,7 +288,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <h1>The places <a href="https://jasurlive.uz/">Jasur</a> has been to :)</h1>
+      <h1>The places <a href="https://jasurlive.uz/">I</a> have been to :)</h1>
       <Map visitedPlaces={visitedPlaces} plannedPlaces={plannedPlaces} />
     </div>
   );
