@@ -3,45 +3,61 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import 'leaflet/dist/leaflet.css';
-import MapEvents from './MapEvents'; // Assuming MapEvents is in the same folder
-import SearchBox from './SearchBox'; // Assuming SearchBox is in the same folder
+import MapEvents from './MapEvents';
+import SearchBox from './SearchBox';
+import { getCountryFlag } from './countryFlags';
+import { zoomToLocation } from './zoomin';
 
-// Unicode characters for visited and planned places
-const unicodeVisited = '🚩'; // Unicode character for visited places
-const unicodePlanned = '✈️'; // Unicode character for planned places
-const unicodeSearched = '🔍'; // Unicode character for searched places
+const unicodeVisited = '🚩';
+const unicodePlanned = '✈️';
+const unicodeSearched = '🔍';
 
 const createCustomIcon = (unicodeChar) => {
   return L.divIcon({
     html: `<span class="unicode-icon">${unicodeChar}</span>`,
     className: 'custom-div-icon',
-    iconSize: [30, 30], // Adjust icon size as needed
-    iconAnchor: [15, 15], // Adjust anchor point as needed
+    iconSize: [30, 30],
+    iconAnchor: [15, 15],
   });
 };
 
 const Map = ({ visitedPlaces, plannedPlaces }) => {
   const [clickedCoords, setClickedCoords] = useState(null);
   const [searchCoords, setSearchCoords] = useState(null);
-  const [copySuccess, setCopySuccess] = useState(false); // State to handle copy success animation
+  const [copySuccess, setCopySuccess] = useState(false);
+  const [placeInfo, setPlaceInfo] = useState(null);
   const places = { visited: visitedPlaces, planned: plannedPlaces };
   const mapRef = useRef(null);
 
-  // Default center and zoom level
-  const defaultCenter = [41.505, -10.09]; // Original center
+  const defaultCenter = [41.505, -10.09];
   const defaultZoom = 3;
+  const adjustedCenter = [defaultCenter[0], defaultCenter[1] + 50.05];
 
-  // Adjust the longitude to shift the map slightly to the right
-  const adjustedCenter = [defaultCenter[0], defaultCenter[1] + 50.05]; // Adjust longitude
-
-  const handleMapClick = (coords) => {
+  const handleMapClick = async (coords) => {
     setClickedCoords(coords);
-    console.log('Clicked coordinates:', coords);
+
+    const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coords[0]}&lon=${coords[1]}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data && data.address) {
+      const { city, town, village, country_code, country, state, county, suburb, neighbourhood } = data.address;
+      const placeName = city || town || village || suburb || neighbourhood || 'Unknown Place';
+      const areaName = suburb || neighbourhood || state || county || '';
+      const countryCode = country_code.toUpperCase();
+      const countryFlag = getCountryFlag(countryCode);
+      const fullPlaceName = areaName ? `${placeName} (${areaName}), ${country}` : `${placeName}, ${country}`;
+
+      setPlaceInfo({
+        name: fullPlaceName,
+        flag: countryFlag,
+      });
+    }
   };
 
   const handleCopyClick = () => {
     setCopySuccess(true);
-    setTimeout(() => setCopySuccess(false), 1500); // Reset copy success animation after 1.5 seconds
+    setTimeout(() => setCopySuccess(false), 1500);
   };
 
   const copyText = `coords: [${clickedCoords ? clickedCoords[0] : ''}, ${clickedCoords ? clickedCoords[1] : ''}]`;
@@ -55,8 +71,16 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
     }
   }, []);
 
+  useEffect(() => {
+    console.log('searchCoords changed', searchCoords);
+    if (searchCoords) {
+      console.log('Map reference:', mapRef.current);
+      zoomToLocation(mapRef.current, searchCoords);
+    }
+  }, [searchCoords]);
+
   return (
-    <div className="map-container"> {/* Apply CSS class for styling */}
+    <div className="map-container">
       <MapContainer center={adjustedCenter} zoom={defaultZoom} className="leaflet-map" whenCreated={mapInstance => mapRef.current = mapInstance}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -85,11 +109,15 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
             </Marker>
           ))
         )}
-        {clickedCoords && (
+        {clickedCoords && placeInfo && (
           <Marker position={clickedCoords} icon={createCustomIcon('📍')}>
             <Popup>
               <div>
                 <strong>Clicked Location</strong>
+                <br />
+                {`Place: ${placeInfo.name}`}
+                <br />
+                {placeInfo.flag && <span>{placeInfo.flag}</span>}
                 <br />
                 {`Latitude: ${clickedCoords[0]}, Longitude: ${clickedCoords[1]}`}
                 <br />

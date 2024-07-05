@@ -160,7 +160,7 @@ const HomePage = () => {
       coords: [48.841320752408244, 2.2531545190717095],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
-    {
+   /*  {
       name: 'NAME',
       coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
@@ -184,7 +184,7 @@ const HomePage = () => {
       name: 'NAME',
       coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
+    }, */
     
     
     // add more visited places
@@ -210,7 +210,7 @@ const HomePage = () => {
       coords: [35.6895, 139.6917],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
-    {
+/*     {
       name: 'Tokyo',
       coords: [35.6895, 139.6917],
       imageLink: 'https://jasurgraduate.blogspot.com/'
@@ -280,7 +280,7 @@ const HomePage = () => {
       coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
-
+ */
     
 
     // add more planned places
