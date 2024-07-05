@@ -110,6 +110,81 @@ const HomePage = () => {
       coords: [51.481677827759704, -0.1910727052852046],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
+    {
+      name: 'Labi Havuz',
+      coords: [39.77293970560981, 64.42026031484833],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'Chess Zone',
+      coords: [39.77660859167944, 64.40767551926113],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'Bukhara Railway Station',
+      coords: [39.72203509321687, 64.54730580949321],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'Karshi Railway Station',
+      coords: [38.82143810300877, 65.77712549039398],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
     
     
     // add more visited places
@@ -126,7 +201,7 @@ const HomePage = () => {
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
-      name: 'Phuket',
+      name: 'Phuket, Thailand',
       coords: [7.883604720685977, 98.38892563265334],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
@@ -138,6 +213,71 @@ const HomePage = () => {
     {
       name: 'Tokyo',
       coords: [35.6895, 139.6917],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'NAME',
+      coords: [],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
 
