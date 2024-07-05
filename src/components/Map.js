@@ -9,6 +9,7 @@ import SearchBox from './SearchBox'; // Assuming SearchBox is in the same folder
 // Unicode characters for visited and planned places
 const unicodeVisited = '🚩'; // Unicode character for visited places
 const unicodePlanned = '✈️'; // Unicode character for planned places
+const unicodeSearched = '🔍'; // Unicode character for searched places
 
 const createCustomIcon = (unicodeChar) => {
   return L.divIcon({
@@ -22,6 +23,7 @@ const createCustomIcon = (unicodeChar) => {
 const Map = ({ visitedPlaces, plannedPlaces }) => {
   const [clickedCoords, setClickedCoords] = useState(null);
   const [searchCoords, setSearchCoords] = useState(null);
+  const [copySuccess, setCopySuccess] = useState(false); // State to handle copy success animation
   const places = { visited: visitedPlaces, planned: plannedPlaces };
   const mapRef = useRef(null);
 
@@ -35,6 +37,11 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
   const handleMapClick = (coords) => {
     setClickedCoords(coords);
     console.log('Clicked coordinates:', coords);
+  };
+
+  const handleCopyClick = () => {
+    setCopySuccess(true);
+    setTimeout(() => setCopySuccess(false), 1500); // Reset copy success animation after 1.5 seconds
   };
 
   const copyText = `coords: [${clickedCoords ? clickedCoords[0] : ''}, ${clickedCoords ? clickedCoords[1] : ''}]`;
@@ -53,7 +60,7 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
       <MapContainer center={adjustedCenter} zoom={defaultZoom} className="leaflet-map" whenCreated={mapInstance => mapRef.current = mapInstance}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          attribution=''
         />
         <SearchBox map={mapRef.current} onSearch={setSearchCoords} />
         <MapEvents onClick={handleMapClick} />
@@ -87,14 +94,16 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
                 {`Latitude: ${clickedCoords[0]}, Longitude: ${clickedCoords[1]}`}
                 <br />
                 <CopyToClipboard text={copyText}>
-                  <button>Copy Coordinates</button>
+                  <button className={`copy-button ${copySuccess ? 'copied' : ''}`} onClick={handleCopyClick}>
+                    {copySuccess ? 'Copied!' : 'Copy Coords'}
+                  </button>
                 </CopyToClipboard>
               </div>
             </Popup>
           </Marker>
         )}
         {searchCoords && (
-          <Marker position={searchCoords} icon={createCustomIcon('🔍')}>
+          <Marker position={searchCoords} icon={createCustomIcon(unicodeSearched)}>
             <Popup>
               <div>
                 <strong>Searched Location</strong>
