@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import 'leaflet/dist/leaflet.css';
 import MapEvents from './MapEvents'; // Assuming MapEvents is in the same folder
+import SearchBox from './SearchBox'; // Assuming SearchBox is in the same folder
 
 // Unicode characters for visited and planned places
 const unicodeVisited = '🚩'; // Unicode character for visited places
@@ -20,7 +21,9 @@ const createCustomIcon = (unicodeChar) => {
 
 const Map = ({ visitedPlaces, plannedPlaces }) => {
   const [clickedCoords, setClickedCoords] = useState(null);
+  const [searchCoords, setSearchCoords] = useState(null);
   const places = { visited: visitedPlaces, planned: plannedPlaces };
+  const mapRef = useRef(null);
 
   // Default center and zoom level
   const defaultCenter = [41.505, -10.09]; // Original center
@@ -36,13 +39,23 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
 
   const copyText = `coords: [${clickedCoords ? clickedCoords[0] : ''}, ${clickedCoords ? clickedCoords[1] : ''}]`;
 
+  useEffect(() => {
+    if (mapRef.current) {
+      const map = mapRef.current;
+      map.on('click', (e) => {
+        handleMapClick([e.latlng.lat, e.latlng.lng]);
+      });
+    }
+  }, []);
+
   return (
     <div className="map-container"> {/* Apply CSS class for styling */}
-      <MapContainer center={adjustedCenter} zoom={defaultZoom} className="leaflet-map">
+      <MapContainer center={adjustedCenter} zoom={defaultZoom} className="leaflet-map" whenCreated={mapInstance => mapRef.current = mapInstance}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
+        <SearchBox map={mapRef.current} onSearch={setSearchCoords} />
         <MapEvents onClick={handleMapClick} />
         {['visited', 'planned'].map((type) =>
           places[type].map((place, index) => (
@@ -76,6 +89,17 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
                 <CopyToClipboard text={copyText}>
                   <button>Copy Coordinates</button>
                 </CopyToClipboard>
+              </div>
+            </Popup>
+          </Marker>
+        )}
+        {searchCoords && (
+          <Marker position={searchCoords} icon={createCustomIcon('🔍')}>
+            <Popup>
+              <div>
+                <strong>Searched Location</strong>
+                <br />
+                {`Latitude: ${searchCoords[0]}, Longitude: ${searchCoords[1]}`}
               </div>
             </Popup>
           </Marker>

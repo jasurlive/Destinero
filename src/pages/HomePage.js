@@ -5,8 +5,8 @@ import Map from '../components/Map';
 const HomePage = () => {
   const visitedPlaces = [
     {
-      name: 'Paris',
-      coords: [48.8566, 2.3522],
+      name: 'Eiffel Tower, Paris',
+      coords: [48.85821182030906, 2.294507757931861],
       imageLink: 'https://blogger.googleusercontent.com/img/a/AVvXsEjc3T6d_JL5_7cvJhnYZt05sJUf6v5it15CGPhzQDgMLzpTYJJvNTb58IeiMS5S22SRwEBWASRh62YgsAh9Xu0COG3SV1OFHtodmRcBaPUrsyNVxbmllaLht5e2PYgSrXuXxt9FF3Rw3KfbxdkvBhF8_rvKcPReev43F-nyGcihKuoAWM16sbl9KbExuOZS=w392-h523'
     },
 
@@ -131,58 +131,58 @@ const HomePage = () => {
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
-      name: 'NAME',
-      coords: [],
+      name: 'Llandudno, Wales',
+      coords: [53.33167645251945, -3.824942414958144],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'Lufthavnen Metro Station',
+      coords: [55.63088645629893, 12.649230953933992],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'Sitting area right next to Nyhavn',
+      coords: [55.68056896609491, 12.586611332352101],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'Sleep in Heaven Hostel 📸🏆',
+      coords: [55.686776555367054, 12.550551789427477],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'Orly Airport Shuttle Bus Station',
+      coords: [48.72857124101419, 2.3690825209465283],
+      imageLink: 'https://jasurgraduate.blogspot.com/'
+    },
+    {
+      name: 'PSG Stadium Tour',
+      coords: [48.841320752408244, 2.2531545190717095],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
       name: 'NAME',
-      coords: [],
+      coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
       name: 'NAME',
-      coords: [],
+      coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
       name: 'NAME',
-      coords: [],
+      coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
       name: 'NAME',
-      coords: [],
+      coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
       name: 'NAME',
-      coords: [],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [],
+      coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     
@@ -217,67 +217,67 @@ const HomePage = () => {
     },
     {
       name: 'NAME',
-      coords: [],
+      coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
       name: 'NAME',
-      coords: [],
+      coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
       name: 'NAME',
-      coords: [],
+      coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
       name: 'NAME',
-      coords: [],
+      coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
       name: 'NAME',
-      coords: [],
+      coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
       name: 'NAME',
-      coords: [],
+      coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
       name: 'NAME',
-      coords: [],
+      coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
       name: 'NAME',
-      coords: [],
+      coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
       name: 'NAME',
-      coords: [],
+      coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
       name: 'NAME',
-      coords: [],
+      coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
       name: 'NAME',
-      coords: [],
+      coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
       name: 'NAME',
-      coords: [],
+      coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
     {
       name: 'NAME',
-      coords: [],
+      coords: [1, 1],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
 
