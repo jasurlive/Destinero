@@ -243,7 +243,7 @@ body {
     display: flex;
     justify-content: center; /* Center items horizontally */
     align-items: center; /* Center items vertically */
-    height: 60vh; /* Adjust height for smaller screens */
+    height: 75vh; /* Adjust height for smaller screens */
     width: 85%;
     margin-left: auto; /* Aligns to the center horizontally */
     margin-right: auto; /* Aligns to the center horizontally */
