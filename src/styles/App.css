@@ -88,7 +88,8 @@ nav ul li a:hover {
 }
 
 h1 {
-  margin-top: 1.5rem;
+  margin-top: 2.5rem;
+  margin-bottom: 0.1rem;
   display: flex;
   place-content: center;
   
@@ -232,7 +233,7 @@ body {
   }
 
   h1 {
-    margin-top: 1rem;
+    margin-top: 5rem;
     display: flex;
     place-content: center;
     font-size: 1.5rem;
