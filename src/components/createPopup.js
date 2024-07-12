@@ -5,6 +5,15 @@ import L from 'leaflet';
 const createPopup = (place, mapRef, handleCopyClick, copySuccess) => {
   const isClicked = place.type === 'clicked';
 
+  const handleCopy = () => {
+    // Format coordinates as coords: [latitude, longitude]
+    const formattedCoords = `coords: [${place.coords[0]}, ${place.coords[1]}]`;
+
+    // Copy formatted coordinates to clipboard
+    navigator.clipboard.writeText(formattedCoords);
+    handleCopyClick(); // Trigger state change or feedback for copy success
+  };
+
   return (
     <Marker
       key={`${place.type}-${place.coords.join(',')}`}
@@ -26,7 +35,7 @@ const createPopup = (place, mapRef, handleCopyClick, copySuccess) => {
           }
         }}
       >
-        <div class="cont">
+        <div className="cont">
           <h2>{isClicked ? 'Clicked Location' : place.name}</h2>
           <br />
           {!isClicked && place.imageLink && (
@@ -42,7 +51,7 @@ const createPopup = (place, mapRef, handleCopyClick, copySuccess) => {
               <br />
               {`Latitude: ${place.coords[0]}, Longitude: ${place.coords[1]}`}
               <br />
-              <button className={`copy-button ${copySuccess ? 'copied' : ''}`} onClick={handleCopyClick}>
+              <button className={`copy-button ${copySuccess ? 'copied' : ''}`} onClick={handleCopy}>
                 {copySuccess ? 'Copied!' : 'Copy Coords'}
               </button>
             </>

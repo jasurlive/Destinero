@@ -160,11 +160,13 @@ const HomePage = () => {
       coords: [48.841320752408244, 2.2531545190717095],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
-   /*  {
-      name: 'NAME',
-      coords: [1, 1],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
+    {
+      name: 'Galata Bridge',
+      coords: [41.01978632234401, 28.97251904010773],
+      imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjvCKEsz5vl8HZFdlUQiwQG6J_dbPXl22DdAhQ96W4-T1rAsREyUkXFAKvqTMNDtk4qR6KNqjY6fCOL7otlKgrbuiXXfCFNDL9WlInMLrUsOBExDtmJl4lOJORXpGWG3jb-jp5B2VI5oCRTMhhxcd-y1H9-J-xHap0xTPWu-mDYe-6p2WLkRTAD41q_DLLG/s320/20230927_152908.jpg'
+    }
+
+    /* 
     {
       name: 'NAME',
       coords: [1, 1],
