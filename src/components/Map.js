@@ -29,8 +29,8 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
   const places = { visited: visitedPlaces, planned: plannedPlaces };
   const mapRef = useRef(null);
 
-  const defaultCenter = [41.505, -10.09];
-  const defaultZoom = 3;
+  const defaultCenter = [41.505, -0.09];
+  const defaultZoom = 3.1;
   const adjustedCenter = [defaultCenter[0], defaultCenter[1] + 50.05];
 
   const handleMapClick = async (coords) => {
