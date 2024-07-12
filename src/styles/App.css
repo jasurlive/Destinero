@@ -6,7 +6,7 @@ body {
   height: 100vh;
   overflow: hidden; /* Prevents scrolling */
   background: linear-gradient(185deg, #eef8f4, #f1e9e0);
-  border: #3333331b solid 1px;
+  
 }
 
 a {
