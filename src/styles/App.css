@@ -70,6 +70,14 @@ h1 {
   font-size: 1.5rem; /* Default font size, adjusted for mobile */
 }
 
+h2 {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  font-size: 15px;
+  margin: 0;
+}
+
 /* Map container */
 .map-container {
   display: flex;
@@ -95,12 +103,20 @@ h1 {
 }
 
 .place-image {
-  width: 100px; /* Default image width, adjusted for mobile */
-  height: auto; /* Maintain aspect ratio */
+  display: block; /* Ensures the image is treated as a block element */
+  max-width: 100%; /* Ensures the image does not exceed its container's width */
+  height: auto; /* Maintains the aspect ratio of the image */
+  border: 1px solid #ccc; /* Adds a border around the image */
+  border-radius: 5px; /* Adds rounded corners to the image */
+  transition: transform 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.place-image:hover {
+  transform: scale(1.05); /* Slightly enlarges the image on hover */
 }
 
 .unicode-icon {
-  font-size: 1rem; /* Adjust the size as needed */
+  font-size: 35px; /* Adjust the size as needed */
   padding: 0.5rem;
   display: inline-block;
 }
@@ -111,7 +127,34 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
+
+.cont {
+  display: grid;
+  justify-content: center; /* Horizontally center the content */
+  align-items: center; /* Vertically center the content */
+  padding: 1rem;
+}
+
+/* Example styling for Leaflet popup close button */
+.leaflet-popup-close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: #fff;
+  color: #000;
+  border: none;
+  padding: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none; /* Remove underline from the link */
+}
+
+.leaflet-popup-close-button:hover {
+  color: #f00; /* Change color on hover */
+}
+
 
 /* Search box styles */
 .search-box {
@@ -152,18 +195,13 @@ h1 {
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-search-box button:hover {
+.search-box button:hover {
   background-color: #357ae8;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.search-box button:active {
-  background-color: #3367d6;
-}
 
-.search-box button:focus {
-  outline: none;
-}
+
 
 /* Copy button styles */
 .copy-button {
@@ -183,8 +221,49 @@ search-box button:hover {
   background-color: #28a745;
 }
 
-/* Styles for smaller screens (mobile) */
+/* Styles for smaller screens ------------------------------------------------------------------------------- (mobile) */
 @media (max-width: 768px) {
+
+  a {
+    margin: 0 0.6rem;
+    text-decoration: none; /* Removes underline */
+    color: #007BFF; /* Default color */
+    transition: color 0.3s ease-in-out, box-shadow 0.3s ease; /* Smooth transition for color change and box-shadow */
+  }
+  
+  
+  a:active {
+    transform: translateY(5px); /* Optional: Add a slight animation on click */
+  }
+
+  h2 {
+    list-style-type: none;
+    display: grid;
+    font-size: 15px;
+    margin: 0;
+  }
+
+  .cont {
+    display: grid;
+    justify-content: center; /* Horizontally center the content */
+    align-items: center; /* Vertically center the content */
+    padding: 0rem;
+  }
+
+  .place-image {
+    display: block; /* Ensures the image is treated as a block element */
+    max-width: 100%; /* Ensures the image does not exceed its container's width */
+    height: auto; /* Maintains the aspect ratio of the image */
+    border: 1px solid #ccc; /* Adds a border around the image */
+    border-radius: 5px; /* Adds rounded corners to the image */
+    transition: transform 0.3s ease; /* Smooth transition for hover effect */
+  }
+  
+  .place-image:hover {
+    transform: scale(1.05); /* Slightly enlarges the image on hover */
+  }
+  
+  
   h1 {
     margin-top: 4rem; /* Adjusted margin for mobile */
     font-size: 1.5rem;
@@ -196,13 +275,17 @@ search-box button:hover {
     margin: auto;
   }
 
+  .unicode-icon {
+    font-size: 25px; /* Adjust the size as needed */
+    padding: 0.5rem;
+    display: inline-block;
+  }
+
   .leaflet-container {
     width: 100%;
   }
 
-  .place-image {
-    width: 60px; /* Adjust smaller image size */
-  }
+
 
   .search-box {
     background: rgba(255, 255, 255, 0.24);
