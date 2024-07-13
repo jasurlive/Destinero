@@ -52,7 +52,7 @@ const createPopup = (place, mapRef, handleCopyClick, copySuccess) => {
               {`Latitude: ${place.coords[0]}, Longitude: ${place.coords[1]}`}
               <br />
               <button className={`copy-button ${copySuccess ? 'copied' : ''}`} onClick={handleCopy}>
-                {copySuccess ? 'Copied!' : 'Copy Coords'}
+                {copySuccess ? 'Copied 😁!' : 'Copy Coords 🏌🏻‍♂️'}
               </button>
             </>
           )}
