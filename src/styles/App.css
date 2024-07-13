@@ -56,11 +56,6 @@ nav ul li a:hover {
   background-color: #56a757; /* Lighter green on hover */
 }
 
-/* Common container styles */
-.container {
-  padding: 0;
-  max-width: 1900px; /* Adjust as needed */
-}
 
 h1 {
   margin-top: 2rem;
@@ -104,8 +99,9 @@ h2 {
 
 .place-image {
   display: block; /* Ensures the image is treated as a block element */
-  max-width: 100%; /* Ensures the image does not exceed its container's width */
-  height: auto; /* Maintains the aspect ratio of the image */
+  width: 220px; /* Custom width */
+  height: auto; /* Custom height */
+  object-fit: cover; /* Ensures the image covers the given dimensions while maintaining aspect ratio */
   border: 1px solid #ccc; /* Adds a border around the image */
   border-radius: 5px; /* Adds rounded corners to the image */
   transition: transform 0.3s ease; /* Smooth transition for hover effect */
@@ -114,6 +110,7 @@ h2 {
 .place-image:hover {
   transform: scale(1.05); /* Slightly enlarges the image on hover */
 }
+
 
 .unicode-icon {
   font-size: 35px; /* Adjust the size as needed */
@@ -139,14 +136,14 @@ h2 {
 
 /* Example styling for Leaflet popup close button */
 .leaflet-popup-close-button {
+  list-style-type: none;
   position: absolute;
-  top: 5px;
-  right: 5px;
-  background-color: #fff;
+  background-color: #59bcc7;
   color: #000;
-  border: none;
-  padding: 5px;
-  font-size: 16px;
+  border: solid 1px #000;
+  padding: 8px 10px 8px 10px;
+  border-radius: 7px;
+  font-size: 20px;
   cursor: pointer;
   text-decoration: none; /* Remove underline from the link */
 }
@@ -247,10 +244,16 @@ h2 {
 
   h2 {
     list-style-type: none;
-    display: grid;
-    font-size: 15px;
-    margin: 0;
+    display: block; /* Use block display for proper centering */
+    font-size: 12px;
+    margin: 0 auto; /* Center the element horizontally */
+    max-width: 120px; /* Adjust to your desired width */
+    word-wrap: break-word; /* Ensures long words will break to fit within the width */
+    overflow-wrap: break-word; /* Ensures long words will break to fit within the width */
+    text-align: center; /* Center the text within the element */
   }
+  
+  
 
   .cont {
     display: grid;
@@ -261,13 +264,13 @@ h2 {
 
   .place-image {
     display: block; /* Ensures the image is treated as a block element */
-    max-width: 100%; /* Ensures the image does not exceed its container's width */
-    height: auto; /* Maintains the aspect ratio of the image */
+    width: 120px; /* Custom width */
+    height: auto; /* Custom height */
+    object-fit: cover; /* Ensures the image covers the given dimensions while maintaining aspect ratio */
     border: 1px solid #ccc; /* Adds a border around the image */
     border-radius: 5px; /* Adds rounded corners to the image */
     transition: transform 0.3s ease; /* Smooth transition for hover effect */
   }
-  
   
   .place-image:hover {
     transform: scale(1.05); /* Slightly enlarges the image on hover */
