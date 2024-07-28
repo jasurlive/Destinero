@@ -35,72 +35,7 @@ const HomePage = () => {
     { name: 'Tashkent State Transport University 🎓', coords: [41.27729075, 69.2826682070976], imageLink: 'https://tstu.uz/assets/front/images/tstuphoto.jpg' },
     { name: 'Tashkent Railway Station', coords: [41.2932886, 69.2877212], imageLink: 'https://upload.wikimedia.org/wikipedia/commons/4/45/Tashkent_Railway_Station.jpg' },
     { name: 'Uzbekistan Locomotive Depot', coords: [41.17858174722078, 69.12394344806673], imageLink: 'https://tashtrans.uz/photo/railway/depo/DSC_0004.jpg' },
-  
-    {
-      name: 'Uzbekistan Station',
-      coords: [41.163629680198014, 69.10566899226976],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'Bakhmal Mountains',
-      coords: [40.06385884843086, 67.66027812330306],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'My Hometown Bulungur',
-      coords: [39.76044032081304, 67.27410899466418],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'SKD Samarkand Airport',
-      coords: [39.69699001918824, 66.99105567261223],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'Manchester City Centre',
-      coords: [53.481441143861986, -2.241878696210726],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'Labi Havuz',
-      coords: [39.77293970560981, 64.42026031484833],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'Chess Zone',
-      coords: [39.77660859167944, 64.40767551926113],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'Bukhara Railway Station',
-      coords: [39.72203509321687, 64.54730580949321],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'Karshi Railway Station',
-      coords: [38.82143810300877, 65.77712549039398],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'Lufthavnen Metro Station',
-      coords: [55.63088645629893, 12.649230953933992],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'Sitting area right next to Nyhavn',
-      coords: [55.68056896609491, 12.586611332352101],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'Orly Airport Shuttle Bus Station',
-      coords: [48.72857124101419, 2.3690825209465283],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'PSG Stadium Tour',
-      coords: [48.841320752408244, 2.2531545190717095],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
+    { name: 'Bulungur 💚', coords: [39.76059340816414, 67.27417945861818], imageLink: 'https://i.ytimg.com/vi/5ko2xpNPV4U/maxresdefault.jpg' }
 
 
   ];
