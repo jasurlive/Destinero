@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Entry Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin: 20px;
+        }
+        input, button {
+            display: block;
+            margin-bottom: 10px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Data Entry Tool</h1>
+        <form id="dataForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+            
+            <label for="coords">Coordinates (comma separated):</label>
+            <input type="text" id="coords" placeholder="e.g., 39.69699001918824, 66.99105567261223" required>
+            
+            <label for="imageLink">Image Link:</label>
+            <input type="text" id="imageLink" required>
+            
+            <button type="button" onclick="addEntry()">Add</button>
+        </form>
+        
+        <h2>Generated Text:</h2>
+        <textarea id="output" readonly></textarea>
+        <button onclick="copyToClipboard()">Copy to Clipboard</button>
+    </div>
+
+    <script>
+        let entries = [];
+
+        function addEntry() {
+            const name = document.getElementById('name').value;
+            const coords = document.getElementById('coords').value.split(',').map(coord => parseFloat(coord.trim()));
+            const imageLink = document.getElementById('imageLink').value;
+
+            if (name && coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1]) && imageLink) {
+                const entry = {
+                    name,
+                    coords,
+                    imageLink
+                };
+
+                entries.push(entry);
+                updateOutput();
+                
+                // Clear the input fields
+                document.getElementById('name').value = '';
+                document.getElementById('coords').value = '';
+                document.getElementById('imageLink').value = '';
+            } else {
+                alert('Please fill in all fields correctly.');
+            }
+        }
+
+        function updateOutput() {
+            const output = entries.map(entry => 
+                `{ name: '${entry.name}', coords: [${entry.coords.join(', ')}], imageLink: '${entry.imageLink}' }`
+            ).join(',\n');
+
+            document.getElementById('output').value = output;
+        }
+
+        function copyToClipboard() {
+            const outputElement = document.getElementById('output');
+            outputElement.select();
+            document.execCommand('copy');
+            alert('Text copied to clipboard!');
+        }
+    </script>
+</body>
+</html>
