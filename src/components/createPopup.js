@@ -39,7 +39,11 @@ const createPopup = (place, mapRef, handleCopyClick, copySuccess) => {
           <h2>{isClicked ? 'Clicked Location' : place.name}</h2>
           <br />
           {!isClicked && place.imageLink && (
-            <a href={place.imageLink} target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://jasurgraduate.blogspot.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <img src={place.imageLink} alt={place.name} className="place-image" />
             </a>
           )}

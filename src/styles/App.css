@@ -114,7 +114,7 @@ h2 {
 
 .unicode-icon {
   font-size: 35px; /* Adjust the size as needed */
-  padding: 0.5rem;
+  
   display: inline-block;
 }
 
@@ -199,7 +199,6 @@ h2 {
 
 .unicode-icon {
   font-size: 25px; /* Adjust the size as needed */
-  padding: 0.5rem;
   display: inline-block;
   transition: transform 0.3s ease; /* Smooth transition for hover effect */
 }
