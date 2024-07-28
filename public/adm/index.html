@@ -127,36 +127,32 @@
             const coordsString = document.getElementById('coords').value;
             const imageLink = document.getElementById('imageLink').value;
 
-            // Updated regex to handle negative coordinates
+            // Regex to handle various formats of coordinates (including negative values)
             const coordsMatch = coordsString.match(/\[(-?[0-9.]+),\s*(-?[0-9.]+)\]/);
-            if (name && coordsMatch && imageLink) {
-                const coords = [parseFloat(coordsMatch[1]), parseFloat(coordsMatch[2])];
+            const coords = coordsMatch ? [parseFloat(coordsMatch[1]), parseFloat(coordsMatch[2])] : [];
 
-                const entry = {
-                    name,
-                    coords,
-                    imageLink
-                };
+            const entry = {
+                name,
+                coords,
+                imageLink
+            };
 
-                entries.push(entry);
-                updateOutput();
-                
-                // Clear the input fields
-                document.getElementById('name').value = '';
-                document.getElementById('coords').value = '';
-                document.getElementById('imageLink').value = '';
+            entries.push(entry);
+            updateOutput();
+            
+            // Clear the input fields
+            document.getElementById('name').value = '';
+            document.getElementById('coords').value = '';
+            document.getElementById('imageLink').value = '';
 
-                // Change button text and style
-                const addButton = document.getElementById('addButton');
-                addButton.textContent = 'Added!';
-                addButton.classList.add('success');
-                setTimeout(() => {
-                    addButton.textContent = 'Add';
-                    addButton.classList.remove('success');
-                }, 1000); // Reset after 1 second
-            } else {
-                alert('Please fill in all fields correctly with coordinates in the format: coords: [lat, lng].');
-            }
+            // Change button text and style
+            const addButton = document.getElementById('addButton');
+            addButton.textContent = 'Added!';
+            addButton.classList.add('success');
+            setTimeout(() => {
+                addButton.textContent = 'Add';
+                addButton.classList.remove('success');
+            }, 1000); // Reset after 1 second
         }
 
         function updateOutput() {
