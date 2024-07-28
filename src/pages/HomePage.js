@@ -3,18 +3,15 @@ import React from 'react';
 import Map from '../components/Map';
 
 const HomePage = () => {
-  const visitedPlaces = [
-    {
-      name: 'Eiffel Tower, Paris',
-      coords: [48.85821182030906, 2.294507757931861],
-      imageLink: 'https://blogger.googleusercontent.com/img/a/AVvXsEjc3T6d_JL5_7cvJhnYZt05sJUf6v5it15CGPhzQDgMLzpTYJJvNTb58IeiMS5S22SRwEBWASRh62YgsAh9Xu0COG3SV1OFHtodmRcBaPUrsyNVxbmllaLht5e2PYgSrXuXxt9FF3Rw3KfbxdkvBhF8_rvKcPReev43F-nyGcihKuoAWM16sbl9KbExuOZS=w392-h523'
-    },
 
-    {
-      name: 'Milano',
-      coords: [45.45913914397633, 9.187069449510059],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
+
+  // ---------------------------------------------------------------------------------------------- 🚩 VISITED PLACES BELOW
+
+  const visitedPlaces = [
+    { name: 'Eiffel Tower, Paris', coords: [48.8582599, 2.2945006358633115], imageLink: 'https://jasurlive.uz/pic2.png' },
+    { name: 'Vertical Forest in Milano City', coords: [45.45913914397633, 9.187069449510059], imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjopGWMQwXjFcqhYZwCIg2p0yTcxJap8yEQeZUBww_BUIDih3s0CirCYIOssac2OykY7Guoo0RaOUec7l3oT-6SvQkE8-Dm3YjrwEzZ14JMxku3Hnx3zm-QyBUbbbDpxKgtIyqOzISoG6XvzC1_ph-4a9U2QrRoFazPTL-OeF7Jl_AYAmh663JuQGsQ3gPA/w381-h508/bosco.jpg' },
+    { name: 'Galata Bridge', coords: [41.01978632234401, 28.97251904010773], imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjvCKEsz5vl8HZFdlUQiwQG6J_dbPXl22DdAhQ96W4-T1rAsREyUkXFAKvqTMNDtk4qR6KNqjY6fCOL7otlKgrbuiXXfCFNDL9WlInMLrUsOBExDtmJl4lOJORXpGWG3jb-jp5B2VI5oCRTMhhxcd-y1H9-J-xHap0xTPWu-mDYe-6p2WLkRTAD41q_DLLG/s320/20230927_152908.jpg' },
+    { name: 'Emirates Stadium', coords: [51.55504035, -0.1083996708672374], imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhOF6_gTwDvNkjcK6lfoibyExMVYRh1IlunmBwV0_qADTVTNYAh6-my7wVowz_vCl31owtAE9Cz2omvjsFEnOHNIK66UTl2d3NmezuYmZ5ZnaLgAtS85bqAX5l4RUB2ZQXivCQ1sGXQ7NLrr0kpE9wTGmvUGtD_mEBtZJGLDGMY7DMyV7ADRPGO9o_k7LKq/s320/23.webp' },
     {
       name: 'Samarkand Railway Station',
       coords: [39.685585339152084, 66.92896822883804],
@@ -160,40 +157,15 @@ const HomePage = () => {
       coords: [48.841320752408244, 2.2531545190717095],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
-    {
-      name: 'Galata Bridge',
-      coords: [41.01978632234401, 28.97251904010773],
-      imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjvCKEsz5vl8HZFdlUQiwQG6J_dbPXl22DdAhQ96W4-T1rAsREyUkXFAKvqTMNDtk4qR6KNqjY6fCOL7otlKgrbuiXXfCFNDL9WlInMLrUsOBExDtmJl4lOJORXpGWG3jb-jp5B2VI5oCRTMhhxcd-y1H9-J-xHap0xTPWu-mDYe-6p2WLkRTAD41q_DLLG/s320/20230927_152908.jpg'
-    }
+    
 
-    /* 
-    {
-      name: 'NAME',
-      coords: [1, 1],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [1, 1],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [1, 1],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [1, 1],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    }, */
-    
-    
-    // add more visited places
   ];
+
+  // ---------------------------------------------------------------------------------------------- ✈️ PLANNED PLACES BELOW 
+
   const plannedPlaces = [
     {
-      name: 'Tokyo',
+      name: 'Tokyo, Japan',
       coords: [35.6895, 139.6917],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
@@ -212,80 +184,7 @@ const HomePage = () => {
       coords: [35.6895, 139.6917],
       imageLink: 'https://jasurgraduate.blogspot.com/'
     },
-/*     {
-      name: 'Tokyo',
-      coords: [35.6895, 139.6917],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [1, 1],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [1, 1],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [1, 1],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [1, 1],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [1, 1],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [1, 1],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [1, 1],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [1, 1],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [1, 1],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [1, 1],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [1, 1],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [1, 1],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'NAME',
-      coords: [1, 1],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
- */
-    
 
-    // add more planned places
   ];
 
   return (

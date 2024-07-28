@@ -99,7 +99,7 @@
             <input type="text" id="name" required>
             
             <label for="coords">Coordinates (format: coords: [lat, lng]):</label>
-            <input type="text" id="coords" placeholder='e.g., coords: [39.69699001918824, 66.99105567261223]' required>
+            <input type="text" id="coords" placeholder='e.g., coords: [39.69699001918824, -66.99105567261223]' required>
             
             <label for="imageLink">Image Link:</label>
             <input type="text" id="imageLink" required>
@@ -127,8 +127,8 @@
             const coordsString = document.getElementById('coords').value;
             const imageLink = document.getElementById('imageLink').value;
 
-            // Regex to extract coordinates from the string
-            const coordsMatch = coordsString.match(/\[([0-9.]+),\s*([0-9.]+)\]/);
+            // Updated regex to handle negative coordinates
+            const coordsMatch = coordsString.match(/\[(-?[0-9.]+),\s*(-?[0-9.]+)\]/);
             if (name && coordsMatch && imageLink) {
                 const coords = [parseFloat(coordsMatch[1]), parseFloat(coordsMatch[2])];
 
