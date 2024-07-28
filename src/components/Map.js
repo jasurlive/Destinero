@@ -40,7 +40,7 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
   };
 
   const copyCoordsToClipboard = (coords) => {
-    navigator.clipboard.writeText(`Latitude: ${coords[0]}, Longitude: ${coords[1]}`);
+    navigator.clipboard.writeText(`coords: [${coords[0]}, ${coords[1]}]`);
     handleCopyClick();
   };
 
