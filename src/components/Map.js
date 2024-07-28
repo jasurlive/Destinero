@@ -39,6 +39,11 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
     setTimeout(() => setCopySuccess(false), 1500);
   };
 
+  const copyCoordsToClipboard = (coords) => {
+    navigator.clipboard.writeText(`Latitude: ${coords[0]}, Longitude: ${coords[1]}`);
+    handleCopyClick();
+  };
+
   useEffect(() => {
     if (searchCoords) {
       zoomToLocation(mapRef.current, searchCoords);
@@ -76,10 +81,17 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
             })}
           >
             <Popup>
-              <div class="cont">
+              <div className="cont">
                 <h2>Searched Location</h2>
                 <br />
                 {`Latitude: ${searchCoords[0]}, Longitude: ${searchCoords[1]}`}
+                <br />
+                <button
+                  className={`copy-button ${copySuccess ? 'copied' : ''}`}
+                  onClick={() => copyCoordsToClipboard(searchCoords)}
+                >
+                  {copySuccess ? 'Copied 😁!' : 'Copy Coords 🏌🏻‍♂️'}
+                </button>
               </div>
             </Popup>
           </Marker>
