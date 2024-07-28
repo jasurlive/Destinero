@@ -5,7 +5,7 @@ import Map from '../components/Map';
 const HomePage = () => {
 
 
-  // ---------------------------------------------------------------------------------------------- 🚩 VISITED PLACES BELOW
+  // ------------------------------------------------------------------------------------------------------------- 🚩 VISITED PLACES BELOW
 
   const visitedPlaces = [
     { name: 'Eiffel Tower, Paris', coords: [48.8582599, 2.2945006358633115], imageLink: 'https://jasurlive.uz/pic2.png' },
@@ -35,12 +35,14 @@ const HomePage = () => {
     { name: 'Tashkent State Transport University 🎓', coords: [41.27729075, 69.2826682070976], imageLink: 'https://tstu.uz/assets/front/images/tstuphoto.jpg' },
     { name: 'Tashkent Railway Station', coords: [41.2932886, 69.2877212], imageLink: 'https://upload.wikimedia.org/wikipedia/commons/4/45/Tashkent_Railway_Station.jpg' },
     { name: 'Uzbekistan Locomotive Depot', coords: [41.17858174722078, 69.12394344806673], imageLink: 'https://tashtrans.uz/photo/railway/depo/DSC_0004.jpg' },
-    { name: 'Bulungur 💚', coords: [39.76059340816414, 67.27417945861818], imageLink: 'https://i.ytimg.com/vi/5ko2xpNPV4U/maxresdefault.jpg' }
+    { name: 'Bulungur 💚', coords: [39.76059340816414, 67.27417945861818], imageLink: 'https://i.ytimg.com/vi/5ko2xpNPV4U/maxresdefault.jpg' },
+    { name: 'SKD Airport Samarkand', coords: [39.69887605, 66.99122805921263], imageLink: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Samarkand_airport_%28SKD_-_UTSS%29_Entrance_from_airfield_31.05.2022.jpg/640px-Samarkand_airport_%28SKD_-_UTSS%29_Entrance_from_airfield_31.05.2022.jpg' },
+    { name: 'TAS Tashkent International Airport', coords: [41.2599624, 69.28511704456324], imageLink: 'https://people-travels.com/storage/images/sights/design/Tashkent_airport_1.webp' },
 
 
   ];
 
-  // ---------------------------------------------------------------------------------------------- ✈️ PLANNED PLACES BELOW 
+  // ------------------------------------------------------------------------------------------------------- ✈️ PLANNED PLACES BELOW 
 
   const plannedPlaces = [
     { name: 'Daejeon, South Korea', coords: [36.3352732, 127.45293497231432], imageLink: 'https://facts.net/wp-content/uploads/2023/07/50-facts-about-daejeon-taejon-1688365652.jpg' },

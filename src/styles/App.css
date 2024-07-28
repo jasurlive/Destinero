@@ -4,33 +4,42 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh;
-  overflow: hidden; /* Prevents scrolling */
+  overflow: hidden;
+  /* Prevents scrolling */
   background: linear-gradient(185deg, #eef8f4, #f1e9e0);
-  
+
 }
 
 a {
   margin: 0 0.6rem;
-  text-decoration: none; /* Removes underline */
-  color: #007BFF; /* Default color */
-  transition: color 0.3s ease-in-out, box-shadow 0.3s ease; /* Smooth transition for color change and box-shadow */
+  text-decoration: none;
+  /* Removes underline */
+  color: #007BFF;
+  /* Default color */
+  transition: color 0.3s ease-in-out, box-shadow 0.3s ease;
+  /* Smooth transition for color change and box-shadow */
 }
 
 a:hover {
-  color: #10608b; /* Change color on hover */
-  box-shadow: 0 0 8px 2px rgba(16, 96, 139, 0.5); /* Glow effect on hover */
+  color: #10608b;
+  /* Change color on hover */
+  box-shadow: 0 0 8px 2px rgba(16, 96, 139, 0.5);
+  /* Glow effect on hover */
 }
 
 a:active {
-  transform: translateY(5px); /* Optional: Add a slight animation on click */
+  transform: translateY(5px);
+  /* Optional: Add a slight animation on click */
 }
 
 /* Navigation styles */
 nav {
-  background-color: #8e3292; /* Green for travel */
+  background-color: #8e3292;
+  /* Green for travel */
   color: rgb(22, 83, 29);
   padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Shadow for depth */
 }
 
 nav ul {
@@ -48,12 +57,14 @@ nav ul li a {
   color: rgb(232, 226, 226);
   text-decoration: none;
   padding: 0.5rem 1rem;
-  transition: background-color 0.3s ease; /* Smooth hover transition */
+  transition: background-color 0.3s ease;
+  /* Smooth hover transition */
   border: #f0f0f0 solid 1px;
 }
 
 nav ul li a:hover {
-  background-color: #56a757; /* Lighter green on hover */
+  background-color: #56a757;
+  /* Lighter green on hover */
 }
 
 
@@ -62,7 +73,8 @@ h1 {
   margin-bottom: 0;
   display: flex;
   place-content: center;
-  font-size: 1.5rem; /* Default font size, adjusted for mobile */
+  font-size: 1.5rem;
+  /* Default font size, adjusted for mobile */
 }
 
 h2 {
@@ -79,7 +91,8 @@ h2 {
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: calc(100vh - 3.5rem); /* Adjust height based on nav and h1 */
+  height: calc(100vh - 3.5rem);
+  /* Adjust height based on nav and h1 */
 }
 
 .leaflet-container {
@@ -94,32 +107,42 @@ h2 {
   color: #333;
   padding: 0px;
   border-radius: 0.1rem;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .place-image {
-  display: block; /* Ensures the image is treated as a block element */
-  width: 220px; /* Custom width */
-  height: auto; /* Custom height */
-  object-fit: cover; /* Ensures the image covers the given dimensions while maintaining aspect ratio */
-  border: 1px solid #ccc; /* Adds a border around the image */
-  border-radius: 5px; /* Adds rounded corners to the image */
-  transition: transform 0.3s ease; /* Smooth transition for hover effect */
+  display: block;
+  /* Ensures the image is treated as a block element */
+  width: 220px;
+  /* Custom width */
+  height: auto;
+  /* Custom height */
+  object-fit: cover;
+  /* Ensures the image covers the given dimensions while maintaining aspect ratio */
+  border: 1px solid #ccc;
+  /* Adds a border around the image */
+  border-radius: 5px;
+  /* Adds rounded corners to the image */
+  transition: transform 0.3s ease;
+  /* Smooth transition for hover effect */
 }
 
 .place-image:hover {
-  transform: scale(1.05); /* Slightly enlarges the image on hover */
+  transform: scale(1.05);
+  /* Slightly enlarges the image on hover */
 }
 
 
 .unicode-icon {
-  font-size: 35px; /* Adjust the size as needed */
-  
+  font-size: 35px;
+  /* Adjust the size as needed */
+
   display: inline-block;
 }
 
 .custom-div-icon {
-  background: transparent; /* Ensure the background is transparent */
+  background: transparent;
+  /* Ensure the background is transparent */
   border: none;
   display: flex;
   justify-content: center;
@@ -129,8 +152,10 @@ h2 {
 
 .cont {
   display: grid;
-  justify-content: center; /* Horizontally center the content */
-  align-items: center; /* Vertically center the content */
+  justify-content: center;
+  /* Horizontally center the content */
+  align-items: center;
+  /* Vertically center the content */
   padding: 1rem;
 }
 
@@ -145,11 +170,13 @@ h2 {
   border-radius: 7px;
   font-size: 20px;
   cursor: pointer;
-  text-decoration: none; /* Remove underline from the link */
+  text-decoration: none;
+  /* Remove underline from the link */
 }
 
 .leaflet-popup-close-button:hover {
-  color: #f00; /* Change color on hover */
+  color: #f00;
+  /* Change color on hover */
 }
 
 
@@ -171,7 +198,8 @@ h2 {
   padding: 10px;
   border-radius: 4px 0 0 4px;
   border: 1px solid #dfe1e5;
-  width: 240px; /* Default width */
+  width: 240px;
+  /* Default width */
   outline: none;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
@@ -198,13 +226,16 @@ h2 {
 }
 
 .unicode-icon {
-  font-size: 25px; /* Adjust the size as needed */
+  font-size: 25px;
+  /* Adjust the size as needed */
   display: inline-block;
-  transition: transform 0.3s ease; /* Smooth transition for hover effect */
+  transition: transform 0.3s ease;
+  /* Smooth transition for hover effect */
 }
 
 .unicode-icon:hover {
-  transform: scale(1.5); /* Slightly enlarges the icon on hover */
+  transform: scale(1.5);
+  /* Slightly enlarges the icon on hover */
 }
 
 
@@ -231,73 +262,98 @@ h2 {
 
   a {
     margin: 0 0.6rem;
-    text-decoration: none; /* Removes underline */
-    color: #007BFF; /* Default color */
-    transition: color 0.3s ease-in-out, box-shadow 0.3s ease; /* Smooth transition for color change and box-shadow */
+    text-decoration: none;
+    /* Removes underline */
+    color: #007BFF;
+    /* Default color */
+    transition: color 0.3s ease-in-out, box-shadow 0.3s ease;
+    /* Smooth transition for color change and box-shadow */
   }
-  
-  
+
+
   a:active {
-    transform: translateY(5px); /* Optional: Add a slight animation on click */
+    transform: translateY(5px);
+    /* Optional: Add a slight animation on click */
   }
 
   h2 {
     list-style-type: none;
-    display: block; /* Use block display for proper centering */
+    display: block;
+    /* Use block display for proper centering */
     font-size: 12px;
-    margin: 0 auto; /* Center the element horizontally */
-    max-width: 120px; /* Adjust to your desired width */
-    word-wrap: break-word; /* Ensures long words will break to fit within the width */
-    overflow-wrap: break-word; /* Ensures long words will break to fit within the width */
-    text-align: center; /* Center the text within the element */
+    margin: 0 auto;
+    /* Center the element horizontally */
+    max-width: 120px;
+    /* Adjust to your desired width */
+    word-wrap: break-word;
+    /* Ensures long words will break to fit within the width */
+    overflow-wrap: break-word;
+    /* Ensures long words will break to fit within the width */
+    text-align: center;
+    /* Center the text within the element */
   }
-  
-  
+
+
 
   .cont {
     display: grid;
-    justify-content: center; /* Horizontally center the content */
-    align-items: center; /* Vertically center the content */
+    justify-content: center;
+    /* Horizontally center the content */
+    align-items: center;
+    /* Vertically center the content */
     padding: 0rem;
   }
 
   .place-image {
-    display: block; /* Ensures the image is treated as a block element */
-    width: 120px; /* Custom width */
-    height: auto; /* Custom height */
-    object-fit: cover; /* Ensures the image covers the given dimensions while maintaining aspect ratio */
-    border: 1px solid #ccc; /* Adds a border around the image */
-    border-radius: 5px; /* Adds rounded corners to the image */
-    transition: transform 0.3s ease; /* Smooth transition for hover effect */
+    display: block;
+    /* Ensures the image is treated as a block element */
+    width: 120px;
+    /* Custom width */
+    height: auto;
+    /* Custom height */
+    object-fit: cover;
+    /* Ensures the image covers the given dimensions while maintaining aspect ratio */
+    border: 1px solid #ccc;
+    /* Adds a border around the image */
+    border-radius: 5px;
+    /* Adds rounded corners to the image */
+    transition: transform 0.3s ease;
+    /* Smooth transition for hover effect */
   }
-  
+
   .place-image:hover {
-    transform: scale(1.05); /* Slightly enlarges the image on hover */
+    transform: scale(1.05);
+    /* Slightly enlarges the image on hover */
   }
-  
-  
+
+
   h1 {
-    margin-top: 4rem; /* Adjusted margin for mobile */
+    margin-top: 4rem;
+    /* Adjusted margin for mobile */
     font-size: 1.5rem;
   }
 
   .map-container {
-    height: calc(100vh - 8rem); /* Adjust height for smaller screens */
+    height: calc(100vh - 8rem);
+    /* Adjust height for smaller screens */
     width: 85%;
     margin: auto;
   }
 
   .unicode-icon {
-    font-size: 25px; /* Adjust the size as needed */
+    font-size: 25px;
+    /* Adjust the size as needed */
     padding: 0.5rem;
     display: inline-block;
-    transition: transform 0.3s ease; /* Smooth transition for hover effect */
+    transition: transform 0.3s ease;
+    /* Smooth transition for hover effect */
   }
-  
+
   .unicode-icon:hover {
-    transform: scale(1.5); /* Slightly enlarges the icon on hover */
+    transform: scale(1.5);
+    /* Slightly enlarges the icon on hover */
   }
-  
+
 
   .leaflet-container {
     width: 100%;
@@ -310,7 +366,8 @@ h2 {
   }
 
   .search-box input[type="text"] {
-    width: 160px; /* Adjust width for mobile */
+    width: 160px;
+    /* Adjust width for mobile */
   }
 
   .search-box button {
