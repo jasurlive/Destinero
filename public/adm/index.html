@@ -59,6 +59,15 @@
             color: #e0f2f1;
         }
 
+        button.clear {
+            background-color: #f44336;
+            color: #fff;
+        }
+
+        button.clear:focus {
+            outline: none;
+        }
+
         input {
             display: block;
             padding: 0.8rem;
@@ -89,6 +98,30 @@
             border-color: #4CAF50;
             outline: none;
         }
+
+        @keyframes clearAnimation {
+            0% {
+                background-color: #f44336;
+                color: #fff;
+            }
+            50% {
+                background-color: #ffffff;
+                color: #f44336;
+            }
+            100% {
+                background-color: #f44336;
+                color: #fff;
+            }
+        }
+
+        .clear-animation {
+            animation: clearAnimation 1s ease;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -112,9 +145,14 @@
     <div class="container2">
         <h2>Generated Text:</h2>
         <textarea id="output"></textarea>
-        <button type="button" id="copyButton">
-            Copy to Clipboard
-        </button>
+        <div class="button-container">
+            <button type="button" id="copyButton">
+                Copy to Clipboard
+            </button>
+            <button type="button" id="clearButton" class="clear">
+                Clear
+            </button>
+        </div>
     </div>
 
     <script>
@@ -177,6 +215,20 @@
             }, 1000); // Reset after 1 second
         }
 
+        function clearAll() {
+            entries = [];
+            updateOutput();
+
+            // Animate the clear button
+            const clearButton = document.getElementById('clearButton');
+            clearButton.textContent = 'Cleared!';
+            clearButton.classList.add('clear-animation');
+            setTimeout(() => {
+                clearButton.classList.remove('clear-animation');
+                clearButton.textContent = 'Clear';
+            }, 1000); // Remove animation class and reset text after 1 second
+        }
+
         function handleKeyPress(event, nextElementId) {
             if (event.key === 'Enter') {
                 event.preventDefault(); // Prevent form submission
@@ -226,6 +278,7 @@
 
         document.getElementById('addButton').addEventListener('click', addEntry);
         document.getElementById('copyButton').addEventListener('click', copyToClipboard);
+        document.getElementById('clearButton').addEventListener('click', clearAll);
     </script>
 </body>
 </html>
