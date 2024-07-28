@@ -127,21 +127,12 @@ const HomePage = () => {
   // ---------------------------------------------------------------------------------------------- ✈️ PLANNED PLACES BELOW 
 
   const plannedPlaces = [
-    {
-      name: 'Tokyo, Japan',
-      coords: [35.6895, 139.6917],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'Daejeon, South Korea',
-      coords: [36.46695000206827, 127.2868698610206],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
-    {
-      name: 'Phuket, Thailand',
-      coords: [7.883604720685977, 98.38892563265334],
-      imageLink: 'https://jasurgraduate.blogspot.com/'
-    },
+    { name: 'Daejeon, South Korea', coords: [36.3352732, 127.45293497231432], imageLink: 'https://facts.net/wp-content/uploads/2023/07/50-facts-about-daejeon-taejon-1688365652.jpg' },
+    { name: 'Tokyo, Japan', coords: [35.6821936, 139.762221], imageLink: 'https://www.travelandleisure.com/thmb/VscfMXHNO6uBpaX2cuIW1q2ZtA8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/tokyo-japan-TOKYOTG0621-52012ff551dc46c4a87ac8e3151307a4.jpg' },
+    { name: 'Phuket, Thailand', coords: [7.879982497172296, 98.38960647583008], imageLink: 'https://miro.medium.com/v2/resize:fit:1000/0*fY1_mh4P45v1EYdX.jpg' },
+    { name: 'Kuala Lumpur, Malaysia', coords: [3.1516964, 101.6942371], imageLink: 'https://media.timeout.com/images/105866262/750/562/image.jpg' },
+    { name: 'Sydney, Australia', coords: [-33.8698439, 151.2082848], imageLink: 'https://static1.squarespace.com/static/55ee34aae4b0bf70212ada4c/57d9829837c5819632bc630b/5e06e89e74877f00dbb21494/1577545446402/keith-zhu-qaNcz43MeY8-unsplash+%281%29.jpg?format=1500w' },
+    { name: 'Mecca, Saudi Arabia', coords: [21.420847, 39.826869], imageLink: 'https://cdn.britannica.com/20/153520-050-177A78E4/Kabah-hajj-pilgrims-Saudi-Arabia-Mecca.jpg' },
 
   ];
 
