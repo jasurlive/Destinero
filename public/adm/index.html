@@ -82,6 +82,7 @@
             border-radius: 4px;
             font-family: 'Trebuchet MS', Arial, sans-serif;
             transition: border-color 0.3s ease;
+            resize: vertical;
         }
 
         textarea:focus {
@@ -110,7 +111,7 @@
     </div>
     <div class="container2">
         <h2>Generated Text:</h2>
-        <textarea id="output" readonly></textarea>
+        <textarea id="output"></textarea>
         <button type="button" id="copyButton">
             Copy to Clipboard
         </button>
@@ -118,6 +119,8 @@
 
     <script>
         let entries = [];
+        const inputs = Array.from(document.querySelectorAll('input'));
+        const textarea = document.getElementById('output');
 
         function addEntry() {
             const name = document.getElementById('name').value;
@@ -161,12 +164,11 @@
                 `{ name: '${entry.name}', coords: [${entry.coords.join(', ')}], imageLink: '${entry.imageLink}' }`
             ).join(',\n');
 
-            document.getElementById('output').value = output;
+            textarea.value = output;
         }
 
         function copyToClipboard() {
-            const outputElement = document.getElementById('output');
-            outputElement.select();
+            textarea.select();
             document.execCommand('copy');
 
             // Change button text and style
@@ -178,6 +180,53 @@
                 copyButton.classList.remove('success');
             }, 1000); // Reset after 1 second
         }
+
+        function handleKeyPress(event, nextElementId) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent form submission
+                const nextElement = document.getElementById(nextElementId);
+                if (nextElement) {
+                    nextElement.focus();
+                }
+            }
+        }
+
+        function handleShiftEnter(event) {
+            if (event.key === 'Enter' && event.shiftKey) {
+                event.preventDefault(); // Prevent form submission
+                const currentElement = document.activeElement;
+                const index = inputs.indexOf(currentElement);
+                if (index > 0) {
+                    const previousElement = inputs[index - 1];
+                    previousElement.focus();
+                    previousElement.select();
+                }
+            }
+        }
+
+        // Focus on the 'Name' input when the page loads
+        window.addEventListener('load', () => {
+            document.getElementById('name').focus();
+        });
+
+        document.getElementById('name').addEventListener('keypress', function(event) {
+            handleKeyPress(event, 'coords');
+        });
+
+        document.getElementById('coords').addEventListener('keypress', function(event) {
+            handleKeyPress(event, 'imageLink');
+        });
+
+        document.getElementById('imageLink').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent form submission
+                addEntry();
+            }
+        });
+
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('keydown', handleShiftEnter);
+        });
 
         document.getElementById('addButton').addEventListener('click', addEntry);
         document.getElementById('copyButton').addEventListener('click', copyToClipboard);
