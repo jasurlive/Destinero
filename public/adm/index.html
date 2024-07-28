@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.ico" />
+    <title>Flag more places, Jasur! 🚩</title>
+    <style>
+        body {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            background-color: rgb(210, 225, 235);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container, .container2 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 100%;
+            padding: 1rem;
+        }
+
+        h1, h2 {
+            font-size: 24px;
+            color: #333;
+            margin: 0.5rem 0;
+        }
+
+        button {
+            position: relative;
+            padding: 0.8rem 1.6rem;
+            margin: 0.5rem;
+            width: 200px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            background-color: #388e3c;
+        }
+
+        button.success {
+            background-color: #00796b;
+            color: #e0f2f1;
+        }
+
+        input {
+            display: block;
+            padding: 0.8rem;
+            width: 400px;
+            margin-bottom: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        textarea {
+            width: 700px;
+            height: 200px;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Trebuchet MS', Arial, sans-serif;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Flag places!</h1>
+        <form id="dataForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+            
+            <label for="coords">Coordinates (comma separated):</label>
+            <input type="text" id="coords" placeholder="e.g., 39.69699001918824, 66.99105567261223" required>
+            
+            <label for="imageLink">Image Link:</label>
+            <input type="text" id="imageLink" required>
+            
+            <button type="button" id="addButton">
+                Add
+            </button>
+        </form>
+    </div>
+    <div class="container2">
+        <h2>Generated Text:</h2>
+        <textarea id="output" readonly></textarea>
+        <button type="button" id="copyButton">
+            Copy to Clipboard
+        </button>
+    </div>
+
+    <script>
+        let entries = [];
+
+        function addEntry() {
+            const name = document.getElementById('name').value;
+            const coords = document.getElementById('coords').value.split(',').map(coord => parseFloat(coord.trim()));
+            const imageLink = document.getElementById('imageLink').value;
+
+            if (name && coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1]) && imageLink) {
+                const entry = {
+                    name,
+                    coords,
+                    imageLink
+                };
+
+                entries.push(entry);
+                updateOutput();
+                
+                // Clear the input fields
+                document.getElementById('name').value = '';
+                document.getElementById('coords').value = '';
+                document.getElementById('imageLink').value = '';
+
+                // Change button text and style
+                const addButton = document.getElementById('addButton');
+                addButton.textContent = 'Added!';
+                addButton.classList.add('success');
+                setTimeout(() => {
+                    addButton.textContent = 'Add';
+                    addButton.classList.remove('success');
+                }, 1000); // Reset after 1 second
+            } else {
+                alert('Please fill in all fields correctly.');
+            }
+        }
+
+        function updateOutput() {
+            const output = entries.map(entry => 
+                `{ name: '${entry.name}', coords: [${entry.coords.join(', ')}], imageLink: '${entry.imageLink}' }`
+            ).join(',\n');
+
+            document.getElementById('output').value = output;
+        }
+
+        function copyToClipboard() {
+            const outputElement = document.getElementById('output');
+            outputElement.select();
+            document.execCommand('copy');
+
+            // Change button text and style
+            const copyButton = document.getElementById('copyButton');
+            copyButton.textContent = 'Copied!';
+            copyButton.classList.add('success');
+            setTimeout(() => {
+                copyButton.textContent = 'Copy to Clipboard';
+                copyButton.classList.remove('success');
+            }, 1000); // Reset after 1 second
+        }
+
+        document.getElementById('addButton').addEventListener('click', addEntry);
+        document.getElementById('copyButton').addEventListener('click', copyToClipboard);
+    </script>
+</body>
+</html>
