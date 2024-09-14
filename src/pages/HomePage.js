@@ -38,6 +38,9 @@ const HomePage = () => {
     { name: 'Bulungur 💚', coords: [39.76059340816414, 67.27417945861818], imageLink: 'https://i.ytimg.com/vi/5ko2xpNPV4U/maxresdefault.jpg' },
     { name: 'SKD Airport Samarkand', coords: [39.69887605, 66.99122805921263], imageLink: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Samarkand_airport_%28SKD_-_UTSS%29_Entrance_from_airfield_31.05.2022.jpg/640px-Samarkand_airport_%28SKD_-_UTSS%29_Entrance_from_airfield_31.05.2022.jpg' },
     { name: 'TAS Tashkent International Airport', coords: [41.2599624, 69.28511704456324], imageLink: 'https://people-travels.com/storage/images/sights/design/Tashkent_airport_1.webp' },
+    { name: 'Daejeon, South Korea', coords: [36.3352732, 127.45293497231432], imageLink: 'https://facts.net/wp-content/uploads/2023/07/50-facts-about-daejeon-taejon-1688365652.jpg' },
+    { name: 'Almaty Airport', coords: [43.343207050000004, 77.01258085779281], imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgjcZqq-VLge0IYDxFOYHwHEZQVn68YJ3kWtwpw5T77P3zd_fvPb21nuo6TgiuEjYQUsKmnaCjwim-b2oX7fvVq-yW1cHgxDXRUXb7xhsRJ1uHBvBtevXLfbY8ox7CzT02psx50fsfTaoq-MuFT-EtyVvT7MWZtxyY8CHjbgfMph4khM1Dt8xCW1k8sGopg/w445-h782/photo_2024-09-13_16-16-42.jpg' },
+    { name: 'Cafe in Gyeonggi-do | Kimchi time 😁🌶️🍜', coords: [37.1994653, 126.8312632], imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjG6n8cDzbBJlYgXy5JyCeHzK9RVf2KY4Xunm-KueVtDnZrr0mrlSo1LKihpK2ckRSgrqWN-vC6hY8bmcNdBe5zqpdvTduwNywBUphdPJNXGjhc6-hWDnYjnEgqaa4OvocBhbCBIfl1IsB1xGTLs4OquKdisMteME05Nu5DuCVq-4dj3DoV9oHeBF056ui_/w437-h544/photo_2024-09-13_16-15-48.jpg' },
 
 
   ];
@@ -45,7 +48,6 @@ const HomePage = () => {
   // ------------------------------------------------------------------------------------------------------- ✈️ PLANNED PLACES BELOW 
 
   const plannedPlaces = [
-    { name: 'Daejeon, South Korea', coords: [36.3352732, 127.45293497231432], imageLink: 'https://facts.net/wp-content/uploads/2023/07/50-facts-about-daejeon-taejon-1688365652.jpg' },
     { name: 'Tokyo, Japan', coords: [35.6821936, 139.762221], imageLink: 'https://www.travelandleisure.com/thmb/VscfMXHNO6uBpaX2cuIW1q2ZtA8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/tokyo-japan-TOKYOTG0621-52012ff551dc46c4a87ac8e3151307a4.jpg' },
     { name: 'Phuket, Thailand', coords: [7.879982497172296, 98.38960647583008], imageLink: 'https://miro.medium.com/v2/resize:fit:1000/0*fY1_mh4P45v1EYdX.jpg' },
     { name: 'Kuala Lumpur, Malaysia', coords: [3.1516964, 101.6942371], imageLink: 'https://media.timeout.com/images/105866262/750/562/image.jpg' },
