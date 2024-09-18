@@ -8,7 +8,7 @@ const HomePage = () => {
   // ------------------------------------------------------------------------------------------------------------- 🚩 VISITED PLACES BELOW
 
   const visitedPlaces = [
-    { name: 'Eiffel Tower, Paris', coords: [48.8582599, 2.2945006358633115], imageLink: 'https://jasurlive.uz/pic2.png' },
+    { name: 'Eiffel Tower, Paris', coords: [48.8582599, 2.2945006358633115], imageLink: 'https://jasurlive.uz/img/pic2.png' },
     { name: 'Vertical Forest in Milano City', coords: [45.45913914397633, 9.187069449510059], imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjopGWMQwXjFcqhYZwCIg2p0yTcxJap8yEQeZUBww_BUIDih3s0CirCYIOssac2OykY7Guoo0RaOUec7l3oT-6SvQkE8-Dm3YjrwEzZ14JMxku3Hnx3zm-QyBUbbbDpxKgtIyqOzISoG6XvzC1_ph-4a9U2QrRoFazPTL-OeF7Jl_AYAmh663JuQGsQ3gPA/w381-h508/bosco.jpg' },
     { name: 'Galata Bridge', coords: [41.01978632234401, 28.97251904010773], imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjvCKEsz5vl8HZFdlUQiwQG6J_dbPXl22DdAhQ96W4-T1rAsREyUkXFAKvqTMNDtk4qR6KNqjY6fCOL7otlKgrbuiXXfCFNDL9WlInMLrUsOBExDtmJl4lOJORXpGWG3jb-jp5B2VI5oCRTMhhxcd-y1H9-J-xHap0xTPWu-mDYe-6p2WLkRTAD41q_DLLG/s320/20230927_152908.jpg' },
     { name: 'Emirates Stadium', coords: [51.55504035, -0.1083996708672374], imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhOF6_gTwDvNkjcK6lfoibyExMVYRh1IlunmBwV0_qADTVTNYAh6-my7wVowz_vCl31owtAE9Cz2omvjsFEnOHNIK66UTl2d3NmezuYmZ5ZnaLgAtS85bqAX5l4RUB2ZQXivCQ1sGXQ7NLrr0kpE9wTGmvUGtD_mEBtZJGLDGMY7DMyV7ADRPGO9o_k7LKq/s320/23.webp' },
@@ -45,7 +45,8 @@ const HomePage = () => {
     { name: 'Uam History Park', coords: [36.356665642349476, 127.43720591068269], imageLink: 'https://blogger.googleusercontent.com/img/a/AVvXsEhgMOFWMnHGmU9s4mUIWmsU8hMS1KMbnjGfDRfzHesRPOn7m1SpUSaVvn2KZB8E15PZ77e0e810OMY6mo_fgdZANmio-9YotxlPI_J9NrSkrRygZKikcRo1emjnR7dL50W43ihgY-HMAM9Q7VeTTOUuRscyZhpLX3bkHaL4nxJ8JVIxmo7ATBJbZNW6IJl0=w387-h555' },
     { name: 'Solbridge, Woosong University', coords: [36.338327750000005, 127.43243066372395], imageLink: 'https://blogger.googleusercontent.com/img/a/AVvXsEgfp-AToYuhE_mDHxcvhi1aKbcWHCbupZ8A5AgejcVi4HKKV_dzH0-kqnv8c31GaAHz-Dr3tJRhJlPht2XD0NcKxqhEVfOyvMLb5DHosI-Sw3bNhqnpBahJbF9EOwdFqRShMco90wJ525ferP_WTtsMEgWewOrWjzIR6g3yNHBWO-GIqYZE042qTs5VHLKA=w382-h488' },
     { name: 'Daejeon Expo Science Park', coords: [36.37600915, 127.38768740014706], imageLink: 'https://blogger.googleusercontent.com/img/a/AVvXsEg6b2BV71DK3MlG8zyCs8E4v4ste-IQ4m4NbQwggsUYQAQ9TeEyy4kpspT_DqBa3H9J5s_yja7KrZYGT-X4VL79MVSs-BVzsDw-BodwTICzgMhTv-D9vtH3rcGrtwgPNdXygOme6JDBLnMNNsh1dgHyjFq2amCHb9RoXBan7Wnpp_cS4euLSz84iXr8ix4X=w318-h479' },
-
+    { name: 'Daecheongho Lake', coords: [36.41819665, 127.49738476559037], imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjbHbKIBCP1qa8IfejkWYGE2__7qMxJekq07IbedqZkPgmnTWu1fWq-46OMstXV9bbFvJIj5fIfxeqvr46mi5eWby1bsOFPLy_Gn5eDyfbHKCmjYQeCDPo4uSNswnxrW7r2J9YG0_8dYDsSfNbZB8hKxVTgVK7gDO5yB8psBAELWhb_onAP_HrpCySa0nfz/w466-h466/dw.jpg' },
+    
 
   ];
 
