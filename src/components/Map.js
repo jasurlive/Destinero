@@ -20,7 +20,7 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
 
   const defaultCenter = isMobile ? [41.505, -0.09] : [41.505, -0.09]; // Adjust for mobile if needed
   const defaultZoom = isMobile ? 2.5 : 3.3; // Adjust zoom for mobile
-  const adjustedCenter = [defaultCenter[0], defaultCenter[1] + (isMobile ? 40 : 65.05)]; // Adjust center position for mobile
+  const adjustedCenter = [defaultCenter[0], defaultCenter[1] + (isMobile ? 32 : 65.05)]; // Adjust center position for mobile
 
   useEffect(() => {
     const map = mapRef.current;
