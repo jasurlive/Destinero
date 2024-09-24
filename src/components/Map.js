@@ -16,7 +16,7 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
   const { clickedCoords, handleMapClick, placeInfo } = useHandleClick();
 
   // Define default configurations for desktop and mobile
-  const isMobile = useMediaQuery('(max-width:600px)'); // Change threshold as needed
+  const isMobile = useMediaQuery('(max-width:450px)'); // Change threshold as needed
 
   const defaultCenter = isMobile ? [41.505, -0.09] : [41.505, -0.09]; // Adjust for mobile if needed
   const defaultZoom = isMobile ? 2.5 : 3.3; // Adjust zoom for mobile
