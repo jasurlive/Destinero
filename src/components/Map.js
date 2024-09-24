@@ -7,6 +7,7 @@ import MapEvents from './MapEvents';
 import useHandleClick from './handleClick';
 import createPopup from './createPopup';
 import { zoomToLocation } from './zoomin';
+import { useMediaQuery } from '@mui/material'; // Import useMediaQuery
 
 const Map = ({ visitedPlaces, plannedPlaces }) => {
   const [searchCoords, setSearchCoords] = useState(null);
@@ -14,9 +15,12 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
   const mapRef = useRef(null);
   const { clickedCoords, handleMapClick, placeInfo } = useHandleClick();
 
-  const defaultCenter = [41.505, -0.09];
-  const defaultZoom = 3.3;
-  const adjustedCenter = [defaultCenter[0], defaultCenter[1] + 65.05];
+  // Define default configurations for desktop and mobile
+  const isMobile = useMediaQuery('(max-width:600px)'); // Change threshold as needed
+
+  const defaultCenter = isMobile ? [41.505, -0.09] : [41.505, -0.09]; // Adjust for mobile if needed
+  const defaultZoom = isMobile ? 2.5 : 3.3; // Adjust zoom for mobile
+  const adjustedCenter = [defaultCenter[0], defaultCenter[1] + (isMobile ? 40 : 65.05)]; // Adjust center position for mobile
 
   useEffect(() => {
     const map = mapRef.current;
@@ -66,13 +70,13 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
   return (
     <div className="map-container">
       <MapContainer 
-  center={adjustedCenter} 
-  zoom={defaultZoom} 
-  className="leaflet-map" 
-  zoomSnap={0.5}  // Makes zooming smoother by snapping to closer zoom levels
-  zoomDelta={0.5} // Reduces the zoom step to slow down zoom in/out
-  whenCreated={(mapInstance) => (mapRef.current = mapInstance)}
->
+        center={adjustedCenter} 
+        zoom={defaultZoom} 
+        className="leaflet-map" 
+        zoomSnap={0.5}  // Makes zooming smoother by snapping to closer zoom levels
+        zoomDelta={0.5} // Reduces the zoom step to slow down zoom in/out
+        whenCreated={(mapInstance) => (mapRef.current = mapInstance)}
+      >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="" />
         <SearchBox map={mapRef.current} onSearch={setSearchCoords} />
         <MapEvents onClick={handleMapClick} />
