@@ -15,8 +15,8 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
   const { clickedCoords, handleMapClick, placeInfo } = useHandleClick();
 
   const defaultCenter = [41.505, -0.09];
-  const defaultZoom = 3.1;
-  const adjustedCenter = [defaultCenter[0], defaultCenter[1] + 50.05];
+  const defaultZoom = 3.3;
+  const adjustedCenter = [defaultCenter[0], defaultCenter[1] + 65.05];
 
   useEffect(() => {
     const map = mapRef.current;
@@ -65,7 +65,14 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
 
   return (
     <div className="map-container">
-      <MapContainer center={adjustedCenter} zoom={defaultZoom} className="leaflet-map" whenCreated={(mapInstance) => (mapRef.current = mapInstance)}>
+      <MapContainer 
+  center={adjustedCenter} 
+  zoom={defaultZoom} 
+  className="leaflet-map" 
+  zoomSnap={0.5}  // Makes zooming smoother by snapping to closer zoom levels
+  zoomDelta={0.5} // Reduces the zoom step to slow down zoom in/out
+  whenCreated={(mapInstance) => (mapRef.current = mapInstance)}
+>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="" />
         <SearchBox map={mapRef.current} onSearch={setSearchCoords} />
         <MapEvents onClick={handleMapClick} />
