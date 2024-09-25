@@ -10,27 +10,6 @@ body {
 
 }
 
-a {
-  margin: 0 0.6rem;
-  text-decoration: none;
-  /* Removes underline */
-  color: #007BFF;
-  /* Default color */
-  transition: color 0.3s ease-in-out, box-shadow 0.3s ease;
-  /* Smooth transition for color change and box-shadow */
-}
-
-a:hover {
-  color: #10608b;
-  /* Change color on hover */
-  box-shadow: 0 0 8px 2px rgba(16, 96, 139, 0.5);
-  /* Glow effect on hover */
-}
-
-a:active {
-  transform: translateY(5px);
-  /* Optional: Add a slight animation on click */
-}
 
 /* Navigation styles */
 nav {
@@ -85,6 +64,19 @@ h2 {
   margin: 0;
 }
 
+a {
+  margin: 0;
+  color: #007BFF;
+
+}
+
+a:hover {
+
+  box-shadow: 0 0 8px 2px rgba(16, 96, 139, 0);
+
+
+}
+
 /* Map container */
 .map-container {
   display: flex;
@@ -106,31 +98,55 @@ h2 {
   background-color: #fff;
   color: #333;
   padding: 0px;
-  border-radius: 0.1rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cont {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 20px;
 }
 
 .place-image {
-  display: block;
-  /* Ensures the image is treated as a block element */
-  width: 220px;
-  /* Custom width */
+
+  width: 200px;
   height: auto;
-  /* Custom height */
   object-fit: cover;
-  /* Ensures the image covers the given dimensions while maintaining aspect ratio */
-  border: 1px solid #ccc;
-  /* Adds a border around the image */
   border-radius: 5px;
-  /* Adds rounded corners to the image */
   transition: transform 0.3s ease;
-  /* Smooth transition for hover effect */
 }
 
 .place-image:hover {
   transform: scale(1.05);
   /* Slightly enlarges the image on hover */
 }
+
+
+.leaflet-popup-close-button {
+
+  position: absolute;
+
+  margin: 0;
+  padding: 8px 10px 8px 10px;
+  border-radius: 7px;
+  font-size: 20px;
+  border: #000 solid 1px;
+
+}
+
+.leaflet-popup-close-button:hover {
+  transform: scale(1.01);
+  box-shadow: 0 0 8px 2px rgba(16, 96, 139, 0.441);
+  transition: ease-out 0.2s;
+}
+
+
 
 
 .unicode-icon {
@@ -150,34 +166,9 @@ h2 {
 
 }
 
-.cont {
-  display: grid;
-  justify-content: center;
-  /* Horizontally center the content */
-  align-items: center;
-  /* Vertically center the content */
-  padding: 1rem;
-}
 
-/* Example styling for Leaflet popup close button */
-.leaflet-popup-close-button {
-  list-style-type: none;
-  position: absolute;
-  background-color: #59bcc7;
-  color: #000;
-  border: solid 1px #000;
-  padding: 8px 10px 8px 10px;
-  border-radius: 7px;
-  font-size: 20px;
-  cursor: pointer;
-  text-decoration: none;
-  /* Remove underline from the link */
-}
 
-.leaflet-popup-close-button:hover {
-  color: #f00;
-  /* Change color on hover */
-}
+
 
 
 /* Search box styles */
@@ -261,19 +252,82 @@ h2 {
 @media (max-width: 768px) {
 
   a {
-    margin: 0 0.6rem;
-    text-decoration: none;
-    /* Removes underline */
+    margin: 0;
     color: #007BFF;
-    /* Default color */
-    transition: color 0.3s ease-in-out, box-shadow 0.3s ease;
-    /* Smooth transition for color change and box-shadow */
+
+  }
+
+  a:hover {
+
+    box-shadow: 0 0 8px 2px rgba(16, 96, 139, 0);
+
+
+  }
+
+  /* Map container */
+  .map-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 3.5rem);
+    /* Adjust height based on nav and h1 */
+  }
+
+  .leaflet-container {
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    width: 90%;
+    height: 90%;
+  }
+
+  .leaflet-popup-content {
+    background-color: #fff;
+    color: #333;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  .place-image {
+    max-width: 300px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+  }
+
+  .place-image:hover {
+    transform: scale(1.05);
+    /* Slightly enlarges the image on hover */
   }
 
 
-  a:active {
-    transform: translateY(5px);
-    /* Optional: Add a slight animation on click */
+  .leaflet-popup-close-button {
+    position: absolute;
+    margin: 0;
+    padding: 8px 10px 8px 10px;
+    border-radius: 7px;
+    font-size: 20px;
+    border: #000 solid 1px;
+
+  }
+
+  .leaflet-popup-close-button:hover {
+    transform: scale(1.01);
+    box-shadow: 0 0 8px 2px rgba(16, 96, 139, 0.441);
+    transition: ease-out 0.2s;
   }
 
   h2 {
