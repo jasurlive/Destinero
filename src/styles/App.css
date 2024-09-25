@@ -297,11 +297,12 @@ a:hover {
     align-items: center;
     justify-content: center;
     text-align: center;
-    width: 100%;
+    width: 130px;
+    margin: 15px;
   }
 
   .place-image {
-    max-width: 300px;
+    max-width: fit-content;
     height: auto;
     object-fit: cover;
     border-radius: 5px;
