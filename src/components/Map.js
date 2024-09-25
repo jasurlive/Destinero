@@ -76,6 +76,9 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
         zoomSnap={0.5}  // Makes zooming smoother by snapping to closer zoom levels
         zoomDelta={0.5} // Reduces the zoom step to slow down zoom in/out
         whenCreated={(mapInstance) => (mapRef.current = mapInstance)}
+        // Disable the default zoom controls
+        scrollWheelZoom={true} // Allow scroll wheel to zoom
+        zoomControl={false}    // Remove the zoom control buttons
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="" />
         <SearchBox map={mapRef.current} onSearch={setSearchCoords} />
