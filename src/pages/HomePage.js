@@ -61,12 +61,12 @@ const HomePage = () => {
     { name: 'New York, Liberty Statue', coords: [40.689253199999996, -74.04454817144321], imageLink: 'https://www.worldatlas.com/upload/f4/d8/7b/shutterstock-1397031029.jpg' },
     { name: 'Hawai 🌴🏖️🍹', coords: [19.593801499999998, -155.42837009716908], imageLink: 'https://www.royalhawaiianmovers.com/wp-content/uploads/2021/11/111521-Best-Island-to-Live-on.png' },
     { name: 'Buenos Aires, Argentina', coords: [-34.609023, -58.3812732], imageLink: 'https://i.natgeofe.com/n/a2e54fd2-f71b-420b-b9dd-8a35cc5c6f75/ArgentinaLead_2x1.jpg' },
-    
+
   ];
 
   return (
     <div>
-      <h1>The places I have been to :)</h1>
+      <h1>📌 My Travel Map 🗺️ == 🚩-visited | ✈️-planned</h1>
       <Map visitedPlaces={visitedPlaces} plannedPlaces={plannedPlaces} />
     </div>
   );
