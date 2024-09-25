@@ -66,7 +66,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <h1>📌 My Travel Map 🗺️ == 🚩-visited | ✈️-planned</h1>
+      <h1>My Travel Map 🗺️ == 🚩-visited | ✈️-planned</h1>
       <Map visitedPlaces={visitedPlaces} plannedPlaces={plannedPlaces} />
     </div>
   );
