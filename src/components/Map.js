@@ -5,7 +5,7 @@ import L from 'leaflet';
 import SearchBox from './SearchBox';
 import MapEvents from './MapEvents';
 import useHandleClick from './handleClick';
-import createPopup from './createPopup';
+import CreatePopup from './createPopup'; // Make sure to import the corrected popup function
 import { zoomToLocation } from './zoomin';
 import { useMediaQuery } from '@mui/material'; // Import useMediaQuery
 
@@ -16,7 +16,7 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
   const { clickedCoords, handleMapClick, placeInfo } = useHandleClick();
 
   // Define default configurations for desktop and mobile
-  const isMobile = useMediaQuery('(max-width:450px)'); // Change threshold as needed
+  const isMobile = useMediaQuery('(max-width:600px)'); // Change threshold as needed
 
   const defaultCenter = isMobile ? [41.505, -0.09] : [41.505, -0.09]; // Adjust for mobile if needed
   const defaultZoom = isMobile ? 2.5 : 3.3; // Adjust zoom for mobile
@@ -75,15 +75,21 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
         className="leaflet-map" 
         zoomSnap={0.5}  // Makes zooming smoother by snapping to closer zoom levels
         zoomDelta={0.5} // Reduces the zoom step to slow down zoom in/out
+        zoomControl={false} // Disable zoom controls
         whenCreated={(mapInstance) => (mapRef.current = mapInstance)}
-        // Disable the default zoom controls
-        scrollWheelZoom={true} // Allow scroll wheel to zoom
-        zoomControl={false}    // Remove the zoom control buttons
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="" />
         <SearchBox map={mapRef.current} onSearch={setSearchCoords} />
         <MapEvents onClick={handleMapClick} />
-        {places.map((place) => createPopup(place, mapRef, handleCopyClick, copySuccess))}
+        {places.map((place) => (
+          <CreatePopup 
+            key={`${place.type}-${place.coords.join(',')}`}
+            place={place} 
+            mapRef={mapRef} 
+            handleCopyClick={handleCopyClick} 
+            copySuccess={copySuccess} 
+          />
+        ))}
         {searchCoords && (
           <Marker
             position={searchCoords}
