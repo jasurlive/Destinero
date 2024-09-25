@@ -58,7 +58,10 @@ const HomePage = () => {
     { name: 'Kuala Lumpur, Malaysia', coords: [3.1516964, 101.6942371], imageLink: 'https://media.timeout.com/images/105866262/750/562/image.jpg' },
     { name: 'Sydney, Australia', coords: [-33.8698439, 151.2082848], imageLink: 'https://static1.squarespace.com/static/55ee34aae4b0bf70212ada4c/57d9829837c5819632bc630b/5e06e89e74877f00dbb21494/1577545446402/keith-zhu-qaNcz43MeY8-unsplash+%281%29.jpg?format=1500w' },
     { name: 'Mecca, Saudi Arabia', coords: [21.420847, 39.826869], imageLink: 'https://cdn.britannica.com/20/153520-050-177A78E4/Kabah-hajj-pilgrims-Saudi-Arabia-Mecca.jpg' },
-
+    { name: 'New York, Liberty Statue', coords: [40.689253199999996, -74.04454817144321], imageLink: 'https://www.worldatlas.com/upload/f4/d8/7b/shutterstock-1397031029.jpg' },
+    { name: 'Hawai 🌴🏖️🍹', coords: [19.593801499999998, -155.42837009716908], imageLink: 'https://www.royalhawaiianmovers.com/wp-content/uploads/2021/11/111521-Best-Island-to-Live-on.png' },
+    { name: 'Buenos Aires, Argentina', coords: [-34.609023, -58.3812732], imageLink: 'https://i.natgeofe.com/n/a2e54fd2-f71b-420b-b9dd-8a35cc5c6f75/ArgentinaLead_2x1.jpg' },
+    
   ];
 
   return (
