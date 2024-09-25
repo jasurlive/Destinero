@@ -421,8 +421,10 @@ a:hover {
 
 
   .search-box {
+    display: none;
     background: rgba(255, 255, 255, 0.24);
   }
+
 
   .search-box input[type="text"] {
     width: 160px;
