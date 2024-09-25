@@ -1,6 +1,7 @@
 import React, { useState } from 'react'; // Removed useEffect
 import { Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
+import { zoomToLocation } from './zoomin'; // Import your zoomToLocation function
 
 const CreatePopup = ({ place, mapRef, handleCopyClick, copySuccess }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -19,7 +20,7 @@ const CreatePopup = ({ place, mapRef, handleCopyClick, copySuccess }) => {
 
   return (
     <Marker
-      key={`${place.type}-${place.coords.join(',')}`}
+      key={`${place.type}-${place.coords.join(',')}`} // Unique key for each marker
       position={place.coords}
       icon={L.divIcon({
         html: `<span class="unicode-icon">${
@@ -32,9 +33,9 @@ const CreatePopup = ({ place, mapRef, handleCopyClick, copySuccess }) => {
     >
       <Popup
         onOpen={() => {
-          // Adjust the map view to center on the clicked coordinates
+          // Fly to the clicked coordinates and zoom in
           if (mapRef.current) {
-            mapRef.current.setView(place.coords, mapRef.current.getZoom());
+            zoomToLocation(mapRef.current, place.coords, 15); // Zoom level can be adjusted
           }
         }}
       >
@@ -47,7 +48,7 @@ const CreatePopup = ({ place, mapRef, handleCopyClick, copySuccess }) => {
               alt={place.name} 
               className="place-image" 
               onLoad={handleImageLoad} 
-              style={{ display: imageLoaded ? 'block' : 'none' }} 
+              style={{ display: imageLoaded ? 'block' : 'none' }} // Show image once loaded
             />
           )}
           {isClicked && (

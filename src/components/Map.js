@@ -5,7 +5,7 @@ import L from 'leaflet';
 import SearchBox from './SearchBox';
 import MapEvents from './MapEvents';
 import useHandleClick from './handleClick';
-import CreatePopup from './createPopup'; // Make sure to import the corrected popup function
+import CreatePopup from './createPopup'; // Ensure this is the correct popup function
 import { zoomToLocation } from './zoomin';
 import { useMediaQuery } from '@mui/material'; // Import useMediaQuery
 
@@ -67,6 +67,11 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
       : null,
   ].filter(Boolean);
 
+  // Function to handle zooming to a specific location
+  const handlePlaceClick = (coords) => {
+    zoomToLocation(mapRef.current, coords); // Zoom to the place's coordinates
+  };
+
   return (
     <div className="map-container">
       <MapContainer 
@@ -88,6 +93,7 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
             mapRef={mapRef} 
             handleCopyClick={handleCopyClick} 
             copySuccess={copySuccess} 
+            onPlaceClick={handlePlaceClick} // Pass the zoom function
           />
         ))}
         {searchCoords && (
