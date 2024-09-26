@@ -30,8 +30,6 @@ const HomePage = () => {
     { name: 'Nyhavn, Copenhagen ❤️', coords: [55.67973595, 12.590885478619983], imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEioRIb20PjXB1oG13XS79VXJffXelyRTEp6snx4fRLH9ttDH9irzkqS14plHQbPmeoc3phItgPCT6CsoeP5WHRTyedOssBcyokGkgToorKrL6I1CMbaezGPg3vBzBw_ahNu_kee3DpGpOQqdv-2Ok8KGZ8IPIiKB-SQ4vYlQf6TeR_NzTuY84Mma33z067j/w601-h411/photo_2024-07-28_15-49-17.jpg' },
     { name: 'Sleep In Heaven 📸🏆', coords: [55.6867883, 12.5505333], imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg4_aWNSB-Qt1bI7on2JRSvKoBXIXAVVnTEtRfUAFmppKhXM0NGYwVRqvPuIoIUMQyX9KJIYGUyZhBmChTVaCHtkkOimkzh8dHy7he0ksmYljn6Cx4xCBD30zfh7_rQ8pO_CyzZqmaG5y0BAhHiLbmgjITUaFaVPbqlTFBg_2C1Kb3G3Sll3jfdXpAfjhZj/w519-h692/photo_2024-07-28_15-51-54.jpg' },
     { name: 'Copenhagen Airport', coords: [55.62565886710453, 12.648696899414064], imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhNc95qezJx9QQLvu54uo7g7Mht-rhMfQfzqPAcPALpeQ_lUWha33-PVJTOvUmFGxcUbxHGSXIDW2DET7I3oR6dX5rj4e8ThFcOMshrFkTg7n4HGpuGFYuEgYDKljJZWwRM1mmjze85WO5eSSpJ0Zi9seKapCghFYxKVKtzFlT9uIVAGbOJDq4WtodUjxEA/w458-h682/photo_2024-07-28_15-55-59.jpg' },
-    { name: 'Galata Korpusu', coords: [41.0182562, 28.9717712], imageLink: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/16/d3/68/caption.jpg?w=1200&h=1200&s=1' },
-    { name: 'Topkapi Sarayi', coords: [41.011344, 28.9832034], imageLink: 'https://beyogluhuzursuites.com/wp-content/uploads/2023/03/topkapi-sarayi-muzesi.png' },
     { name: 'Tashkent State Transport University 🎓', coords: [41.27729075, 69.2826682070976], imageLink: 'https://tstu.uz/assets/front/images/tstuphoto.jpg' },
     { name: 'Tashkent Railway Station', coords: [41.2932886, 69.2877212], imageLink: 'https://upload.wikimedia.org/wikipedia/commons/4/45/Tashkent_Railway_Station.jpg' },
     { name: 'Uzbekistan Locomotive Depot', coords: [41.17858174722078, 69.12394344806673], imageLink: 'https://tashtrans.uz/photo/railway/depo/DSC_0004.jpg' },
@@ -62,7 +60,7 @@ const HomePage = () => {
     { name: 'Hawai 🌴🏖️🍹', coords: [19.593801499999998, -155.42837009716908], imageLink: 'https://www.royalhawaiianmovers.com/wp-content/uploads/2021/11/111521-Best-Island-to-Live-on.png' },
     { name: 'Buenos Aires, Argentina', coords: [-34.609023, -58.3812732], imageLink: 'https://i.natgeofe.com/n/a2e54fd2-f71b-420b-b9dd-8a35cc5c6f75/ArgentinaLead_2x1.jpg' },
     { name: 'Hawai', coords: [19.588489212685314, 204.58153972248294], imageLink: 'https://www.royalhawaiianmovers.com/wp-content/uploads/2021/11/111521-Best-Island-to-Live-on.png' },
-    
+
   ];
 
   return (
