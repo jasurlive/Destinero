@@ -44,7 +44,9 @@ const HomePage = () => {
     { name: 'Solbridge, Woosong University', coords: [36.338327750000005, 127.43243066372395], imageLink: 'https://blogger.googleusercontent.com/img/a/AVvXsEgfp-AToYuhE_mDHxcvhi1aKbcWHCbupZ8A5AgejcVi4HKKV_dzH0-kqnv8c31GaAHz-Dr3tJRhJlPht2XD0NcKxqhEVfOyvMLb5DHosI-Sw3bNhqnpBahJbF9EOwdFqRShMco90wJ525ferP_WTtsMEgWewOrWjzIR6g3yNHBWO-GIqYZE042qTs5VHLKA=w382-h488' },
     { name: 'Daejeon Expo Science Park', coords: [36.37600915, 127.38768740014706], imageLink: 'https://blogger.googleusercontent.com/img/a/AVvXsEg6b2BV71DK3MlG8zyCs8E4v4ste-IQ4m4NbQwggsUYQAQ9TeEyy4kpspT_DqBa3H9J5s_yja7KrZYGT-X4VL79MVSs-BVzsDw-BodwTICzgMhTv-D9vtH3rcGrtwgPNdXygOme6JDBLnMNNsh1dgHyjFq2amCHb9RoXBan7Wnpp_cS4euLSz84iXr8ix4X=w318-h479' },
     { name: 'Daecheongho Lake', coords: [36.41819665, 127.49738476559037], imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjbHbKIBCP1qa8IfejkWYGE2__7qMxJekq07IbedqZkPgmnTWu1fWq-46OMstXV9bbFvJIj5fIfxeqvr46mi5eWby1bsOFPLy_Gn5eDyfbHKCmjYQeCDPo4uSNswnxrW7r2J9YG0_8dYDsSfNbZB8hKxVTgVK7gDO5yB8psBAELWhb_onAP_HrpCySa0nfz/w466-h466/dw.jpg' },
-    
+    { name: 'Yuseong Foot Bath', coords: [36.3549475, 127.3460614], imageLink: 'https://blogger.googleusercontent.com/img/a/AVvXsEiJFEbtWAeRDeWKubd4tfHBk9DOQ3x92XWYvZ4U_iQtC30dKlY4cG94P-OULZ8EeQaVzdUYcl3yw_U9lix58tYIOqY7SCS88Fi0vewkC2UeVZWqhg7i9S4FcHIFVc6G9fUdaESYQZ2gZL3CqssO9myYmeb0lFDwYX5vuMk7VtARJ0Kl-J06GXIle5rQDXN0=w388-h388' },
+    { name: 'Daejeon (Oncheon 1(il)-dong), South Korea 🇰🇷', coords: [36.35591446332886, 127.34676445038767], imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEguqclW9vE_gcwR0rEEMKRpSsYC51FA6hkeKv0g0iQWkra2rtKSsHZLrqMvoQBi8gglifne6XJhO3Y5KxZbpS-fXOVcLdtg4OupmcETgFmJjpZwnUJE82QB6wflRWyPrvLPlvJTnzSX5xNyAlTVbjg_LWalPHqD-OXvnmt9sj7sikxFg70JU3P3wnWkmTZZ/w261-h440/20240927_182946.jpg' },
+
 
   ];
 
