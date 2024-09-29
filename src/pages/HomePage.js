@@ -62,6 +62,7 @@ const HomePage = () => {
     { name: 'Hawai 🌴🏖️🍹', coords: [19.593801499999998, -155.42837009716908], imageLink: 'https://www.royalhawaiianmovers.com/wp-content/uploads/2021/11/111521-Best-Island-to-Live-on.png' },
     { name: 'Buenos Aires, Argentina', coords: [-34.609023, -58.3812732], imageLink: 'https://i.natgeofe.com/n/a2e54fd2-f71b-420b-b9dd-8a35cc5c6f75/ArgentinaLead_2x1.jpg' },
     { name: 'Hawai', coords: [19.588489212685314, 204.58153972248294], imageLink: 'https://www.royalhawaiianmovers.com/wp-content/uploads/2021/11/111521-Best-Island-to-Live-on.png' },
+    { name: 'The Great Pyramid of Giza', coords: [29.97916465, 31.13421326082681], imageLink: 'https://media.architecturaldigest.com/photos/58e2a407c0e88d1a6a20066b/16:9/w_1280,c_limit/Pyramid%20of%20Giza%201.jpg' },
 
   ];
 
