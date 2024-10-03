@@ -5,7 +5,7 @@ import { zoomToLocation } from './zoomin'; // Import your zoomToLocation functio
 
 const CreatePopup = ({ place, mapRef, handleCopyClick, copySuccess }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-  
+
   const isClicked = place.type === 'clicked';
 
   const handleCopy = () => {
@@ -23,9 +23,8 @@ const CreatePopup = ({ place, mapRef, handleCopyClick, copySuccess }) => {
       key={`${place.type}-${place.coords.join(',')}`} // Unique key for each marker
       position={place.coords}
       icon={L.divIcon({
-        html: `<span class="unicode-icon">${
-          place.type === 'visited' ? '🚩' : place.type === 'planned' ? '✈️' : '📍'
-        }</span>`,
+        html: `<span class="unicode-icon">${place.type === 'visited' ? '🚩' : place.type === 'planned' ? '✈️' : '📍'
+          }</span>`,
         className: 'custom-div-icon',
         iconSize: [30, 30],
         iconAnchor: [15, 15],
@@ -43,13 +42,15 @@ const CreatePopup = ({ place, mapRef, handleCopyClick, copySuccess }) => {
           <h2>{isClicked ? 'Clicked Location' : place.name}</h2>
           <br />
           {!isClicked && place.imageLink && (
-            <img 
-              src={place.imageLink} 
-              alt={place.name} 
-              className="place-image" 
-              onLoad={handleImageLoad} 
-              style={{ display: imageLoaded ? 'block' : 'none' }} // Show image once loaded
-            />
+            <a href="https://jasurgraduate.blogspot.com/" target="_blank" rel="noopener noreferrer"> {/* Static link */}
+              <img
+                src={place.imageLink}
+                alt={place.name}
+                className="place-image"
+                onLoad={handleImageLoad}
+                style={{ display: imageLoaded ? 'block' : 'none' }} // Show image once loaded
+              />
+            </a>
           )}
           {isClicked && (
             <>
