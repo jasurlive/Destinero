@@ -46,6 +46,7 @@ const HomePage = () => {
     { name: 'Daecheongho Lake', coords: [36.41819665, 127.49738476559037], imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjbHbKIBCP1qa8IfejkWYGE2__7qMxJekq07IbedqZkPgmnTWu1fWq-46OMstXV9bbFvJIj5fIfxeqvr46mi5eWby1bsOFPLy_Gn5eDyfbHKCmjYQeCDPo4uSNswnxrW7r2J9YG0_8dYDsSfNbZB8hKxVTgVK7gDO5yB8psBAELWhb_onAP_HrpCySa0nfz/w466-h466/dw.jpg' },
     { name: 'Yuseong Foot Bath', coords: [36.3549475, 127.3460614], imageLink: 'https://blogger.googleusercontent.com/img/a/AVvXsEiJFEbtWAeRDeWKubd4tfHBk9DOQ3x92XWYvZ4U_iQtC30dKlY4cG94P-OULZ8EeQaVzdUYcl3yw_U9lix58tYIOqY7SCS88Fi0vewkC2UeVZWqhg7i9S4FcHIFVc6G9fUdaESYQZ2gZL3CqssO9myYmeb0lFDwYX5vuMk7VtARJ0Kl-J06GXIle5rQDXN0=w388-h388' },
     { name: 'Daejeon (Oncheon 1(il)-dong), South Korea 🇰🇷', coords: [36.35591446332886, 127.34676445038767], imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEguqclW9vE_gcwR0rEEMKRpSsYC51FA6hkeKv0g0iQWkra2rtKSsHZLrqMvoQBi8gglifne6XJhO3Y5KxZbpS-fXOVcLdtg4OupmcETgFmJjpZwnUJE82QB6wflRWyPrvLPlvJTnzSX5xNyAlTVbjg_LWalPHqD-OXvnmt9sj7sikxFg70JU3P3wnWkmTZZ/w261-h440/20240927_182946.jpg' },
+    { name: 'W7 Woosong University', coords: [36.33705931024952, 127.44506729398547], imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgxPjgh8tW56xU7hBA4Or6EhGhGTvUou_H1RqYat2x3pH0h-tajLow5vgbXH3F274U4rWjcQ3W-oS6Xlw0Nfc3lq2P8x3fEmgwdIolL-leqeQHyX2iZL_VDlk0le8l6shDp5ZpCXpq8EWWykpARwjUnMIkvwnlzIa-vRDmLqreR5Qeg9nOIwYtH8HnfA2mD/s1280/photo_2024-10-04_02-08-52.jpg' },
 
 
   ];
@@ -64,7 +65,7 @@ const HomePage = () => {
     { name: 'Hawai', coords: [19.588489212685314, 204.58153972248294], imageLink: 'https://www.royalhawaiianmovers.com/wp-content/uploads/2021/11/111521-Best-Island-to-Live-on.png' },
     { name: 'The Great Pyramid of Giza', coords: [29.97916465, 31.13421326082681], imageLink: 'https://media.architecturaldigest.com/photos/58e2a407c0e88d1a6a20066b/16:9/w_1280,c_limit/Pyramid%20of%20Giza%201.jpg' },
     { name: 'Medina, Saudi Arabia', coords: [24.471153, 39.6111216], imageLink: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/13/60/b1/42/medina.jpg' },
-    { name: 'South Pole Point', coords: [-82.96172991212546, 65.73426410985154], imageLink: 'https://waterproof-expeditions.com/wp-content/uploads/2024/02/South-Pole-Antarctica-5.jpg' },
+    { name: 'South Pole Point', coords: [-66.28388122840676, 53.69731440027301], imageLink: 'https://waterproof-expeditions.com/wp-content/uploads/2024/02/South-Pole-Antarctica-5.jpg' },
 
   ];
 

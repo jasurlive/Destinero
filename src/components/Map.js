@@ -7,7 +7,9 @@ import MapEvents from './MapEvents';
 import useHandleClick from './handleClick';
 import CreatePopup from './createPopup'; // Ensure this is the correct popup function
 import { zoomToLocation } from './zoomin';
+import { zoomLiveToLocation } from './zoomlive'; // Import the new zoomLiveToLocation function
 import { useMediaQuery } from '@mui/material'; // Import useMediaQuery
+import LiveLocation from './live';
 
 const Map = ({ visitedPlaces, plannedPlaces }) => {
   const [searchCoords, setSearchCoords] = useState(null);
@@ -59,11 +61,11 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
     ...plannedPlaces.map((place) => ({ ...place, type: 'planned' })),
     clickedCoords && placeInfo
       ? {
-          coords: clickedCoords,
-          type: 'clicked',
-          name: placeInfo.name,
-          flag: placeInfo.flag,
-        }
+        coords: clickedCoords,
+        type: 'clicked',
+        name: placeInfo.name,
+        flag: placeInfo.flag,
+      }
       : null,
   ].filter(Boolean);
 
@@ -72,12 +74,17 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
     zoomToLocation(mapRef.current, coords); // Zoom to the place's coordinates
   };
 
+  // Add a function to handle live location zooming
+  const handleLiveLocationClick = (coords) => {
+    zoomLiveToLocation(mapRef.current, coords); // Zoom to the live location coordinates
+  };
+
   return (
     <div className="map-container">
-      <MapContainer 
-        center={adjustedCenter} 
-        zoom={defaultZoom} 
-        className="leaflet-map" 
+      <MapContainer
+        center={adjustedCenter}
+        zoom={defaultZoom}
+        className="leaflet-map"
         zoomSnap={0.5}  // Makes zooming smoother by snapping to closer zoom levels
         zoomDelta={0.5} // Reduces the zoom step to slow down zoom in/out
         zoomControl={false} // Disable zoom controls
@@ -87,12 +94,12 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
         <SearchBox map={mapRef.current} onSearch={setSearchCoords} />
         <MapEvents onClick={handleMapClick} />
         {places.map((place) => (
-          <CreatePopup 
+          <CreatePopup
             key={`${place.type}-${place.coords.join(',')}`}
-            place={place} 
-            mapRef={mapRef} 
-            handleCopyClick={handleCopyClick} 
-            copySuccess={copySuccess} 
+            place={place}
+            mapRef={mapRef}
+            handleCopyClick={handleCopyClick}
+            copySuccess={copySuccess}
             onPlaceClick={handlePlaceClick} // Pass the zoom function
           />
         ))}
@@ -122,6 +129,13 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
             </Popup>
           </Marker>
         )}
+
+        <LiveLocation
+          mapRef={mapRef}
+          handleCopyClick={handleCopyClick}
+          copySuccess={copySuccess}
+          onLiveLocationClick={handleLiveLocationClick} // Pass the function to handle live location zoom
+        />
       </MapContainer>
     </div>
   );
