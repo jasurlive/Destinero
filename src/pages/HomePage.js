@@ -66,6 +66,8 @@ const HomePage = () => {
     { name: 'The Great Pyramid of Giza', coords: [29.97916465, 31.13421326082681], imageLink: 'https://media.architecturaldigest.com/photos/58e2a407c0e88d1a6a20066b/16:9/w_1280,c_limit/Pyramid%20of%20Giza%201.jpg' },
     { name: 'Medina, Saudi Arabia', coords: [24.471153, 39.6111216], imageLink: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/13/60/b1/42/medina.jpg' },
     { name: 'South Pole Point', coords: [-66.28388122840676, 53.69731440027301], imageLink: 'https://waterproof-expeditions.com/wp-content/uploads/2024/02/South-Pole-Antarctica-5.jpg' },
+    { name: 'Cape Town, South Africa', coords: [-33.928992, 18.417396], imageLink: 'https://static.independent.co.uk/s3fs-public/thumbnails/image/2019/04/15/13/istock-671323338.jpg' },
+
 
   ];
 
