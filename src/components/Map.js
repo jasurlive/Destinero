@@ -2,14 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import SearchBox from './SearchBox';
+import SearchBox from './SearchBox'; // Updated SearchBox handles both search and live location
 import MapEvents from './MapEvents';
 import useHandleClick from './handleClick';
 import CreatePopup from './createPopup'; // Ensure this is the correct popup function
 import { zoomToLocation } from './zoomin';
-import { zoomLiveToLocation } from './zoomlive'; // Import the new zoomLiveToLocation function
 import { useMediaQuery } from '@mui/material'; // Import useMediaQuery
-import LiveLocation from './live';
 
 const Map = ({ visitedPlaces, plannedPlaces }) => {
   const [searchCoords, setSearchCoords] = useState(null);
@@ -74,11 +72,6 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
     zoomToLocation(mapRef.current, coords); // Zoom to the place's coordinates
   };
 
-  // Add a function to handle live location zooming
-  const handleLiveLocationClick = (coords) => {
-    zoomLiveToLocation(mapRef.current, coords); // Zoom to the live location coordinates
-  };
-
   return (
     <div className="map-container">
       <MapContainer
@@ -91,7 +84,15 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
         whenCreated={(mapInstance) => (mapRef.current = mapInstance)}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="" />
-        <SearchBox map={mapRef.current} onSearch={setSearchCoords} />
+
+        {/* Pass the necessary props to SearchBox */}
+        <SearchBox
+          map={mapRef.current}
+          onSearch={setSearchCoords}
+          handleCopyClick={handleCopyClick}
+          copySuccess={copySuccess}
+        />
+
         <MapEvents onClick={handleMapClick} />
         {places.map((place) => (
           <CreatePopup
@@ -103,6 +104,7 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
             onPlaceClick={handlePlaceClick} // Pass the zoom function
           />
         ))}
+
         {searchCoords && (
           <Marker
             position={searchCoords}
@@ -129,13 +131,6 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
             </Popup>
           </Marker>
         )}
-
-        <LiveLocation
-          mapRef={mapRef}
-          handleCopyClick={handleCopyClick}
-          copySuccess={copySuccess}
-          onLiveLocationClick={handleLiveLocationClick} // Pass the function to handle live location zoom
-        />
       </MapContainer>
     </div>
   );
