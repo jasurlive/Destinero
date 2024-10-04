@@ -71,7 +71,7 @@ const LiveLocation = ({ mapRef, handleCopyClick, copySuccess }) => {
                 title="Click to get your current location"
             >
                 <img
-                    src={isActive ? "itravel/img/live_red.png" : "itravel/img/live.png"} // Change image based on active status
+                    src={isActive ? `${process.env.PUBLIC_URL}/img/live_red.png` : `${process.env.PUBLIC_URL}/img/live.png`} // Change image based on active status
                     alt="Live Location"
                     style={glowStyle} // Apply inline styles for glow
                 />
