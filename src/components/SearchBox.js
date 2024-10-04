@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Marker, Popup, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
@@ -85,6 +85,39 @@ const SearchBox = ({ handleCopyClick, copySuccess, onSearch }) => {
     setSearchTerm(e.target.value);
   }, []);
 
+  // Effect to clear error message after 2 seconds
+  useEffect(() => {
+    if (errorMsg) {
+      const timer = setTimeout(() => {
+        setErrorMsg('');
+      }, 2000); // 2 seconds timeout
+
+      return () => clearTimeout(timer); // Cleanup the timer on unmount or if errorMsg changes
+    }
+  }, [errorMsg]);
+
+  // Function to handle scale reset after click or touch
+  const resetScale = (element) => {
+    requestAnimationFrame(() => {
+      element.style.transform = 'scale(1)'; // Reset to default scale
+    });
+  };
+
+  const handleLocationClickAnimation = (e) => {
+    // Safely check if currentTarget exists before modifying the style
+    if (e.currentTarget) {
+      const targetElement = e.currentTarget;
+
+      targetElement.style.transform = 'scale(0.8)'; // Shrink on click to simulate press
+      setTimeout(() => {
+        resetScale(targetElement); // Return to normal size after a short delay
+      }, 200); // 200ms for the press effect
+
+      // Trigger the location click function
+      handleLocationClick(); // Call your function to get the location
+    }
+  };
+
   // Define inline styles for the glow effect
   const glowStyle = {
     width: '50px',
@@ -135,20 +168,8 @@ const SearchBox = ({ handleCopyClick, copySuccess, onSearch }) => {
             e.currentTarget.style.boxShadow = 'none'; // Remove shadow on hover out
           }
         }}
-        onClick={(e) => {
-          // Safely check if currentTarget exists before modifying the style
-          if (e.currentTarget) {
-            e.currentTarget.style.transform = 'scale(0.8)'; // Shrink on click to simulate press
-            setTimeout(() => {
-              if (e.currentTarget) {
-                e.currentTarget.style.transform = 'scale(1)'; // Return to normal size after a short delay
-              }
-            }, 200); // 200ms for the press effect
-          }
-
-          // Trigger the location click function
-          handleLocationClick(); // Call your function to get the location
-        }}
+        onClick={handleLocationClickAnimation} // Handle the click animation and geolocation
+        onTouchStart={handleLocationClickAnimation} // Support touch devices
         title="Where am I? 📌"
       >
         <img
