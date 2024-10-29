@@ -8,6 +8,7 @@ const HomePage = () => {
   // ------------------------------------------------------------------------------------------------------------- 🚩 VISITED PLACES BELOW
 
   const visitedPlaces = [
+    { name: 'Filming Site, Suncheon', coords: [34.9089143, 127.34225201013444], imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg3uS8jNtUPWLAlS7MdMi2DS0ZW9KnYB__2LkndH74DCl7crvWOQrUoBpgbe-HMPOwnIDMj1xNASITK_G81g6o1cHzNXeDJkKrHX4fbPepMQAvmTx0kjKjVeSBcY7EsccwWy9-vmDKK8otxIcXqD7Xt4az-CGgs52QW-Sq0z3y300-KPzIISuRwt3Bq6D1C/s2560/photo_2024-10-30_00-16-51.jpg' },
     { name: 'Eiffel Tower, Paris', coords: [48.8582599, 2.2945006358633115], imageLink: 'https://jasurlive.uz/img/pic2.png' },
     { name: 'Vertical Forest in Milano City', coords: [45.45913914397633, 9.187069449510059], imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjopGWMQwXjFcqhYZwCIg2p0yTcxJap8yEQeZUBww_BUIDih3s0CirCYIOssac2OykY7Guoo0RaOUec7l3oT-6SvQkE8-Dm3YjrwEzZ14JMxku3Hnx3zm-QyBUbbbDpxKgtIyqOzISoG6XvzC1_ph-4a9U2QrRoFazPTL-OeF7Jl_AYAmh663JuQGsQ3gPA/w381-h508/bosco.jpg' },
     { name: 'Galata Bridge', coords: [41.01978632234401, 28.97251904010773], imageLink: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjvCKEsz5vl8HZFdlUQiwQG6J_dbPXl22DdAhQ96W4-T1rAsREyUkXFAKvqTMNDtk4qR6KNqjY6fCOL7otlKgrbuiXXfCFNDL9WlInMLrUsOBExDtmJl4lOJORXpGWG3jb-jp5B2VI5oCRTMhhxcd-y1H9-J-xHap0xTPWu-mDYe-6p2WLkRTAD41q_DLLG/s320/20230927_152908.jpg' },
