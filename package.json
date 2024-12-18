@@ -10,18 +10,20 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "esri-leaflet": "^3.0.13",
     "leaflet": "^1.9.4",
     "leaflet-control-geocoder": "^2.4.0",
     "leaflet-geosearch": "^4.0.0",
     "react": "^18.3.1",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.3.1",
-    "react-icons": "^5.2.1",
+    "react-icons": "^5.4.0",
     "react-leaflet": "^4.2.1",
     "react-map-gl": "^7.1.7",
     "react-router-dom": "^6.24.1",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "predeploy": "npm run build",

@@ -159,7 +159,7 @@ const SearchBox = ({ handleCopyClick, copySuccess, onSearch }) => {
         onMouseEnter={(e) => {
           if (e.currentTarget) {  // Ensure currentTarget exists
             e.currentTarget.style.transform = 'scale(1.1)'; // Scale up slightly on hover
-            e.currentTarget.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.3)'; // Add shadow on hover
+            e.currentTarget.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0)'; // Add shadow on hover
           }
         }}
         onMouseLeave={(e) => {

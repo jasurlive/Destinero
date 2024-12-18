@@ -2,29 +2,28 @@ import React, { useState, useRef, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import SearchBox from './SearchBox'; // Updated SearchBox handles both search and live location
+import SearchBox from './SearchBox';
 import MapEvents from './MapEvents';
 import useHandleClick from './handleClick';
-import CreatePopup from './createPopup'; // Ensure this is the correct popup function
+import CreatePopup from './createPopup';
 import { zoomToLocation } from './zoomin';
-import { useMediaQuery } from '@mui/material'; // Import useMediaQuery
+import { useMediaQuery } from '@mui/material';
+import { FaSun, FaMoon } from 'react-icons/fa';
 
 const Map = ({ visitedPlaces, plannedPlaces }) => {
   const [searchCoords, setSearchCoords] = useState(null);
   const [copySuccess, setCopySuccess] = useState(false);
+  const [theme, setTheme] = useState('light'); // State for theme
   const mapRef = useRef(null);
   const { clickedCoords, handleMapClick, placeInfo } = useHandleClick();
 
-  // Define default configurations for desktop and mobile
-  const isMobile = useMediaQuery('(max-width:600px)'); // Change threshold as needed
-
-  const defaultCenter = isMobile ? [41.505, -0.09] : [41.505, -0.09]; // Adjust for mobile if needed
-  const defaultZoom = isMobile ? 2.5 : 3.3; // Adjust zoom for mobile
-  const adjustedCenter = [defaultCenter[0], defaultCenter[1] + (isMobile ? 32 : 65.05)]; // Adjust center position for mobile
+  const isMobile = useMediaQuery('(max-width:600px)');
+  const defaultCenter = isMobile ? [41.505, -0.09] : [41.505, -0.09];
+  const defaultZoom = isMobile ? 2.5 : 3.3;
+  const adjustedCenter = [defaultCenter[0], defaultCenter[1] + (isMobile ? 32 : 65.05)];
 
   useEffect(() => {
     const map = mapRef.current;
-
     if (map) {
       map.on('click', (e) => {
         handleMapClick([e.latlng.lat, e.latlng.lng], mapRef);
@@ -67,9 +66,13 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
       : null,
   ].filter(Boolean);
 
-  // Function to handle zooming to a specific location
   const handlePlaceClick = (coords) => {
-    zoomToLocation(mapRef.current, coords); // Zoom to the place's coordinates
+    zoomToLocation(mapRef.current, coords);
+  };
+
+  // Function to toggle between light and dark theme
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
   };
 
   return (
@@ -77,15 +80,20 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
       <MapContainer
         center={adjustedCenter}
         zoom={defaultZoom}
-        className="leaflet-map"
-        zoomSnap={0.5}  // Makes zooming smoother by snapping to closer zoom levels
-        zoomDelta={0.5} // Reduces the zoom step to slow down zoom in/out
-        zoomControl={false} // Disable zoom controls
+        className={`leaflet-map ${theme}`} // Dynamically apply theme class
+        zoomSnap={0.5}
+        zoomDelta={0.5}
+        zoomControl={false}
         whenCreated={(mapInstance) => (mapRef.current = mapInstance)}
       >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="" />
+        {/* Conditional TileLayer with `key` prop */}
+        <TileLayer
+          key={theme} // React will force the TileLayer to re-render when theme changes
+          url={theme === 'light' ? "https://api.maptiler.com/maps/streets-v2/256/{z}/{x}/{y}.png?key=iQtt3mhP0bDaBKFSImNM" : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"}
+          attribution={theme === 'light' ? "&copy; <a href='https://www.maptiler.com/'>MapTiler</a>" : "&copy; <a href='https://www.carto.com/'>CARTO</a>"}
+          subdomains="abcd"
+        />
 
-        {/* Pass the necessary props to SearchBox */}
         <SearchBox
           map={mapRef.current}
           onSearch={setSearchCoords}
@@ -101,7 +109,7 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
             mapRef={mapRef}
             handleCopyClick={handleCopyClick}
             copySuccess={copySuccess}
-            onPlaceClick={handlePlaceClick} // Pass the zoom function
+            onPlaceClick={handlePlaceClick}
           />
         ))}
 
@@ -131,6 +139,11 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
             </Popup>
           </Marker>
         )}
+
+        {/* Theme Toggle Button */}
+        <div className="theme-toggle" onClick={toggleTheme}>
+          {theme === 'light' ? <FaSun size={30} color="yellow" /> : <FaMoon size={30} color="lightgray" />}
+        </div>
       </MapContainer>
     </div>
   );
