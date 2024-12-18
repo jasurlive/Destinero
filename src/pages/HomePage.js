@@ -11,7 +11,7 @@ const HomePage = () => {
   // Function to load and parse the Excel file
   const fetchExcelData = async () => {
     try {
-      const response = await fetch("itravel/data.xlsx"); // Path to your Excel file
+      const response = await fetch("/data.xlsx"); // Path to your Excel file
       const arrayBuffer = await response.arrayBuffer();
       const workbook = XLSX.read(arrayBuffer, { type: "array" });
 
