@@ -9,7 +9,7 @@ const CreatePopup = ({ place, mapRef, handleCopyClick, copySuccess }) => {
   const isClicked = place.type === 'clicked';
 
   const handleCopy = () => {
-    const formattedCoords = `coords: [${place.coords[0]}, ${place.coords[1]}]`;
+    const formattedCoords = `[${place.coords[0]}, ${place.coords[1]}]`;
     navigator.clipboard.writeText(formattedCoords);
     handleCopyClick(); // Trigger state change or feedback for copy success
   };

@@ -47,7 +47,7 @@ const SearchBox = ({ handleCopyClick, copySuccess, onSearch }) => {
 
   const handleCopy = () => {
     if (currentLocation) {
-      const formattedCoords = `coords: [${currentLocation[0]}, ${currentLocation[1]}]`;
+      const formattedCoords = `[${currentLocation[0]}, ${currentLocation[1]}]`;
       navigator.clipboard.writeText(formattedCoords);
       handleCopyClick(); // Trigger state change or feedback for copy success
     }
