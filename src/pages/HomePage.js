@@ -8,10 +8,10 @@ const HomePage = () => {
   const [visitedPlaces, setVisitedPlaces] = useState([]);
   const [plannedPlaces, setPlannedPlaces] = useState([]);
 
-  // Function to load and parse the Excel file
+  // Function to load and parse the Excel
   const fetchExcelData = async () => {
     try {
-      const response = await fetch("/data.xlsx"); // Path to your Excel file
+      const response = await fetch(`${process.env.PUBLIC_URL}/data.xlsx`);
       const arrayBuffer = await response.arrayBuffer();
       const workbook = XLSX.read(arrayBuffer, { type: "array" });
 
