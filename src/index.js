@@ -1,17 +1,19 @@
 // src/index.js
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import 'leaflet/dist/leaflet.css';
-
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import "leaflet/dist/leaflet.css";
+import { VisitedPlacesProvider } from "./components/VisitedPlacesStore";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <VisitedPlacesProvider>
+      <App />
+    </VisitedPlacesProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

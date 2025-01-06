@@ -1,12 +1,14 @@
 // src/pages/HomePage.js
 
-import Map from '../components/Map';
+import Map from "../components/Map";
 import React, { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
+import { useVisitedPlaces } from "../components/VisitedPlacesStore";
 
 const HomePage = () => {
   const [visitedPlaces, setVisitedPlaces] = useState([]);
   const [plannedPlaces, setPlannedPlaces] = useState([]);
+  const { dispatch } = useVisitedPlaces();
 
   // Function to load and parse the Excel
   const fetchExcelData = async () => {
@@ -35,6 +37,7 @@ const HomePage = () => {
           name: row.Name,
           coords: coords,
           imageLink: row["Image Links"],
+          // expense: row.expense,
         };
         visited.push(placeData);
       });
@@ -53,7 +56,7 @@ const HomePage = () => {
       // Set the state for visited and planned places
       setVisitedPlaces(visited);
       setPlannedPlaces(planned);
-
+      dispatch({ type: "ADD_PLACE", payload: visited });
     } catch (error) {
       console.error("Error fetching or parsing Excel file:", error);
     }
