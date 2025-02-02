@@ -1,6 +1,6 @@
 // handleClick.js
 import { useState } from 'react';
-import { getCountryFlag } from './countryFlags';
+import { getCountryFlag } from './CountryFlags';
 
 const useHandleClick = () => {
   const [clickedCoords, setClickedCoords] = useState(null);

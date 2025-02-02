@@ -4,23 +4,24 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import SearchBox from './SearchBox';
 import MapEvents from './MapEvents';
-import useHandleClick from './handleClick';
-import CreatePopup from './createPopup';
-import { zoomToLocation } from './zoomin';
+import useHandleClick from './HandleClick';
+import CreatePopup from './CreatePopup';
+import { zoomToLocation } from './Zoomin';
 import { useMediaQuery } from '@mui/material';
-import { FaSun, FaMoon } from 'react-icons/fa';
+import { getCountryFlag } from './CountryFlags';
 
 const Map = ({ visitedPlaces, plannedPlaces }) => {
   const [searchCoords, setSearchCoords] = useState(null);
   const [copySuccess, setCopySuccess] = useState(false);
-  const [theme, setTheme] = useState('light'); // State for theme
   const mapRef = useRef(null);
-  const { clickedCoords, handleMapClick, placeInfo } = useHandleClick();
+  const { handleMapClick } = useHandleClick();
 
   const isMobile = useMediaQuery('(max-width:600px)');
   const defaultCenter = isMobile ? [41.505, -0.09] : [41.505, -0.09];
   const defaultZoom = isMobile ? 2.5 : 3.3;
   const adjustedCenter = [defaultCenter[0], defaultCenter[1] + (isMobile ? 32 : 65.05)];
+
+  const [locationDetails, setLocationDetails] = useState({ placeName: '', city: '', country: '', countryCode: '' }); // Reintroduce setLocationDetails
 
   useEffect(() => {
     const map = mapRef.current;
@@ -50,29 +51,31 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
   useEffect(() => {
     if (searchCoords) {
       zoomToLocation(mapRef.current, searchCoords);
+
+      fetchLocationDetails(searchCoords).then(details => {
+        setLocationDetails(details);
+      });
     }
   }, [searchCoords]);
+
+  const fetchLocationDetails = async (coords) => {
+    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${coords[0]}&lon=${coords[1]}&addressdetails=1`);
+    const data = await response.json();
+    return {
+      placeName: data.display_name,
+      city: data.address.city || data.address.town || data.address.village || '',
+      country: data.address.country,
+      countryCode: data.address.country_code.toUpperCase()
+    };
+  };
 
   const places = [
     ...visitedPlaces.map((place) => ({ ...place, type: 'visited' })),
     ...plannedPlaces.map((place) => ({ ...place, type: 'planned' })),
-    clickedCoords && placeInfo
-      ? {
-        coords: clickedCoords,
-        type: 'clicked',
-        name: placeInfo.name,
-        flag: placeInfo.flag,
-      }
-      : null,
-  ].filter(Boolean);
+  ];
 
   const handlePlaceClick = (coords) => {
     zoomToLocation(mapRef.current, coords);
-  };
-
-  // Function to toggle between light and dark theme
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
   };
 
   return (
@@ -80,17 +83,15 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
       <MapContainer
         center={adjustedCenter}
         zoom={defaultZoom}
-        className={`leaflet-map ${theme}`} // Dynamically apply theme class
+        className="leaflet-map"
         zoomSnap={0.5}
         zoomDelta={0.5}
         zoomControl={false}
         whenCreated={(mapInstance) => (mapRef.current = mapInstance)}
       >
-        {/* Conditional TileLayer with `key` prop */}
         <TileLayer
-          key={theme} // React will force the TileLayer to re-render when theme changes
-          url={theme === 'light' ? "https://api.maptiler.com/maps/streets-v2/256/{z}/{x}/{y}.png?key=iQtt3mhP0bDaBKFSImNM" : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"}
-          attribution={theme === 'light' ? "&copy; <a href='https://www.maptiler.com/'>MapTiler</a>" : "&copy; <a href='https://www.carto.com/'>CARTO</a>"}
+          url="https://api.maptiler.com/maps/streets-v2/256/{z}/{x}/{y}.png?key=iQtt3mhP0bDaBKFSImNM"
+          attribution="&copy; <a href='https://www.maptiler.com/'>MapTiler</a>"
           subdomains="abcd"
         />
 
@@ -117,7 +118,7 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
           <Marker
             position={searchCoords}
             icon={L.divIcon({
-              html: `<span class="unicode-icon">🔍</span>`,
+              html: `<span class="unicode-icon">📍</span>`,
               className: 'custom-div-icon',
               iconSize: [30, 30],
               iconAnchor: [15, 15],
@@ -127,6 +128,8 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
               <div className="cont">
                 <h2>Searched Location</h2>
                 <br />
+                <p>{locationDetails.placeName}</p>
+                <p>{locationDetails.city}, {locationDetails.country} {getCountryFlag(locationDetails.countryCode)}</p>
                 {`Latitude: ${searchCoords[0]}, Longitude: ${searchCoords[1]}`}
                 <br />
                 <button
@@ -139,11 +142,6 @@ const Map = ({ visitedPlaces, plannedPlaces }) => {
             </Popup>
           </Marker>
         )}
-
-        {/* Theme Toggle Button */}
-        <div className="theme-toggle" onClick={toggleTheme}>
-          {theme === 'light' ? <FaSun size={30} color="yellow" /> : <FaMoon size={30} color="lightgray" />}
-        </div>
       </MapContainer>
     </div>
   );

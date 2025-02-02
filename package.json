@@ -1,7 +1,7 @@
 {
   "name": "itravel",
   "homepage": "https://jasurgraduate.github.io/itravel",
-  "version": "0.1.0",
+  "version": "3.2.2",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.13.3",
