@@ -1,0 +1,104 @@
+.pop-up-container {
+    padding: 1rem;
+    text-align: center;
+    width: 15rem;
+}
+
+.leaflet-popup-content-wrapper {
+    background-color: #e9ffffe3 !important;
+    z-index: 5000 !important;
+    color: #333;
+    flex-direction: column;
+
+}
+
+.leaflet-popup-content {
+    background-color: transparent !important;
+}
+
+.pop-up-container img.place-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    display: none;
+    margin: 0 auto;
+    object-fit: cover;
+}
+
+.pop-up-container img.place-image.loaded {
+    display: block;
+}
+
+.leaflet-popup-close-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem !important;
+    border-radius: 7px;
+    padding: 1.2rem;
+    color: rgba(0, 0, 139, 0.644) !important;
+}
+
+.leaflet-popup-close-button:hover {
+    transform: scale(1.01);
+    box-shadow: 0 0 8px 2px rgba(16, 96, 139, 0.441);
+    transition: ease-out 0.2s;
+}
+
+
+.spinner-popup {
+    animation: spin 1s linear infinite;
+    width: 5rem;
+    height: auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+h2.place-name {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.copy-button {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.copy-button:hover {
+    background-color: #0056b3;
+}
+
+.copy-button.copied {
+    background-color: #008674;
+}
+
+
+.custom-icon {
+    font-size: 2rem;
+}
+
+.custom-icon:hover {
+    cursor: pointer;
+    transform: scale(1.5);
+}
+
+@media (max-width: 600px) {
+
+    .pop-up-container img.place-image {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+    }
+}

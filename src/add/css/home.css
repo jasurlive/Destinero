@@ -1,0 +1,29 @@
+.map-home-title {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    font-size: 1.5rem;
+}
+
+.map-home-reset-view-button {
+    display: flex;
+    justify-content: center;
+    border-radius: 4px;
+    background-color: #4285f4;
+    width: 4rem;
+    padding: 4px 10px;
+    margin-left: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+}
+
+.map-home-reset-view-button:hover {
+    background-color: #0d2d5e;
+}
+
+.map-home-reset-view-button:active {
+    background-color: #f3ffa3;
+    transform: scale(0.85);
+}

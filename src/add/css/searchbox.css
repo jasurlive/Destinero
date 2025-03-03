@@ -1,0 +1,141 @@
+.search-box {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    background: rgba(199, 255, 254, 0.616);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 400;
+    padding: 0.2rem;
+}
+
+.search-box input[type="text"] {
+    padding: 0.7rem;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+    width: 20rem;
+
+}
+
+.search-box button {
+    padding: 0.7rem;
+    border-radius: 0 4px 4px 0;
+    background-color: #4285f4;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+}
+
+.search-box button:hover {
+    background-color: #205dbf;
+}
+
+
+.spinner-search-button {
+    animation: spin 1s linear infinite;
+    width: 0.7rem;
+    height: auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+.spinner-search {
+    width: auto;
+    height: 1rem;
+}
+
+
+.spinner-live,
+.spinner-search {
+    animation: spin 1s linear infinite;
+}
+
+.location-icon-container {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 400;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.location-icon-container.hovered {
+    transform: scale(1.1);
+}
+
+.location-icon {
+    width: 50px;
+    height: 50px;
+    transition: box-shadow 1.5s ease-in-out;
+}
+
+.active-glow {
+    color: red;
+}
+
+.inactive-glow {
+    color: rgb(0, 31, 167);
+}
+
+.spinner-live {
+    animation: spin 1s linear infinite;
+}
+
+.message {
+    position: absolute;
+    bottom: 100px;
+    right: 10px;
+    padding: 8px;
+    border-radius: 5px;
+    z-index: 400;
+    color: white;
+}
+
+.error-message {
+    background-color: red;
+}
+
+.success-message {
+    background-color: green;
+}
+
+.spinner-search-popup {
+    animation: spin 1s linear infinite;
+    width: 5rem;
+    height: auto;
+}
+
+.place-image-live {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+
+    .search-box {
+        position: absolute;
+        top: 15px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .search-box input[type="text"] {
+        width: 15rem;
+    }
+}
