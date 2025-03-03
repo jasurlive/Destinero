@@ -1,11 +1,17 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
-import L from 'leaflet';
+import { MapContainer, TileLayer } from 'react-leaflet';
+
+import { FaSearchLocation } from 'react-icons/fa';
+import { PiFlagPennantFill } from "react-icons/pi";
+import { BiSolidPlaneAlt } from "react-icons/bi";
+import { BsFillPinFill } from "react-icons/bs";
+
 import SearchBox from './SearchBox';
 import MapEvents from './MapEvents';
 import CreatePopup from './PopUp';
 import { zoomToLocation } from './Zoomin';
 import { useMediaQuery } from '@mui/material';
+
 import '../css/map.css';
 import 'leaflet/dist/leaflet.css';
 
@@ -13,7 +19,6 @@ interface Place {
   coords: [number, number];
   type: string;
   name: string;
-  icon: L.DivIcon;
 }
 
 interface MapProps {
@@ -28,8 +33,8 @@ const Map: React.FC<MapProps> = ({ visitedPlaces, plannedPlaces, searchCoords, s
   const mapRef = useRef<L.Map | null>(null);
   const isMobile = useMediaQuery('(max-width:600px)');
   const defaultCenter: [number, number] = isMobile ? [41.505, -0.09] : [31.505, -0.09];
-  const defaultZoom = isMobile ? 2.5 : 4;
-  const adjustedCenter: [number, number] = [defaultCenter[0], defaultCenter[1] + (isMobile ? 22 : 95.05)];
+  const defaultZoom = isMobile ? 2.5 : 3.3;
+  const adjustedCenter: [number, number] = [defaultCenter[0], defaultCenter[1] + (isMobile ? 22 : 70)];
   const [locationDetails, setLocationDetails] = useState({ placeName: '', city: '', country: '', countryCode: '' });
   const [popupCoords, setPopupCoords] = useState<[number, number] | null>(null);
   const [clickedLocationDetails, setClickedLocationDetails] = useState({ placeName: '', city: '', country: '', countryCode: '' });
@@ -85,12 +90,12 @@ const Map: React.FC<MapProps> = ({ visitedPlaces, plannedPlaces, searchCoords, s
     ...visitedPlaces.map((place) => ({
       ...place,
       type: 'visited',
-      icon: L.divIcon({ className: 'visited-icon' })
+      icon: <PiFlagPennantFill className="custom-marker-icon-visited" />
     })),
     ...plannedPlaces.map((place) => ({
       ...place,
       type: 'planned',
-      icon: L.divIcon({ className: 'planned-icon' })
+      icon: <BiSolidPlaneAlt className="custom-marker-icon-planned" />
     })),
   ];
 
@@ -144,7 +149,7 @@ const Map: React.FC<MapProps> = ({ visitedPlaces, plannedPlaces, searchCoords, s
               type: 'searched',
               coords: searchCoords,
               name: locationDetails.placeName,
-              icon: L.divIcon({ className: 'searched-icon' })
+              icon: <FaSearchLocation className="custom-marker-icon-searched" />
             }}
             mapRef={mapRef}
             handleCopyClick={handleCopyClick}
@@ -159,7 +164,7 @@ const Map: React.FC<MapProps> = ({ visitedPlaces, plannedPlaces, searchCoords, s
               type: 'clicked',
               coords: popupCoords,
               name: clickedLocationDetails.placeName,
-              icon: L.divIcon({ className: 'clicked-icon' })
+              icon: <BsFillPinFill className="custom-marker-icon-clicked" />
             }}
             mapRef={mapRef}
             handleCopyClick={handleCopyClick}

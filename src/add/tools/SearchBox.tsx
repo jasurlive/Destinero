@@ -1,11 +1,11 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
-import { Marker, Popup, useMapEvents } from 'react-leaflet';
+import { useState, useCallback, useEffect } from 'react';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { zoomToLocation } from './Zoomin';
 import { FaSpinner } from 'react-icons/fa';
 import { MdOutlineMyLocation } from 'react-icons/md';
-import here_pic from '../media/img/here.jpg';
+import { BsPersonRaisedHand } from "react-icons/bs";
 import '../css/searchbox.css';
+import CreatePopup from './PopUp';
 
 
 
@@ -23,7 +23,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ map, handleCopyClick, copySuccess
   const [searchTerm, setSearchTerm] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [isWaiting, setIsWaiting] = useState(false);
-  const [locationDetails, setLocationDetails] = useState({ placeName: '', city: '', country: '' });
+  const [locationDetails, setLocationDetails] = useState({ placeName: '', city: '', country: '', countryCode: '' });
 
 
   const stopPropagation = (e: React.MouseEvent | React.TouchEvent) => e.stopPropagation();
@@ -48,6 +48,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ map, handleCopyClick, copySuccess
               placeName: data.display_name,
               city: data.address.city || data.address.town || data.address.village || '',
               country: data.address.country || '',
+              countryCode: data.address.country_code || ''
             });
           } catch (error) {
             console.error('Error fetching location details:', error);
@@ -170,32 +171,19 @@ const SearchBox: React.FC<SearchBoxProps> = ({ map, handleCopyClick, copySuccess
       </div>
 
       {currentLocation && (
-        <Marker position={currentLocation}>
-          <Popup>
-            <div className="pop-up-container">
-              <h2 className="place-name">Your Current Location</h2>
-              <p>{locationDetails.placeName}</p>
-              <p>{locationDetails.city}, {locationDetails.country}</p>
-              <a href="https://jasurgraduate.blogspot.com/" target="_blank" rel="noopener noreferrer">
-                <img
-                  src={here_pic}
-                  alt="Your Location"
-                  className="place-image-live"
-                />
-              </a>
-              {`Latitude: ${currentLocation[0]}, Longitude: ${currentLocation[1]}`}
-              <button
-                className={`copy-button ${copySuccess ? 'copied' : ''}`}
-                onClick={(e) => {
-                  stopPropagation(e);
-                  handleCopy();
-                }}
-              >
-                {copySuccess ? 'Copied 😁!' : 'Copy Coords 🏌🏻‍♂️'}
-              </button>
-            </div>
-          </Popup>
-        </Marker>
+        <CreatePopup
+          place={{
+            type: 'current',
+            coords: currentLocation,
+            name: 'Your Current Location',
+            icon: <BsPersonRaisedHand className="custom-marker-icon-live" />
+          }}
+          mapRef={map}
+          handleCopyClick={handleCopyClick}
+          copySuccess={copySuccess}
+          onPlaceClick={() => { }}
+          locationDetails={locationDetails}
+        />
       )}
 
       {errorMsg && (

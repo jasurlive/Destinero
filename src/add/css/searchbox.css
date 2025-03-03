@@ -123,6 +123,18 @@
     margin: 0 auto;
 }
 
+.custom-marker-icon-live {
+    display: inline-block;
+    color: rgb(255, 0, 0);
+    font-size: 3rem;
+    transition: ease-out 0.2s;
+}
+
+.custom-marker-icon-live:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
 @media (max-width: 600px) {
 
     .search-box {

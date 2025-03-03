@@ -1,16 +1,19 @@
 import { useState } from 'react';
 import { Marker, Popup, MarkerProps } from 'react-leaflet';
-import L, { DivIcon } from 'leaflet';
 import '../css/popup.css';
 import { FaSpinner } from 'react-icons/fa';
 import { getCountryFlag } from './Flags';
+import here_pic from '../media/img/here.jpg';
+import { GrFlagFill } from "react-icons/gr";
+import L from 'leaflet';
+import ReactDOMServer from 'react-dom/server';
 
 interface Place {
   type: string;
   coords: [number, number];
   name: string;
   imageLink?: string;
-  icon: L.DivIcon;
+  icon: React.ReactElement;
 }
 
 interface CreatePopupProps {
@@ -27,11 +30,7 @@ interface CreatePopupProps {
   };
 }
 
-interface CustomMarkerProps extends MarkerProps {
-  icon: DivIcon;
-}
-
-const CustomMarker: React.FC<CustomMarkerProps> = (props) => {
+const CustomMarker: React.FC<MarkerProps> = (props) => {
   return <Marker {...props} />;
 };
 
@@ -41,18 +40,15 @@ const CreatePopup: React.FC<CreatePopupProps> = ({ place, mapRef, handleCopyClic
   const handleImageLoad = () => {
     setImageLoaded(true);
   };
-  const getIcon = (type: string): L.DivIcon => {
-    return L.divIcon({
-      html: type === 'visited' ? '🚩' : type === 'planned' ? '✈️' : '📌',
-      className: 'custom-icon'
-    });
-  };
 
   return (
     <CustomMarker
       key={`${place.type}-${place.coords.join(',')}`}
       position={place.coords}
-      icon={getIcon(place.type)}
+      icon={L.divIcon({
+        html: ReactDOMServer.renderToString(place.icon),
+        className: 'custom-icon',
+      })}
     >
       <Popup>
         <div className="pop-up-container">
@@ -69,6 +65,15 @@ const CreatePopup: React.FC<CreatePopupProps> = ({ place, mapRef, handleCopyClic
                 {copySuccess ? 'Copied 😁!' : 'Copy Coords 🏌🏻‍♂️'}
               </button>
             </>
+          )}
+          {place.type === 'current' && (
+            <a href="https://jasurgraduate.blogspot.com/" target="_blank" rel="noopener noreferrer">
+              <img
+                src={here_pic}
+                alt="Your Location"
+                className="place-image-live"
+              />
+            </a>
           )}
           {place.imageLink && (
             <a href="https://jasurgraduate.blogspot.com/" target="_blank" rel="noopener noreferrer">
