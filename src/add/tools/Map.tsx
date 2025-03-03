@@ -15,6 +15,8 @@ import { useMediaQuery } from '@mui/material';
 import '../css/map.css';
 import 'leaflet/dist/leaflet.css';
 
+const mapKey = import.meta.env.VITE_MapKey;
+
 interface Place {
   coords: [number, number];
   type: string;
@@ -124,7 +126,7 @@ const Map: React.FC<MapProps> = ({ visitedPlaces, plannedPlaces, searchCoords, s
         minZoom={3}
       >
         <TileLayer
-          url="https://api.maptiler.com/maps/streets-v2/256/{z}/{x}/{y}.png?key=iQtt3mhP0bDaBKFSImNM"
+          url={`https://api.maptiler.com/maps/streets-v2/256/{z}/{x}/{y}.png?key=${mapKey}`}
         />
         <SearchBox
           map={mapRef.current}
