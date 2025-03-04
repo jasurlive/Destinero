@@ -29,6 +29,10 @@
     transition: ease-out 0.2s;
 }
 
+.leaflet-popup-tip {
+    background-color: #e9ffffe3 !important;
+}
+
 .leaflet-container {
     border: 1px solid #ccc;
     border-radius: 5px;

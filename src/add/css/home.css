@@ -1,4 +1,4 @@
-.map-home-title {
+h1.map-home-title {
     display: flex;
     justify-content: center;
     margin-top: 2rem;
@@ -26,4 +26,12 @@
 .map-home-reset-view-button:active {
     background-color: #f3ffa3;
     transform: scale(0.85);
+}
+
+
+/* ----------------------------------------------- MOBILE */
+@media (max-width: 600px) {
+    h1.map-home-title {
+        font-size: 1rem;
+    }
 }

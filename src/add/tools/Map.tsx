@@ -140,7 +140,7 @@ const Map: React.FC<MapProps> = ({ visitedPlaces, plannedPlaces, searchCoords, s
             key={`${place.type}-${place.coords.join(',')}`}
             place={place}
             mapRef={mapRef}
-            handleCopyClick={handleCopyClick}
+            handleCopyClick={() => copyCoordsToClipboard(place.coords)} // Pass handleCopy with place.coords
             copySuccess={copySuccess}
             onPlaceClick={handlePlaceClick}
           />
@@ -154,7 +154,7 @@ const Map: React.FC<MapProps> = ({ visitedPlaces, plannedPlaces, searchCoords, s
               icon: <FaSearchLocation className="custom-marker-icon-searched" />
             }}
             mapRef={mapRef}
-            handleCopyClick={handleCopyClick}
+            handleCopyClick={() => copyCoordsToClipboard(searchCoords)} // Pass handleCopy with searchCoords
             copySuccess={copySuccess}
             onPlaceClick={handlePlaceClick}
             locationDetails={locationDetails}
@@ -169,7 +169,7 @@ const Map: React.FC<MapProps> = ({ visitedPlaces, plannedPlaces, searchCoords, s
               icon: <BsFillPinFill className="custom-marker-icon-clicked" />
             }}
             mapRef={mapRef}
-            handleCopyClick={handleCopyClick}
+            handleCopyClick={() => copyCoordsToClipboard(popupCoords)} // Pass handleCopy with popupCoords
             copySuccess={copySuccess}
             onPlaceClick={handlePlaceClick}
             locationDetails={clickedLocationDetails}

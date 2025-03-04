@@ -4,13 +4,13 @@ interface MapEventsProps {
   onClick: (coords: [number, number]) => void;
 }
 
-const MapEvents: React.FC<MapEventsProps> = ({ onClick }) => {
+const MapEvents = ({ onClick }: MapEventsProps) => {
   useMapEvents({
-    click: (event) => {
-      const { lat, lng } = event.latlng;
+    click: ({ latlng: { lat, lng } }) => {
       onClick([lat, lng]);
     },
   });
+
   return null;
 };
 

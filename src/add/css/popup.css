@@ -4,7 +4,21 @@
     width: 15rem;
 }
 
+.leaflet-popup-content-wrapper {
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+p.city-name-popup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    gap: 0.5rem;
+}
 
 .pop-up-container img.place-image {
     height: 200px;
@@ -58,6 +72,7 @@ h2.place-name {
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    border-radius: 5px;
 }
 
 .copy-button:hover {

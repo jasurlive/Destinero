@@ -18,11 +18,11 @@ const useHandleClick = () => {
         const { city, town, village, country_code, country, state, county, suburb, neighbourhood } = data.address;
         const placeName = city || town || village || suburb || neighbourhood || 'Unknown Place';
         const areaName = suburb || neighbourhood || state || county || '';
-        const countryCode = country_code.toUpperCase();
+        const countryCode = getCountryFlag(country_code);
 
         setPlaceInfo({
           name: areaName ? `${placeName} (${areaName}), ${country}` : `${placeName}, ${country}`,
-          flag: getCountryFlag(countryCode),
+          flag: countryCode,
         });
       }
     } catch (error) {

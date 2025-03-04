@@ -4,7 +4,6 @@ import '../css/popup.css';
 import { FaSpinner } from 'react-icons/fa';
 import { getCountryFlag } from './Flags';
 import here_pic from '../media/img/here.jpg';
-import { GrFlagFill } from "react-icons/gr";
 import L from 'leaflet';
 import ReactDOMServer from 'react-dom/server';
 
@@ -41,6 +40,12 @@ const CreatePopup: React.FC<CreatePopupProps> = ({ place, mapRef, handleCopyClic
     setImageLoaded(true);
   };
 
+  const handleCopy = () => {
+    const formattedCoords = `[${place.coords[0]}, ${place.coords[1]}]`;
+    navigator.clipboard.writeText(formattedCoords);
+    handleCopyClick();
+  };
+
   return (
     <CustomMarker
       key={`${place.type}-${place.coords.join(',')}`}
@@ -56,13 +61,13 @@ const CreatePopup: React.FC<CreatePopupProps> = ({ place, mapRef, handleCopyClic
           {locationDetails && (
             <>
               <p>{locationDetails.placeName}</p>
-              <p>{locationDetails.city}, {locationDetails.country} {getCountryFlag(locationDetails.countryCode)}</p>
-              {`Latitude: ${place.coords[0]}, Longitude: ${place.coords[1]}`}
+              <p className="city-name-popup">{locationDetails.city}, {locationDetails.country} {getCountryFlag(locationDetails.countryCode)}</p>
+              <p>{`Latitude: ${place.coords[0]}, Longitude: ${place.coords[1]}`}</p>
               <button
                 className={`copy-button ${copySuccess ? 'copied' : ''}`}
-                onClick={() => handleCopyClick()}
+                onClick={handleCopy}
               >
-                {copySuccess ? 'Copied 😁!' : 'Copy Coords 🏌🏻‍♂️'}
+                {copySuccess ? 'Copied 😁' : 'Copy Coords 🏌🏻‍♂️'}
               </button>
             </>
           )}

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import { BsFullscreen } from "react-icons/bs";
 import L from "leaflet";
-import { Place } from "./types";  // Import the shared type
+import { Place } from "./types";
 import '../add/css/home.css';
 
 interface PlaceData {
