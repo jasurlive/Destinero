@@ -3,7 +3,6 @@ import { Marker, Popup, MarkerProps } from 'react-leaflet';
 import '../css/popup.css';
 import { FaSpinner } from 'react-icons/fa';
 import { getCountryFlag } from './Flags';
-import here_pic from '../media/img/here.jpg';
 import L from 'leaflet';
 import ReactDOMServer from 'react-dom/server';
 
@@ -72,16 +71,11 @@ const CreatePopup: React.FC<CreatePopupProps> = ({ place, mapRef, handleCopyClic
             </>
           )}
           {place.type === 'current' && (
-            <a href="https://jasurgraduate.blogspot.com/" target="_blank" rel="noopener noreferrer">
-              <img
-                src={here_pic}
-                alt="Your Location"
-                className="place-image-live"
-              />
+            <a href="https://jasurlive.uz" target="_blank" rel="noopener noreferrer">
             </a>
           )}
           {place.imageLink && (
-            <a href="https://jasurgraduate.blogspot.com/" target="_blank" rel="noopener noreferrer">
+            <a href="https://jasurlive.uz" target="_blank" rel="noopener noreferrer">
               {!imageLoaded && <FaSpinner className="spinner-popup" />}
               <img
                 src={place.imageLink}

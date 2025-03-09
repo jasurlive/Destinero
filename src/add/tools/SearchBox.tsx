@@ -48,8 +48,9 @@ const SearchBox: React.FC<SearchBoxProps> = ({ map, handleCopyClick, copySuccess
               placeName: data.display_name,
               city: data.address.city || data.address.town || data.address.village || '',
               country: data.address.country || '',
-              countryCode: data.address.country_code || ''
+              countryCode: data.address.country_code.toUpperCase()
             });
+            
           } catch (error) {
             console.error('Error fetching location details:', error);
           }
@@ -175,7 +176,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ map, handleCopyClick, copySuccess
           place={{
             type: 'current',
             coords: currentLocation,
-            name: 'Your Current Location',
+            name: 'You are here! 😍',
             icon: <BsPersonRaisedHand className="custom-marker-icon-live" />
           }}
           mapRef={map}
