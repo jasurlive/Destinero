@@ -1,4 +1,4 @@
-import { useMapEvents } from 'react-leaflet';
+import { useMapEvents } from "react-leaflet";
 
 interface MapEventsProps {
   onClick: (coords: [number, number]) => void;
