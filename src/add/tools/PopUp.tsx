@@ -5,7 +5,7 @@ import { FaSpinner } from "react-icons/fa";
 import { getCountryFlag } from "./Flags";
 import L from "leaflet";
 import ReactDOMServer from "react-dom/server";
-import { Place, CreatePopupProps } from "../../types/types";
+import { CreatePopupProps } from "../../types/types";
 
 const CustomMarker: React.FC<MarkerProps> = (props) => {
   return <Marker {...props} />;
@@ -13,10 +13,8 @@ const CustomMarker: React.FC<MarkerProps> = (props) => {
 
 const CreatePopup: React.FC<CreatePopupProps> = ({
   place,
-  mapRef,
   handleCopyClick,
   copySuccess,
-  onPlaceClick,
   locationDetails,
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -31,6 +29,22 @@ const CreatePopup: React.FC<CreatePopupProps> = ({
     handleCopyClick();
   };
 
+  const getTitle = () => {
+    switch (place.type) {
+      case "current":
+        return "You are here! 😍";
+      case "searched":
+        return "Searched Location 📍";
+      case "clicked":
+        return "Clicked Location 📌";
+      case "visited":
+      case "planned":
+        return place.name;
+      default:
+        return "Location";
+    }
+  };
+
   return (
     <CustomMarker
       key={`${place.type}-${place.coords.join(",")}`}
@@ -42,9 +56,9 @@ const CreatePopup: React.FC<CreatePopupProps> = ({
     >
       <Popup>
         <div className="pop-up-container">
+          <h2 className="place-name">{getTitle()}</h2>
           {locationDetails && (
             <>
-              <h2 className="place-name">Clicked location 📌</h2>
               <p>{locationDetails.placeName}</p>
               <p className="city-name-popup">
                 {locationDetails.city || "Unknown city"},{" "}
@@ -60,30 +74,15 @@ const CreatePopup: React.FC<CreatePopupProps> = ({
               </button>
             </>
           )}
-          {place.type === "current" && (
-            <a
-              href="https://jasurlive.uz"
-              target="_blank"
-              rel="noopener noreferrer"
-            ></a>
-          )}
           {place.imageLink && (
             <>
-              {" "}
-              <h2 className="place-name">{place.name}</h2>
-              <a
-                href="https://jasurlive.uz"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {!imageLoaded && <FaSpinner className="spinner-popup" />}
-                <img
-                  src={place.imageLink}
-                  alt={place.name}
-                  className={`place-image ${imageLoaded ? "loaded" : ""}`}
-                  onLoad={handleImageLoad}
-                />
-              </a>
+              {!imageLoaded && <FaSpinner className="spinner-popup" />}
+              <img
+                src={place.imageLink}
+                alt={place.name}
+                className={`place-image ${imageLoaded ? "loaded" : ""}`}
+                onLoad={handleImageLoad}
+              />
             </>
           )}
         </div>

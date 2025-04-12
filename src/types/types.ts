@@ -1,5 +1,5 @@
 export interface Place {
-  name: string;
+  name?: string;
   coords: [number, number];
   imageLink?: string;
   type: string;

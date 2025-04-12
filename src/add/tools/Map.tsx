@@ -172,7 +172,6 @@ const Map: React.FC<MapProps> = ({
             place={{
               type: "searched",
               coords: searchCoords,
-              name: "Searched Location 📍",
               icon: (
                 <FaSearchLocation className="custom-marker-icon-searched" />
               ),
@@ -189,7 +188,6 @@ const Map: React.FC<MapProps> = ({
             place={{
               type: "clicked",
               coords: popupCoords,
-              name: clickedLocationDetails.placeName,
               icon: <BsFillPinFill className="custom-marker-icon-clicked" />,
             }}
             mapRef={mapRef}

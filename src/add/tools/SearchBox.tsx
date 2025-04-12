@@ -197,7 +197,6 @@ const SearchBox: React.FC<SearchBoxProps> = ({
           place={{
             type: "current",
             coords: currentLocation,
-            name: "You are here! 😍",
             icon: <BsPersonRaisedHand className="custom-marker-icon-live" />,
           }}
           mapRef={map}
