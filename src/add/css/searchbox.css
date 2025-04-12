@@ -138,13 +138,7 @@
 @media (max-width: 600px) {
 
     .search-box {
-        position: absolute;
-        top: 15px;
-        left: 0;
-        right: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        display: none;
     }
 
     .search-box input[type="text"] {
