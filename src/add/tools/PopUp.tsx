@@ -5,29 +5,7 @@ import { FaSpinner } from "react-icons/fa";
 import { getCountryFlag } from "./Flags";
 import L from "leaflet";
 import ReactDOMServer from "react-dom/server";
-
-interface Place {
-  type: string;
-  coords: [number, number];
-  name: string;
-  imageLink?: string;
-  icon: React.ReactElement;
-  countryCode?: string;
-}
-
-interface CreatePopupProps {
-  place: Place;
-  mapRef: React.RefObject<any>;
-  handleCopyClick: () => void;
-  copySuccess: boolean;
-  onPlaceClick: (coords: [number, number]) => void;
-  locationDetails?: {
-    placeName: string;
-    city: string;
-    country: string;
-    countryCode: string;
-  };
-}
+import { Place, CreatePopupProps } from "../../types/types";
 
 const CustomMarker: React.FC<MarkerProps> = (props) => {
   return <Marker {...props} />;

@@ -15,22 +15,9 @@ import { useMediaQuery } from "@mui/material";
 import "../css/map.css";
 import "leaflet/dist/leaflet.css";
 
+import { MapProps } from "../../types/types";
+
 const mapKey = import.meta.env.VITE_MapKey;
-
-interface Place {
-  coords: [number, number];
-  type: string;
-  name: string;
-}
-
-interface MapProps {
-  visitedPlaces: Place[];
-  plannedPlaces: Place[];
-  searchCoords: [number, number] | null;
-  setSearchCoords: React.Dispatch<
-    React.SetStateAction<[number, number] | null>
-  >;
-}
 
 const Map: React.FC<MapProps> = ({
   visitedPlaces,
@@ -185,7 +172,7 @@ const Map: React.FC<MapProps> = ({
             place={{
               type: "searched",
               coords: searchCoords,
-              name: locationDetails.placeName,
+              name: "Searched Location 📍",
               icon: (
                 <FaSearchLocation className="custom-marker-icon-searched" />
               ),

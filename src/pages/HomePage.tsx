@@ -1,23 +1,12 @@
 import Map from "../add/tools/Map";
 import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
-import { BsFullscreen } from "react-icons/bs";
-import L from "leaflet";
-import { Place } from "../types/types";
+import { RiResetLeftFill } from "react-icons/ri";
+import { Place, PlaceData } from "../types/types";
 import "../add/css/home.css";
 
-interface PlaceData {
-  Name: string;
-  Coords?: string;
-  "Image Links"?: string;
-}
-
-const createCustomIcon = (type: "visited" | "planned"): L.DivIcon => {
-  return L.divIcon({
-    className: `${type}-icon`,
-    html: `<div class="${type}-icon"></div>`,
-    iconSize: [20, 20],
-  });
+const createCustomIcon = (type: "visited" | "planned"): React.ReactElement => {
+  return <div className={`${type}-icon`} />;
 };
 
 const HomePage = () => {
@@ -79,7 +68,7 @@ const HomePage = () => {
       <h1 className="map-home-title">
         Travel Map 🗺️{" "}
         <div className="map-home-reset-view-button" onClick={resetView}>
-          <BsFullscreen />
+          <RiResetLeftFill />
         </div>
       </h1>
       <Map
