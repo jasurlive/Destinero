@@ -1,9 +1,12 @@
 import Map from "../add/tools/Map";
 import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
-import { RiResetLeftFill } from "react-icons/ri";
+import LockOverlay from "../add/tools/Lock";
 import { Place, PlaceData } from "../types/types";
 import "../add/css/home.css";
+
+import { FaLock, FaLockOpen } from "react-icons/fa";
+import { RiResetLeftFill } from "react-icons/ri";
 
 const createCustomIcon = (type: "visited" | "planned"): React.ReactElement => {
   return <div className={`${type}-icon`} />;
@@ -15,6 +18,7 @@ const HomePage = () => {
   const [searchCoords, setSearchCoords] = useState<[number, number] | null>(
     null
   );
+  const [locked, setLocked] = useState(true);
 
   const fetchExcelData = async () => {
     try {
@@ -66,17 +70,37 @@ const HomePage = () => {
   return (
     <div>
       <h1 className="map-home-title">
-        Travel Map 🗺️{" "}
-        <div className="map-home-reset-view-button" onClick={resetView}>
-          <RiResetLeftFill />
+        <div className="map-home-title-btn-row">
+          <button
+            className="map-home-reset-view-button"
+            onClick={() => setLocked(!locked)}
+            title={locked ? "Unlock map" : "Lock map"}
+          >
+            {locked ? <FaLock /> : <FaLockOpen />}
+          </button>
+        </div>
+        🚩Travel Map 🗺️
+        <div className="map-home-title-btn-row">
+          <button
+            className="map-home-reset-view-button"
+            onClick={resetView}
+            title="Reset view"
+          >
+            <RiResetLeftFill />
+          </button>
         </div>
       </h1>
-      <Map
-        visitedPlaces={visitedPlaces}
-        plannedPlaces={plannedPlaces}
-        searchCoords={searchCoords}
-        setSearchCoords={setSearchCoords}
-      />
+      <LockOverlay locked={locked}>
+        {(locked: boolean) => (
+          <Map
+            visitedPlaces={visitedPlaces}
+            plannedPlaces={plannedPlaces}
+            searchCoords={searchCoords}
+            setSearchCoords={setSearchCoords}
+            locked={locked}
+          />
+        )}
+      </LockOverlay>
     </div>
   );
 };

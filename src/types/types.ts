@@ -34,6 +34,7 @@ export interface MapProps {
   setSearchCoords: React.Dispatch<
     React.SetStateAction<[number, number] | null>
   >;
+  locked?: boolean;
 }
 
 export interface SearchBoxProps {

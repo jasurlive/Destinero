@@ -1,29 +1,27 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
-
 import { FaSearchLocation } from "react-icons/fa";
 import { PiFlagPennantFill } from "react-icons/pi";
 import { BiSolidPlaneAlt } from "react-icons/bi";
 import { BsFillPinFill } from "react-icons/bs";
-
+import { useMediaQuery } from "@mui/material";
+import { MapProps } from "../../types/types";
 import SearchBox from "./SearchBox";
 import MapEvents from "./MapEvents";
 import CreatePopup from "./PopUp";
 import { zoomToLocation } from "./Zoomin";
-import { useMediaQuery } from "@mui/material";
 
 import "../css/map.css";
 import "leaflet/dist/leaflet.css";
 
-import { MapProps } from "../../types/types";
-
 const mapKey = import.meta.env.VITE_MapKey;
 
-const Map: React.FC<MapProps> = ({
+const Map: React.FC<MapProps & { locked: boolean }> = ({
   visitedPlaces,
   plannedPlaces,
   searchCoords,
   setSearchCoords,
+  locked,
 }) => {
   const [copySuccess, setCopySuccess] = useState(false);
   const mapRef = useRef<L.Map | null>(null);
@@ -56,20 +54,6 @@ const Map: React.FC<MapProps> = ({
       setClickedLocationDetails(details)
     );
   }, []);
-
-  useEffect(() => {
-    const map = mapRef.current;
-    if (map) {
-      map.on("click", (e: L.LeafletMouseEvent) => {
-        handleMapClickLocal([e.latlng.lat, e.latlng.lng]);
-      });
-    }
-    return () => {
-      if (map) {
-        map.off("click");
-      }
-    };
-  }, [handleMapClickLocal]);
 
   const handleCopyClick = useCallback(() => {
     setCopySuccess(true);
@@ -126,6 +110,25 @@ const Map: React.FC<MapProps> = ({
 
   return (
     <div className="map-container">
+      {(() => {
+        useEffect(() => {
+          const map = mapRef.current;
+          if (map) {
+            map.off("click");
+            if (!locked) {
+              map.on("click", (e: L.LeafletMouseEvent) => {
+                handleMapClickLocal([e.latlng.lat, e.latlng.lng]);
+              });
+            }
+          }
+          return () => {
+            if (map) {
+              map.off("click");
+            }
+          };
+        }, [handleMapClickLocal, locked]);
+        return null;
+      })()}
       <MapContainer
         center={adjustedCenter}
         zoom={defaultZoom}
@@ -142,9 +145,12 @@ const Map: React.FC<MapProps> = ({
         maxBoundsViscosity={1.0}
         fadeAnimation={true}
         attributionControl={false}
-        keyboard={true}
-        touchZoom={true}
-        scrollWheelZoom={true}
+        keyboard={!locked}
+        touchZoom={!locked}
+        scrollWheelZoom={!locked}
+        dragging={!locked}
+        doubleClickZoom={!locked}
+        boxZoom={!locked}
         minZoom={3}
       >
         <TileLayer
@@ -156,13 +162,13 @@ const Map: React.FC<MapProps> = ({
           handleCopyClick={handleCopyClick}
           copySuccess={copySuccess}
         />
-        <MapEvents onClick={handleMapClickLocal} />
+        {!locked && <MapEvents onClick={handleMapClickLocal} />}
         {places.map((place) => (
           <CreatePopup
             key={`${place.type}-${place.coords.join(",")}`}
             place={place}
             mapRef={mapRef}
-            handleCopyClick={() => copyCoordsToClipboard(place.coords)} // Pass handleCopy with place.coords
+            handleCopyClick={() => copyCoordsToClipboard(place.coords)}
             copySuccess={copySuccess}
             onPlaceClick={handlePlaceClick}
           />
@@ -177,7 +183,7 @@ const Map: React.FC<MapProps> = ({
               ),
             }}
             mapRef={mapRef}
-            handleCopyClick={() => copyCoordsToClipboard(searchCoords)} // Pass handleCopy with searchCoords
+            handleCopyClick={() => copyCoordsToClipboard(searchCoords)}
             copySuccess={copySuccess}
             onPlaceClick={handlePlaceClick}
             locationDetails={locationDetails}
@@ -191,7 +197,7 @@ const Map: React.FC<MapProps> = ({
               icon: <BsFillPinFill className="custom-marker-icon-clicked" />,
             }}
             mapRef={mapRef}
-            handleCopyClick={() => copyCoordsToClipboard(popupCoords)} // Pass handleCopy with popupCoords
+            handleCopyClick={() => copyCoordsToClipboard(popupCoords)}
             copySuccess={copySuccess}
             onPlaceClick={handlePlaceClick}
             locationDetails={clickedLocationDetails}
