@@ -16,12 +16,12 @@ import "leaflet/dist/leaflet.css";
 
 const mapKey = import.meta.env.VITE_MapKey;
 
-const Map: React.FC<MapProps & { locked: boolean }> = ({
+const Map: React.FC<MapProps & { locked?: boolean }> = ({
   visitedPlaces,
   plannedPlaces,
   searchCoords,
   setSearchCoords,
-  locked,
+  locked = true,
 }) => {
   const [copySuccess, setCopySuccess] = useState(false);
   const mapRef = useRef<L.Map | null>(null);
@@ -108,27 +108,40 @@ const Map: React.FC<MapProps & { locked: boolean }> = ({
     zoomToLocation(mapRef.current, coords);
   }, []);
 
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    // Always start locked on first mount
+    if (locked) {
+      map.dragging.disable();
+      map.scrollWheelZoom.disable();
+      map.doubleClickZoom.disable();
+      map.boxZoom.disable();
+      map.keyboard.disable();
+      map.touchZoom.disable();
+      map.off("click");
+    } else {
+      map.dragging.enable();
+      map.scrollWheelZoom.enable();
+      map.doubleClickZoom.enable();
+      map.boxZoom.enable();
+      map.keyboard.enable();
+      map.touchZoom.enable();
+      map.on("click", (e: L.LeafletMouseEvent) => {
+        handleMapClickLocal([e.latlng.lat, e.latlng.lng]);
+      });
+    }
+
+    return () => {
+      if (map) {
+        map.off("click");
+      }
+    };
+  }, [locked, handleMapClickLocal, mapRef.current]);
+
   return (
     <div className="map-container">
-      {(() => {
-        useEffect(() => {
-          const map = mapRef.current;
-          if (map) {
-            map.off("click");
-            if (!locked) {
-              map.on("click", (e: L.LeafletMouseEvent) => {
-                handleMapClickLocal([e.latlng.lat, e.latlng.lng]);
-              });
-            }
-          }
-          return () => {
-            if (map) {
-              map.off("click");
-            }
-          };
-        }, [handleMapClickLocal, locked]);
-        return null;
-      })()}
       <MapContainer
         center={adjustedCenter}
         zoom={defaultZoom}
@@ -142,15 +155,9 @@ const Map: React.FC<MapProps & { locked: boolean }> = ({
           [-85, -180],
           [85, 180],
         ]}
-        maxBoundsViscosity={1.0}
+        maxBoundsViscosity={0}
         fadeAnimation={true}
         attributionControl={false}
-        keyboard={!locked}
-        touchZoom={!locked}
-        scrollWheelZoom={!locked}
-        dragging={!locked}
-        doubleClickZoom={!locked}
-        boxZoom={!locked}
         minZoom={3}
       >
         <TileLayer
