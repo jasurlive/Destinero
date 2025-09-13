@@ -1,15 +1,17 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import { FaSearchLocation } from "react-icons/fa";
 import { PiFlagPennantFill } from "react-icons/pi";
 import { BiSolidPlaneAlt } from "react-icons/bi";
 import { ImHeartBroken } from "react-icons/im";
+import { MdLocationPin } from "react-icons/md";
 import { useMediaQuery } from "@mui/material";
 import { MapProps } from "../../types/interface";
 import SearchBox from "./SearchBox";
 import MapEvents from "./MapEvents";
 import CreatePopup from "./PopUp";
 import { zoomToLocation } from "./Zoomin";
+import { useCountryHighlights } from "./hooks/useCountryHighlights";
 
 import "../css/map.css";
 import "leaflet/dist/leaflet.css";
@@ -24,6 +26,7 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
   setSearchCoords,
   locked = true,
 }) => {
+  const geoData = useCountryHighlights();
   const [copySuccess, setCopySuccess] = useState(false);
   const mapRef = useRef<L.Map | null>(null);
   const isMobile = useMediaQuery("(max-width:600px)");
@@ -107,7 +110,7 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
       ...place,
       type: "highlighted",
       autoOpen: index === 0,
-      icon: <ImHeartBroken className="custom-marker-icon-highlighted" />, // use your own CSS class if you want
+      icon: <ImHeartBroken className="custom-marker-icon-highlighted" />,
     })),
   ];
 
@@ -170,6 +173,20 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
         <TileLayer
           url={`https://api.maptiler.com/maps/streets-v2/256/{z}/{x}/{y}.png?key=${mapKey}`}
         />
+
+        {geoData &&
+          geoData.map((countryGeo, idx) => (
+            <GeoJSON
+              key={idx}
+              data={countryGeo}
+              style={() => ({
+                fillColor: "rgba(108, 254, 154, 0.26)",
+                weight: 1,
+                color: "#0055bcff",
+                fillOpacity: 0.9,
+              })}
+            />
+          ))}
         <SearchBox
           map={mapRef.current}
           onSearch={setSearchCoords}
@@ -185,7 +202,7 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
             handleCopyClick={() => copyCoordsToClipboard(place.coords)}
             copySuccess={copySuccess}
             onPlaceClick={handlePlaceClick}
-            autoOpen={place.autoOpen || false} // ✅ make use of the flag
+            autoOpen={place.autoOpen || false}
           />
         ))}
         {searchCoords && (
@@ -209,7 +226,7 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
             place={{
               type: "clicked",
               coords: popupCoords,
-              icon: <ImHeartBroken className="custom-marker-icon-clicked" />,
+              icon: <MdLocationPin className="custom-marker-icon-clicked" />,
             }}
             mapRef={mapRef}
             handleCopyClick={() => copyCoordsToClipboard(popupCoords)}
