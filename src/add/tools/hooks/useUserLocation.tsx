@@ -1,19 +1,8 @@
 import { useState, useCallback } from "react";
-
-interface LocationDetails {
-  placeName: string;
-  city: string;
-  country: string;
-  countryCode: string;
-}
-
-interface UseUserLocationResult {
-  coords: [number, number] | null;
-  locationDetails: LocationDetails | null;
-  isFetching: boolean;
-  error: string | null;
-  getUserLocation: () => void;
-}
+import {
+  UseUserLocationResult,
+  LocationDetails,
+} from "../../../types/interface";
 
 export const useUserLocation = (): UseUserLocationResult => {
   const [coords, setCoords] = useState<[number, number] | null>(null);

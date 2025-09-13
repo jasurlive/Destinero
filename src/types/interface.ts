@@ -49,3 +49,34 @@ export interface SearchBoxProps {
 export interface MapEventsProps {
   onClick: (coords: [number, number]) => void;
 }
+
+export interface UseSearchResult {
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
+  search: () => void;
+  resultCoords: [number, number] | null;
+  isSearching: boolean;
+  error: string | null;
+  success: string | null;
+}
+
+export interface UsePopupOptionsProps {
+  autoOpen?: boolean;
+  coords?: [number, number];
+  handleCopyClick?: () => void;
+}
+
+export interface LocationDetails {
+  placeName: string;
+  city: string;
+  country: string;
+  countryCode: string;
+}
+
+export interface UseUserLocationResult {
+  coords: [number, number] | null;
+  locationDetails: LocationDetails | null;
+  isFetching: boolean;
+  error: string | null;
+  getUserLocation: () => void;
+}

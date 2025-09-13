@@ -1,15 +1,6 @@
 import { useState, useCallback } from "react";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
-
-interface UseSearchResult {
-  searchTerm: string;
-  setSearchTerm: (term: string) => void;
-  search: () => void;
-  resultCoords: [number, number] | null;
-  isSearching: boolean;
-  error: string | null;
-  success: string | null;
-}
+import { UseSearchResult } from "../../../types/interface";
 
 export const useSearch = (
   onSearchCallback: (coords: [number, number]) => void

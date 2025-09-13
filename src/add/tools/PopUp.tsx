@@ -1,34 +1,28 @@
-import { useState, useEffect, useRef } from "react";
-import ReactDOMServer from "react-dom/server";
-
-import L from "leaflet";
-import type { Marker as LeafletMarker } from "leaflet";
 import { Marker, Popup } from "react-leaflet";
-
+import L from "leaflet";
+import ReactDOMServer from "react-dom/server";
 import { FaSpinner } from "react-icons/fa";
-
-import { getCountryFlag } from "./components/getCountryFlags";
-
+import { usePopupOptions } from "./hooks/usePopUpOptions";
 import { CreatePopupProps } from "../../types/interface";
+import { getCountryFlag } from "./components/getCountryFlags";
 import "../css/popup.css";
 
 const CreatePopup: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
   place,
-  handleCopyClick,
-  copySuccess,
   locationDetails,
+  handleCopyClick,
   autoOpen = false,
 }) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const markerRef = useRef<LeafletMarker>(null);
+  const {
+    markerRef,
+    copySuccess,
+    copyToClipboard,
+    imageLoaded,
+    handleImageLoad,
+  } = usePopupOptions({ autoOpen, handleCopyClick });
 
-  const handleImageLoad = () => setImageLoaded(true);
-
-  const handleCopy = () => {
-    const formattedCoords = `[${place.coords[0]}, ${place.coords[1]}]`;
-    navigator.clipboard.writeText(formattedCoords);
-    handleCopyClick();
-  };
+  const handleCopy = () =>
+    copyToClipboard(`[${place.coords[0]}, ${place.coords[1]}]`);
 
   const getTitle = () => {
     switch (place.type) {
@@ -46,13 +40,6 @@ const CreatePopup: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
         return "Location";
     }
   };
-
-  // Open popup automatically if autoOpen is true
-  useEffect(() => {
-    if (autoOpen && markerRef.current) {
-      setTimeout(() => markerRef.current?.openPopup(), 0);
-    }
-  }, [autoOpen]);
 
   return (
     <Marker
