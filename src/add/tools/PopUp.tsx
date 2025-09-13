@@ -1,23 +1,22 @@
-import { useState } from "react";
-import { Marker, Popup, MarkerProps } from "react-leaflet";
+import { useState, useEffect, useRef } from "react";
+import { Marker, Popup } from "react-leaflet";
+import type { Marker as LeafletMarker } from "leaflet"; // ✅ import Leaflet's Marker type
 import "../css/popup.css";
 import { FaSpinner } from "react-icons/fa";
 import { getCountryFlag } from "./Flags";
 import L from "leaflet";
 import ReactDOMServer from "react-dom/server";
-import { CreatePopupProps } from "../../types/types";
+import { CreatePopupProps } from "../../types/interface";
 
-const CustomMarker: React.FC<MarkerProps> = (props) => {
-  return <Marker {...props} />;
-};
-
-const CreatePopup: React.FC<CreatePopupProps> = ({
+const CreatePopup: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
   place,
   handleCopyClick,
   copySuccess,
   locationDetails,
+  autoOpen = false,
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const markerRef = useRef<LeafletMarker>(null); // ✅ ref is typed correctly
 
   const handleImageLoad = () => {
     setImageLoaded(true);
@@ -39,20 +38,29 @@ const CreatePopup: React.FC<CreatePopupProps> = ({
         return "Clicked Location 📌";
       case "visited":
       case "planned":
+      case "highlighted":
         return place.name;
       default:
         return "Location";
     }
   };
 
+  // ✅ Open popup automatically if requested
+  useEffect(() => {
+    if (autoOpen && markerRef.current) {
+      markerRef.current.openPopup();
+    }
+  }, [autoOpen]);
+
   return (
-    <CustomMarker
+    <Marker
       key={`${place.type}-${place.coords.join(",")}`}
       position={place.coords}
       icon={L.divIcon({
         html: ReactDOMServer.renderToString(place.icon),
         className: "custom-icon",
       })}
+      ref={markerRef} // ✅ now correctly typed
     >
       <Popup>
         <div className="pop-up-container">
@@ -87,7 +95,7 @@ const CreatePopup: React.FC<CreatePopupProps> = ({
           )}
         </div>
       </Popup>
-    </CustomMarker>
+    </Marker>
   );
 };
 

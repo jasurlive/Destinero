@@ -3,9 +3,9 @@ import { MapContainer, TileLayer } from "react-leaflet";
 import { FaSearchLocation } from "react-icons/fa";
 import { PiFlagPennantFill } from "react-icons/pi";
 import { BiSolidPlaneAlt } from "react-icons/bi";
-import { BsFillPinFill } from "react-icons/bs";
+import { ImHeartBroken } from "react-icons/im";
 import { useMediaQuery } from "@mui/material";
-import { MapProps } from "../../types/types";
+import { MapProps } from "../../types/interface";
 import SearchBox from "./SearchBox";
 import MapEvents from "./MapEvents";
 import CreatePopup from "./PopUp";
@@ -19,6 +19,7 @@ const mapKey = import.meta.env.VITE_MapKey;
 const Map: React.FC<MapProps & { locked?: boolean }> = ({
   visitedPlaces,
   plannedPlaces,
+  highlightedPlaces = [],
   searchCoords,
   setSearchCoords,
   locked = true,
@@ -101,6 +102,12 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
       ...place,
       type: "planned",
       icon: <BiSolidPlaneAlt className="custom-marker-icon-planned" />,
+    })),
+    ...highlightedPlaces.map((place) => ({
+      ...place,
+      type: "highlighted",
+      autoOpen: true, // ✅ important flag
+      icon: <ImHeartBroken className="custom-marker-icon-highlighted" />, // use your own CSS class if you want
     })),
   ];
 
@@ -201,7 +208,7 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
             place={{
               type: "clicked",
               coords: popupCoords,
-              icon: <BsFillPinFill className="custom-marker-icon-clicked" />,
+              icon: <ImHeartBroken className="custom-marker-icon-clicked" />,
             }}
             mapRef={mapRef}
             handleCopyClick={() => copyCoordsToClipboard(popupCoords)}
