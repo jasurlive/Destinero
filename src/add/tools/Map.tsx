@@ -103,10 +103,10 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
       type: "planned",
       icon: <BiSolidPlaneAlt className="custom-marker-icon-planned" />,
     })),
-    ...highlightedPlaces.map((place) => ({
+    ...highlightedPlaces.map((place, index) => ({
       ...place,
       type: "highlighted",
-      autoOpen: true, // ✅ important flag
+      autoOpen: index === 0,
       icon: <ImHeartBroken className="custom-marker-icon-highlighted" />, // use your own CSS class if you want
     })),
   ];
@@ -185,6 +185,7 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
             handleCopyClick={() => copyCoordsToClipboard(place.coords)}
             copySuccess={copySuccess}
             onPlaceClick={handlePlaceClick}
+            autoOpen={place.autoOpen || false} // ✅ make use of the flag
           />
         ))}
         {searchCoords && (
