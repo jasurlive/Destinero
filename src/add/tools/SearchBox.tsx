@@ -6,7 +6,7 @@ import { MdOutlineMyLocation } from "react-icons/md";
 import { BsPersonRaisedHand } from "react-icons/bs";
 import "../css/searchbox.css";
 import CreatePopup from "./PopUp";
-import { SearchBoxProps } from "../../types/types";
+import { SearchBoxProps } from "../../types/interface";
 
 const SearchBox: React.FC<SearchBoxProps> = ({
   map,

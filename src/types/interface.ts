@@ -30,6 +30,7 @@ export interface PlaceData {
 export interface MapProps {
   visitedPlaces: Place[];
   plannedPlaces: Place[];
+  highlightedPlaces: Place[];
   searchCoords: [number, number] | null;
   setSearchCoords: React.Dispatch<
     React.SetStateAction<[number, number] | null>

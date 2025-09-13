@@ -1,5 +1,5 @@
 import { useMapEvents } from "react-leaflet";
-import { MapEventsProps } from "../../types/types";
+import { MapEventsProps } from "../../types/interface";
 
 const MapEvents = ({ onClick }: MapEventsProps) => {
   useMapEvents({
