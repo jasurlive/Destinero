@@ -41,9 +41,9 @@ export interface MapProps {
 
 export interface SearchBoxProps {
   map: any;
-  handleCopyClick: () => void;
   copySuccess: boolean;
   onSearch: (coords: [number, number]) => void;
+  handleCopyClick: (value: [number, number]) => void;
 }
 
 export interface MapEventsProps {

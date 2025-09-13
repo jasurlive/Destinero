@@ -63,7 +63,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
       navigator.clipboard.writeText(
         `[${currentLocation[0]}, ${currentLocation[1]}]`
       );
-      handleCopyClick();
+      handleCopyClick(currentLocation);
     }
   }, [currentLocation, handleCopyClick]);
 

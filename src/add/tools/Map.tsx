@@ -10,8 +10,12 @@ import { MapProps } from "../../types/interface";
 import SearchBox from "./SearchBox";
 import MapEvents from "./components/MapEvents";
 import CreatePopup from "./PopUp";
+import PlaceMarkers from "./components/PlaceMarkers";
+import PopupHandler from "./components/PopupHandler";
+
 import { useZoom } from "./hooks/useZoom";
 import { useCountryHighlights } from "./hooks/useCountryHighlights";
+import { useCopyToClipboard } from "./hooks/useCopyToClipboard";
 
 import "../css/map.css";
 import "leaflet/dist/leaflet.css";
@@ -29,7 +33,6 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
   const mapRef = useRef<L.Map | null>(null);
   const { zoomToLocation } = useZoom(mapRef.current);
   const geoData = useCountryHighlights();
-  const [copySuccess, setCopySuccess] = useState(false);
   const isMobile = useMediaQuery("(max-width:600px)");
   const defaultCenter: [number, number] = isMobile
     ? [41.505, -0.09]
@@ -60,18 +63,7 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
     );
   }, []);
 
-  const handleCopyClick = useCallback(() => {
-    setCopySuccess(true);
-    setTimeout(() => setCopySuccess(false), 1500);
-  }, []);
-
-  const copyCoordsToClipboard = useCallback(
-    (coords: [number, number]) => {
-      navigator.clipboard.writeText(`[${coords[0]}, ${coords[1]}]`);
-      handleCopyClick();
-    },
-    [handleCopyClick]
-  );
+  const { copyToClipboard, copySuccess } = useCopyToClipboard();
 
   useEffect(() => {
     if (searchCoords) {
@@ -194,51 +186,30 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
         <SearchBox
           map={mapRef.current}
           onSearch={setSearchCoords}
-          handleCopyClick={handleCopyClick}
+          handleCopyClick={copyToClipboard}
           copySuccess={copySuccess}
         />
         {!locked && <MapEvents onClick={handleMapClickLocal} />}
-        {places.map((place) => (
-          <CreatePopup
-            key={`${place.type}-${place.coords.join(",")}`}
-            place={place}
-            mapRef={mapRef}
-            handleCopyClick={() => copyCoordsToClipboard(place.coords)}
-            copySuccess={copySuccess}
-            onPlaceClick={handlePlaceClick}
-            autoOpen={place.autoOpen || false}
-          />
-        ))}
-        {searchCoords && (
-          <CreatePopup
-            place={{
-              type: "searched",
-              coords: searchCoords,
-              icon: (
-                <FaSearchLocation className="custom-marker-icon-searched" />
-              ),
-            }}
-            mapRef={mapRef}
-            handleCopyClick={() => copyCoordsToClipboard(searchCoords)}
-            copySuccess={copySuccess}
-            onPlaceClick={handlePlaceClick}
-            locationDetails={locationDetails}
-          />
-        )}
-        {popupCoords && (
-          <CreatePopup
-            place={{
-              type: "clicked",
-              coords: popupCoords,
-              icon: <MdLocationPin className="custom-marker-icon-clicked" />,
-            }}
-            mapRef={mapRef}
-            handleCopyClick={() => copyCoordsToClipboard(popupCoords)}
-            copySuccess={copySuccess}
-            onPlaceClick={handlePlaceClick}
-            locationDetails={clickedLocationDetails}
-          />
-        )}
+
+        <PlaceMarkers
+          visitedPlaces={visitedPlaces}
+          plannedPlaces={plannedPlaces}
+          highlightedPlaces={highlightedPlaces}
+          mapRef={mapRef}
+          onPlaceClick={handlePlaceClick}
+          copyCoordsToClipboard={copyToClipboard}
+          copySuccess={copySuccess}
+        />
+
+        <PopupHandler
+          popupCoords={popupCoords}
+          searchCoords={searchCoords}
+          locationDetails={locationDetails}
+          clickedLocationDetails={clickedLocationDetails}
+          mapRef={mapRef}
+          copyCoordsToClipboard={copyToClipboard}
+          copySuccess={copySuccess}
+        />
       </MapContainer>
     </div>
   );
