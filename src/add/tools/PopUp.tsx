@@ -1,12 +1,16 @@
 import { useState, useEffect, useRef } from "react";
-import { Marker, Popup } from "react-leaflet";
-import type { Marker as LeafletMarker } from "leaflet";
-import "../css/popup.css";
-import { FaSpinner } from "react-icons/fa";
-import { getCountryFlag } from "./components/getCountryFlags";
-import L from "leaflet";
 import ReactDOMServer from "react-dom/server";
+
+import L from "leaflet";
+import type { Marker as LeafletMarker } from "leaflet";
+import { Marker, Popup } from "react-leaflet";
+
+import { FaSpinner } from "react-icons/fa";
+
+import { getCountryFlag } from "./components/getCountryFlags";
+
 import { CreatePopupProps } from "../../types/interface";
+import "../css/popup.css";
 
 const CreatePopup: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
   place,
@@ -18,9 +22,7 @@ const CreatePopup: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
   const [imageLoaded, setImageLoaded] = useState(false);
   const markerRef = useRef<LeafletMarker>(null);
 
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
+  const handleImageLoad = () => setImageLoaded(true);
 
   const handleCopy = () => {
     const formattedCoords = `[${place.coords[0]}, ${place.coords[1]}]`;
@@ -45,12 +47,10 @@ const CreatePopup: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
     }
   };
 
-  // open popup automatically
+  // Open popup automatically if autoOpen is true
   useEffect(() => {
     if (autoOpen && markerRef.current) {
-      setTimeout(() => {
-        markerRef.current?.openPopup();
-      }, 0);
+      setTimeout(() => markerRef.current?.openPopup(), 0);
     }
   }, [autoOpen]);
 
@@ -67,6 +67,7 @@ const CreatePopup: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
       <Popup>
         <div className="pop-up-container">
           <h2 className="place-name">{getTitle()}</h2>
+
           {locationDetails && (
             <>
               <p>{locationDetails.placeName}</p>
@@ -75,7 +76,9 @@ const CreatePopup: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
                 {locationDetails.country?.trim() || "Unknown country"}{" "}
                 {getCountryFlag(locationDetails.countryCode || "")}
               </p>
-              <p>{`Latitude: ${place.coords[0]}, Longitude: ${place.coords[1]}`}</p>
+              <p>
+                Latitude: {place.coords[0]}, Longitude: {place.coords[1]}
+              </p>
               <button
                 className={`copy-button ${copySuccess ? "copied" : ""}`}
                 onClick={handleCopy}
@@ -84,6 +87,7 @@ const CreatePopup: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
               </button>
             </>
           )}
+
           {place.imageLink && (
             <>
               {!imageLoaded && <FaSpinner className="spinner-popup" />}

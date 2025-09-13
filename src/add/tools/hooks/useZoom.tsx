@@ -2,14 +2,11 @@ import { useCallback } from "react";
 import L from "leaflet";
 
 export const useZoom = (map: L.Map | null) => {
-  /**
-   * Zooms the map to given coordinates with optional zoom level.
-   */
   const zoomToLocation = useCallback(
     (
       coords: [number, number],
       zoomLevel: number = 15,
-      onZoomEnd?: () => void // optional callback after zoom completes
+      onZoomEnd?: () => void
     ) => {
       if (!map) {
         console.error("Map object is not defined");
@@ -38,7 +35,7 @@ export const useZoom = (map: L.Map | null) => {
       });
 
       if (onZoomEnd) {
-        map.once("moveend", onZoomEnd); // call callback when animation ends
+        map.once("moveend", onZoomEnd);
       }
     },
     [map]

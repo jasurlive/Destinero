@@ -8,7 +8,7 @@ import { MdLocationPin } from "react-icons/md";
 import { useMediaQuery } from "@mui/material";
 import { MapProps } from "../../types/interface";
 import SearchBox from "./SearchBox";
-import MapEvents from "./MapEvents";
+import MapEvents from "./components/MapEvents";
 import CreatePopup from "./PopUp";
 import { useZoom } from "./hooks/useZoom";
 import { useCountryHighlights } from "./hooks/useCountryHighlights";
