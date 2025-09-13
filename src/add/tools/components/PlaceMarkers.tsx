@@ -1,20 +1,21 @@
 // PlaceMarkers.tsx
-import React from "react";
+import React, { useCallback } from "react";
 import CreatePopup from "../PopUp";
 import { PiFlagPennantFill } from "react-icons/pi";
 import { BiSolidPlaneAlt } from "react-icons/bi";
 import { ImHeartBroken } from "react-icons/im";
 import { PlaceMarkersProps } from "../../../types/interface";
+import { useZoom } from "../hooks/useZoom";
 
 const PlaceMarkers: React.FC<PlaceMarkersProps> = ({
   visitedPlaces,
   plannedPlaces,
   highlightedPlaces = [],
   mapRef,
-  onPlaceClick,
   copyCoordsToClipboard,
   copySuccess,
 }) => {
+  const { zoomToLocation } = useZoom(mapRef.current);
   const places = [
     ...visitedPlaces.map((place) => ({
       ...place,
@@ -34,6 +35,13 @@ const PlaceMarkers: React.FC<PlaceMarkersProps> = ({
     })),
   ];
 
+  const handlePlaceClick = useCallback(
+    (coords: [number, number]) => {
+      zoomToLocation(coords);
+    },
+    [zoomToLocation]
+  );
+
   return (
     <>
       {places.map((place) => (
@@ -43,7 +51,6 @@ const PlaceMarkers: React.FC<PlaceMarkersProps> = ({
           mapRef={mapRef}
           handleCopyClick={() => copyCoordsToClipboard(place.coords)}
           copySuccess={copySuccess}
-          onPlaceClick={onPlaceClick}
           autoOpen={place.autoOpen || false}
         />
       ))}

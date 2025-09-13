@@ -13,7 +13,6 @@ export interface CreatePopupProps {
   mapRef: React.RefObject<any>;
   handleCopyClick: () => void;
   copySuccess: boolean;
-  onPlaceClick: (coords: [number, number]) => void;
   locationDetails?: {
     placeName: string;
     city: string;
@@ -44,7 +43,6 @@ export interface PlaceMarkersProps {
   plannedPlaces: MapProps["plannedPlaces"];
   highlightedPlaces?: MapProps["highlightedPlaces"];
   mapRef: React.RefObject<L.Map | null>;
-  onPlaceClick: (coords: [number, number]) => void;
   copyCoordsToClipboard: (coords: [number, number]) => void;
   copySuccess: boolean;
 }

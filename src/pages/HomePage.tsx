@@ -6,7 +6,7 @@ import { usePlaces } from "../add/tools/hooks/usePlaces"; //custom hook to fetch
 import { FaLock, FaLockOpen } from "react-icons/fa";
 import { RiResetLeftFill } from "react-icons/ri";
 
-import LockOverlay from "../add/tools/components/Lock"; //for locking the map interactions on scroll
+import LockOverlay from "../add/tools/components/LockOverlay"; //for locking the map interactions on scroll
 
 import "../add/css/home.css";
 
@@ -44,18 +44,14 @@ const HomePage = () => {
           </button>
         </div>
       </h1>
-      <LockOverlay locked={locked}>
-        {(locked: boolean) => (
-          <Map
-            visitedPlaces={visitedPlaces} //passes visited places
-            plannedPlaces={plannedPlaces} //passes planned places
-            highlightedPlaces={highlightedPlaces} // pass highlighted places
-            searchCoords={searchCoords} // finds a place by search coordinates
-            setSearchCoords={setSearchCoords} //manages search coordinates data
-            locked={locked} // locks the map when true
-          />
-        )}
-      </LockOverlay>
+      <Map
+        visitedPlaces={visitedPlaces} //passes visited places
+        plannedPlaces={plannedPlaces} //passes planned places
+        highlightedPlaces={highlightedPlaces} // pass highlighted places
+        searchCoords={searchCoords} // finds a place by search coordinates
+        setSearchCoords={setSearchCoords} //manages search coordinates data
+        locked={locked} // locks the map when true
+      />
     </div>
   );
 };

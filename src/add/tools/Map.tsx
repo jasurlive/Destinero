@@ -11,9 +11,9 @@ import MapEvents from "./components/MapEvents";
 import PlaceMarkers from "./components/PlaceMarkers";
 import PopupHandler from "./components/PopupHandler";
 import GeoHighlights from "./components/GeoHighlights";
+import LockOverlay from "./components/LockOverlay";
 
 import { useZoom } from "./hooks/useZoom";
-import { useGeoHighlights } from "./hooks/useGeoHighlights";
 import { useCopyToClipboard } from "./hooks/useCopyToClipboard";
 import { MapProps } from "../../types/interface";
 
@@ -32,7 +32,6 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
 }) => {
   const mapRef = useRef<L.Map | null>(null);
   const { zoomToLocation } = useZoom(mapRef.current);
-  const geoData = useGeoHighlights();
   const isMobile = useMediaQuery("(max-width:600px)");
   const defaultCenter: [number, number] = isMobile
     ? [41.505, -0.09]
@@ -88,45 +87,6 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
     };
   };
 
-  const handlePlaceClick = useCallback(
-    (coords: [number, number]) => {
-      zoomToLocation(coords);
-    },
-    [zoomToLocation]
-  );
-
-  useEffect(() => {
-    const map = mapRef.current;
-    if (!map) return;
-
-    // Always start locked on first mount
-    if (locked) {
-      map.dragging.disable();
-      map.scrollWheelZoom.disable();
-      map.doubleClickZoom.disable();
-      map.boxZoom.disable();
-      map.keyboard.disable();
-      map.touchZoom.disable();
-      map.off("click");
-    } else {
-      map.dragging.enable();
-      map.scrollWheelZoom.enable();
-      map.doubleClickZoom.enable();
-      map.boxZoom.enable();
-      map.keyboard.enable();
-      map.touchZoom.enable();
-      map.on("click", (e: L.LeafletMouseEvent) => {
-        handleMapClickLocal([e.latlng.lat, e.latlng.lng]);
-      });
-    }
-
-    return () => {
-      if (map) {
-        map.off("click");
-      }
-    };
-  }, [locked, handleMapClickLocal, mapRef.current]);
-
   return (
     <div className="map-container">
       <MapContainer
@@ -152,6 +112,7 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
         />
 
         <GeoHighlights />
+        <LockOverlay locked={locked} mapRef={mapRef} />
 
         <SearchBox
           map={mapRef.current}
@@ -166,7 +127,6 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
           plannedPlaces={plannedPlaces}
           highlightedPlaces={highlightedPlaces}
           mapRef={mapRef}
-          onPlaceClick={handlePlaceClick}
           copyCoordsToClipboard={copyToClipboard}
           copySuccess={copySuccess}
         />
