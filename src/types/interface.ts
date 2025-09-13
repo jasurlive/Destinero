@@ -5,6 +5,7 @@ export interface Place {
   type: string;
   icon: React.ReactElement;
   countryCode?: string;
+  autoOpen?: boolean;
 }
 
 export interface CreatePopupProps {

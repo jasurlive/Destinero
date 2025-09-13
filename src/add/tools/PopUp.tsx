@@ -48,7 +48,9 @@ const CreatePopup: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
   // ✅ Open popup automatically if requested
   useEffect(() => {
     if (autoOpen && markerRef.current) {
-      markerRef.current.openPopup();
+      setTimeout(() => {
+        markerRef.current?.openPopup();
+      }, 0);
     }
   }, [autoOpen]);
 
