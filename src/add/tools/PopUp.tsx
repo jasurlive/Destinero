@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Marker, Popup } from "react-leaflet";
-import type { Marker as LeafletMarker } from "leaflet"; // ✅ import Leaflet's Marker type
+import type { Marker as LeafletMarker } from "leaflet";
 import "../css/popup.css";
 import { FaSpinner } from "react-icons/fa";
 import { getCountryFlag } from "./Flags";
@@ -16,7 +16,7 @@ const CreatePopup: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
   autoOpen = false,
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const markerRef = useRef<LeafletMarker>(null); // ✅ ref is typed correctly
+  const markerRef = useRef<LeafletMarker>(null);
 
   const handleImageLoad = () => {
     setImageLoaded(true);
@@ -45,7 +45,7 @@ const CreatePopup: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
     }
   };
 
-  // ✅ Open popup automatically if requested
+  // open popup automatically
   useEffect(() => {
     if (autoOpen && markerRef.current) {
       setTimeout(() => {
@@ -62,7 +62,7 @@ const CreatePopup: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
         html: ReactDOMServer.renderToString(place.icon),
         className: "custom-icon",
       })}
-      ref={markerRef} // ✅ now correctly typed
+      ref={markerRef}
     >
       <Popup>
         <div className="pop-up-container">
