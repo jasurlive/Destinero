@@ -1,21 +1,21 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
-import { FaSearchLocation } from "react-icons/fa";
+import { MapContainer, TileLayer } from "react-leaflet";
+
 import { PiFlagPennantFill } from "react-icons/pi";
 import { BiSolidPlaneAlt } from "react-icons/bi";
 import { ImHeartBroken } from "react-icons/im";
-import { MdLocationPin } from "react-icons/md";
 import { useMediaQuery } from "@mui/material";
-import { MapProps } from "../../types/interface";
+
 import SearchBox from "./SearchBox";
 import MapEvents from "./components/MapEvents";
-import CreatePopup from "./PopUp";
 import PlaceMarkers from "./components/PlaceMarkers";
 import PopupHandler from "./components/PopupHandler";
+import GeoHighlights from "./components/GeoHighlights";
 
 import { useZoom } from "./hooks/useZoom";
-import { useCountryHighlights } from "./hooks/useCountryHighlights";
+import { useGeoHighlights } from "./hooks/useGeoHighlights";
 import { useCopyToClipboard } from "./hooks/useCopyToClipboard";
+import { MapProps } from "../../types/interface";
 
 import "../css/map.css";
 import "leaflet/dist/leaflet.css";
@@ -32,7 +32,7 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
 }) => {
   const mapRef = useRef<L.Map | null>(null);
   const { zoomToLocation } = useZoom(mapRef.current);
-  const geoData = useCountryHighlights();
+  const geoData = useGeoHighlights();
   const isMobile = useMediaQuery("(max-width:600px)");
   const defaultCenter: [number, number] = isMobile
     ? [41.505, -0.09]
@@ -87,25 +87,6 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
       countryCode: data.address.country_code.toUpperCase(),
     };
   };
-
-  const places = [
-    ...visitedPlaces.map((place) => ({
-      ...place,
-      type: "visited",
-      icon: <PiFlagPennantFill className="custom-marker-icon-visited" />,
-    })),
-    ...plannedPlaces.map((place) => ({
-      ...place,
-      type: "planned",
-      icon: <BiSolidPlaneAlt className="custom-marker-icon-planned" />,
-    })),
-    ...highlightedPlaces.map((place, index) => ({
-      ...place,
-      type: "highlighted",
-      autoOpen: index === 0,
-      icon: <ImHeartBroken className="custom-marker-icon-highlighted" />,
-    })),
-  ];
 
   const handlePlaceClick = useCallback(
     (coords: [number, number]) => {
@@ -170,19 +151,8 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
           url={`https://api.maptiler.com/maps/streets-v2/256/{z}/{x}/{y}.png?key=${mapKey}`}
         />
 
-        {geoData &&
-          geoData.map((countryGeo, idx) => (
-            <GeoJSON
-              key={idx}
-              data={countryGeo}
-              style={() => ({
-                fillColor: "rgba(108, 254, 154, 0.26)",
-                weight: 1,
-                color: "#0055bcff",
-                fillOpacity: 0.9,
-              })}
-            />
-          ))}
+        <GeoHighlights />
+
         <SearchBox
           map={mapRef.current}
           onSearch={setSearchCoords}

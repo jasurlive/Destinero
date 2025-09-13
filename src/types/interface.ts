@@ -39,6 +39,36 @@ export interface MapProps {
   locked?: boolean;
 }
 
+export interface PlaceMarkersProps {
+  visitedPlaces: MapProps["visitedPlaces"];
+  plannedPlaces: MapProps["plannedPlaces"];
+  highlightedPlaces?: MapProps["highlightedPlaces"];
+  mapRef: React.RefObject<L.Map | null>;
+  onPlaceClick: (coords: [number, number]) => void;
+  copyCoordsToClipboard: (coords: [number, number]) => void;
+  copySuccess: boolean;
+}
+
+export interface PopupHandlerProps {
+  popupCoords: [number, number] | null;
+  searchCoords: [number, number] | null;
+  locationDetails: {
+    placeName: string;
+    city: string;
+    country: string;
+    countryCode: string;
+  };
+  clickedLocationDetails: {
+    placeName: string;
+    city: string;
+    country: string;
+    countryCode: string;
+  };
+  mapRef: React.RefObject<L.Map | null>;
+  copyCoordsToClipboard: (coords: [number, number]) => void;
+  copySuccess: boolean;
+}
+
 export interface SearchBoxProps {
   map: any;
   copySuccess: boolean;

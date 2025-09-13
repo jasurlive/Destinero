@@ -4,17 +4,7 @@ import CreatePopup from "../PopUp";
 import { PiFlagPennantFill } from "react-icons/pi";
 import { BiSolidPlaneAlt } from "react-icons/bi";
 import { ImHeartBroken } from "react-icons/im";
-import { MapProps } from "../../../types/interface";
-
-interface PlaceMarkersProps {
-  visitedPlaces: MapProps["visitedPlaces"];
-  plannedPlaces: MapProps["plannedPlaces"];
-  highlightedPlaces?: MapProps["highlightedPlaces"];
-  mapRef: React.RefObject<L.Map | null>;
-  onPlaceClick: (coords: [number, number]) => void;
-  copyCoordsToClipboard: (coords: [number, number]) => void;
-  copySuccess: boolean;
-}
+import { PlaceMarkersProps } from "../../../types/interface";
 
 const PlaceMarkers: React.FC<PlaceMarkersProps> = ({
   visitedPlaces,
@@ -25,7 +15,6 @@ const PlaceMarkers: React.FC<PlaceMarkersProps> = ({
   copyCoordsToClipboard,
   copySuccess,
 }) => {
-  // Merge all places with proper type and icon
   const places = [
     ...visitedPlaces.map((place) => ({
       ...place,
@@ -40,7 +29,7 @@ const PlaceMarkers: React.FC<PlaceMarkersProps> = ({
     ...highlightedPlaces.map((place, index) => ({
       ...place,
       type: "highlighted",
-      autoOpen: index === 0, // auto-open the first highlighted place
+      autoOpen: index === 0,
       icon: <ImHeartBroken className="custom-marker-icon-highlighted" />,
     })),
   ];
