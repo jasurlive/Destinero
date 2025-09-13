@@ -1,11 +1,14 @@
-import Map from "../add/tools/Map";
+import Map from "../add/tools/Map"; //this is the main map component
+
 import { useState } from "react";
-import LockOverlay from "../add/tools/Lock";
-import { usePlaces } from "../add/tools/hooks/usePlaces";
-import "../add/css/home.css";
+import { usePlaces } from "../add/tools/hooks/usePlaces"; //custom hook to fetch places data from excel file
 
 import { FaLock, FaLockOpen } from "react-icons/fa";
 import { RiResetLeftFill } from "react-icons/ri";
+
+import LockOverlay from "../add/tools/Lock"; //for locking the map interactions on scroll
+
+import "../add/css/home.css";
 
 const HomePage = () => {
   const { visitedPlaces, plannedPlaces, highlightedPlaces } = usePlaces();
@@ -44,12 +47,12 @@ const HomePage = () => {
       <LockOverlay locked={locked}>
         {(locked: boolean) => (
           <Map
-            visitedPlaces={visitedPlaces}
-            plannedPlaces={plannedPlaces}
-            highlightedPlaces={highlightedPlaces} // ✅ pass highlighted places
-            searchCoords={searchCoords}
-            setSearchCoords={setSearchCoords}
-            locked={locked}
+            visitedPlaces={visitedPlaces} //passes visited places
+            plannedPlaces={plannedPlaces} //passes planned places
+            highlightedPlaces={highlightedPlaces} // pass highlighted places
+            searchCoords={searchCoords} // finds a place by search coordinates
+            setSearchCoords={setSearchCoords} //manages search coordinates data
+            locked={locked} // locks the map when true
           />
         )}
       </LockOverlay>

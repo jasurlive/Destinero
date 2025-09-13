@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import { Place, PlaceData } from "../../../types/interface";
 
-// ✅ Small helper to create custom icons
+// small helper to create custom icons. you can add more types if needed
 const createCustomIcon = (
   type: "visited" | "planned" | "highlighted"
 ): React.ReactElement => {
@@ -26,7 +26,7 @@ export const usePlaces = () => {
         const highlightedSheet = workbook.Sheets["Highlighted"];
 
         if (!visitedSheet || !plannedSheet || !highlightedSheet) {
-          throw new Error("Missing one or more required sheets in Excel file.");
+          console.error("Missing one or more required sheets in Excel file.");
         }
 
         const visitedData: PlaceData[] = XLSX.utils.sheet_to_json(visitedSheet);
@@ -56,7 +56,7 @@ export const usePlaces = () => {
           imageLink: row["Image Links"],
           type: "highlighted",
           icon: createCustomIcon("highlighted"),
-          autoOpenPopup: true, // ✅ new property so Map knows to open popup on load
+          autoOpenPopup: true, // auto open popup for highlighted places
         }));
 
         setVisitedPlaces(visited);
