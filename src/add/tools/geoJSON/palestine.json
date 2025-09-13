@@ -1,8 +1,8 @@
 {
-  "type": "RoughMaps",
+  "type": "FeatureCollection",
   "features": [
     {
-      "type": "ForLeaflet",
+      "type": "Feature",
       "properties": {
         "name": "Palestine"
       },
