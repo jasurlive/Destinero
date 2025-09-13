@@ -10,7 +10,7 @@ import { MapProps } from "../../types/interface";
 import SearchBox from "./SearchBox";
 import MapEvents from "./MapEvents";
 import CreatePopup from "./PopUp";
-import { zoomToLocation } from "./Zoomin";
+import { useZoom } from "./hooks/useZoom";
 import { useCountryHighlights } from "./hooks/useCountryHighlights";
 
 import "../css/map.css";
@@ -26,9 +26,10 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
   setSearchCoords,
   locked = true,
 }) => {
+  const mapRef = useRef<L.Map | null>(null);
+  const { zoomToLocation } = useZoom(mapRef.current);
   const geoData = useCountryHighlights();
   const [copySuccess, setCopySuccess] = useState(false);
-  const mapRef = useRef<L.Map | null>(null);
   const isMobile = useMediaQuery("(max-width:600px)");
   const defaultCenter: [number, number] = isMobile
     ? [41.505, -0.09]
@@ -73,13 +74,13 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
   );
 
   useEffect(() => {
-    if (searchCoords && mapRef.current) {
-      zoomToLocation(mapRef.current, searchCoords);
-      fetchLocationDetails(searchCoords).then((details) =>
-        setLocationDetails(details)
-      );
+    if (searchCoords) {
+      zoomToLocation(searchCoords, 15, async () => {
+        const details = await fetchLocationDetails(searchCoords);
+        setLocationDetails(details);
+      });
     }
-  }, [searchCoords]);
+  }, [searchCoords, zoomToLocation]);
 
   const fetchLocationDetails = async (coords: [number, number]) => {
     const response = await fetch(
@@ -114,9 +115,12 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
     })),
   ];
 
-  const handlePlaceClick = useCallback((coords: [number, number]) => {
-    zoomToLocation(mapRef.current, coords);
-  }, []);
+  const handlePlaceClick = useCallback(
+    (coords: [number, number]) => {
+      zoomToLocation(coords);
+    },
+    [zoomToLocation]
+  );
 
   useEffect(() => {
     const map = mapRef.current;

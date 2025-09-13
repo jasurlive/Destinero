@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
-import { zoomToLocation } from "./Zoomin";
+import { useZoom } from "./hooks/useZoom";
 import { FaSpinner } from "react-icons/fa";
 import { MdOutlineMyLocation } from "react-icons/md";
 import { BsPersonRaisedHand } from "react-icons/bs";
@@ -14,6 +14,8 @@ const SearchBox: React.FC<SearchBoxProps> = ({
   copySuccess,
   onSearch,
 }) => {
+  const { zoomToLocation } = useZoom(map);
+
   const [currentLocation, setCurrentLocation] = useState<
     [number, number] | null
   >(null);
@@ -32,46 +34,49 @@ const SearchBox: React.FC<SearchBoxProps> = ({
   const stopPropagation = (e: React.MouseEvent | React.TouchEvent) =>
     e.stopPropagation();
 
-  const handleLocationClick = () => {
-    if (navigator.geolocation) {
-      setIsWaiting(true);
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const { latitude, longitude } = position.coords;
-          const coords: [number, number] = [latitude, longitude];
-          setCurrentLocation(coords);
-          setErrorMsg("");
-          setSuccessMsg("");
-          setIsWaiting(false);
-          zoomToLocation(map, coords, 15);
-
-          try {
-            const response = await fetch(
-              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
-            );
-            const data = await response.json();
-            setLocationDetails({
-              placeName: data.display_name,
-              city:
-                data.address.city ||
-                data.address.town ||
-                data.address.village ||
-                "",
-              country: data.address.country || "",
-              countryCode: data.address.country_code.toUpperCase(),
-            });
-          } catch (error) {
-            console.error("Error fetching location details:", error);
-          }
-        },
-        () => {
-          setErrorMsg("Unable to retrieve your location");
-          setIsWaiting(false);
-        }
+  const fetchLocationDetails = async (coords: [number, number]) => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${coords[0]}&lon=${coords[1]}`
       );
-    } else {
-      setErrorMsg("Geolocation is not supported by your browser");
+      const data = await response.json();
+      setLocationDetails({
+        placeName: data.display_name,
+        city:
+          data.address.city || data.address.town || data.address.village || "",
+        country: data.address.country || "",
+        countryCode: data.address.country_code.toUpperCase(),
+      });
+    } catch {
+      // silently fail if API fails
     }
+  };
+
+  const handleLocationClick = () => {
+    if (!navigator.geolocation) {
+      setErrorMsg("Geolocation is not supported by your browser");
+      return;
+    }
+
+    setIsWaiting(true);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const coords: [number, number] = [
+          position.coords.latitude,
+          position.coords.longitude,
+        ];
+        setCurrentLocation(coords);
+        setErrorMsg("");
+        setSuccessMsg("");
+        setIsWaiting(false);
+
+        zoomToLocation(coords, 15, () => fetchLocationDetails(coords));
+      },
+      () => {
+        setErrorMsg("Unable to retrieve your location");
+        setIsWaiting(false);
+      }
+    );
   };
 
   const handleCopy = () => {
@@ -91,22 +96,20 @@ const SearchBox: React.FC<SearchBoxProps> = ({
       const results = await provider.search({ query: searchTerm });
       if (results.length > 0) {
         const { x, y } = results[0];
-        zoomToLocation(map, [y, x], 15);
-        onSearch([y, x]);
+        zoomToLocation([y, x], 15, () => onSearch([y, x]));
         setSuccessMsg("The place was found");
         setErrorMsg("");
       } else {
         setErrorMsg("No results found");
         setSuccessMsg("");
       }
-    } catch (error) {
+    } catch {
       setErrorMsg("Error fetching geocoding data");
       setSuccessMsg("");
-      console.error("Error fetching geocoding data:", error);
     } finally {
       setIsSearching(false);
     }
-  }, [searchTerm, map, onSearch]);
+  }, [searchTerm, zoomToLocation, onSearch]);
 
   const handleSearchClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -141,12 +144,10 @@ const SearchBox: React.FC<SearchBoxProps> = ({
   const handleLocationClickAnimation = (
     e: React.MouseEvent | React.TouchEvent
   ) => {
-    if (e.currentTarget) {
-      const targetElement = e.currentTarget as HTMLElement;
-      targetElement.style.transform = "scale(0.8)";
-      setTimeout(() => (targetElement.style.transform = "scale(1)"), 200);
-      handleLocationClick();
-    }
+    const targetElement = e.currentTarget as HTMLElement;
+    targetElement.style.transform = "scale(0.8)";
+    setTimeout(() => (targetElement.style.transform = "scale(1)"), 200);
+    handleLocationClick();
   };
 
   const glowStyle = currentLocation ? "active-glow" : "inactive-glow";
@@ -200,7 +201,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
             icon: <BsPersonRaisedHand className="custom-marker-icon-live" />,
           }}
           mapRef={map}
-          handleCopyClick={handleCopyClick}
+          handleCopyClick={handleCopy}
           copySuccess={copySuccess}
           onPlaceClick={() => {}}
           locationDetails={locationDetails}
@@ -208,7 +209,6 @@ const SearchBox: React.FC<SearchBoxProps> = ({
       )}
 
       {errorMsg && <div className="message error-message">{errorMsg}</div>}
-
       {successMsg && (
         <div className="message success-message">{successMsg}</div>
       )}

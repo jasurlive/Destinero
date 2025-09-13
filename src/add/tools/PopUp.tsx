@@ -3,7 +3,7 @@ import { Marker, Popup } from "react-leaflet";
 import type { Marker as LeafletMarker } from "leaflet";
 import "../css/popup.css";
 import { FaSpinner } from "react-icons/fa";
-import { getCountryFlag } from "./Flags";
+import { getCountryFlag } from "./components/getCountryFlags";
 import L from "leaflet";
 import ReactDOMServer from "react-dom/server";
 import { CreatePopupProps } from "../../types/interface";
