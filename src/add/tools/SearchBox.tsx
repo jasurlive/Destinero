@@ -1,12 +1,15 @@
-import { useState, useCallback, useEffect } from "react";
-import { OpenStreetMapProvider } from "leaflet-geosearch";
-import { useZoom } from "./hooks/useZoom";
+import { useCallback, useEffect, useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { MdOutlineMyLocation } from "react-icons/md";
 import { BsPersonRaisedHand } from "react-icons/bs";
 import "../css/searchbox.css";
 import CreatePopup from "./PopUp";
 import { SearchBoxProps } from "../../types/interface";
+import { useUserLocation } from "./hooks/useUserLocation";
+import { useSearch } from "./hooks/useSearch";
+import { useZoom } from "./hooks/useZoom";
+
+type Message = { type: "error" | "success"; text: string } | null;
 
 const SearchBox: React.FC<SearchBoxProps> = ({
   map,
@@ -16,144 +19,95 @@ const SearchBox: React.FC<SearchBoxProps> = ({
 }) => {
   const { zoomToLocation } = useZoom(map);
 
-  const [currentLocation, setCurrentLocation] = useState<
-    [number, number] | null
-  >(null);
-  const [errorMsg, setErrorMsg] = useState("");
-  const [successMsg, setSuccessMsg] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isSearching, setIsSearching] = useState(false);
-  const [isWaiting, setIsWaiting] = useState(false);
-  const [locationDetails, setLocationDetails] = useState({
-    placeName: "",
-    city: "",
-    country: "",
-    countryCode: "",
-  });
+  const {
+    coords: currentLocation,
+    locationDetails,
+    isFetching: isFetchingLocation,
+    error: locationError,
+    getUserLocation,
+  } = useUserLocation();
 
-  const stopPropagation = (e: React.MouseEvent | React.TouchEvent) =>
-    e.stopPropagation();
+  const {
+    searchTerm,
+    setSearchTerm,
+    search,
+    resultCoords,
+    isSearching,
+    error: searchError,
+    success: searchSuccess,
+  } = useSearch((coords) => zoomToLocation(coords, 15, () => onSearch(coords)));
 
-  const fetchLocationDetails = async (coords: [number, number]) => {
-    try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${coords[0]}&lon=${coords[1]}`
-      );
-      const data = await response.json();
-      setLocationDetails({
-        placeName: data.display_name,
-        city:
-          data.address.city || data.address.town || data.address.village || "",
-        country: data.address.country || "",
-        countryCode: data.address.country_code.toUpperCase(),
-      });
-    } catch {
-      // silently fail if API fails
+  // --- Message state for auto-clear ---
+  const [message, setMessage] = useState<Message>(null);
+
+  useEffect(() => {
+    if (searchError) setMessage({ type: "error", text: searchError });
+    else if (locationError) setMessage({ type: "error", text: locationError });
+    else if (searchSuccess)
+      setMessage({ type: "success", text: searchSuccess });
+
+    if (searchError || locationError || searchSuccess) {
+      const timer = setTimeout(() => setMessage(null), 3000);
+      return () => clearTimeout(timer);
     }
-  };
+  }, [searchError, locationError, searchSuccess]);
 
-  const handleLocationClick = () => {
-    if (!navigator.geolocation) {
-      setErrorMsg("Geolocation is not supported by your browser");
-      return;
-    }
+  // --- Zoom to live location when fetched ---
+  useEffect(() => {
+    if (currentLocation) zoomToLocation(currentLocation, 15);
+  }, [currentLocation, zoomToLocation]);
 
-    setIsWaiting(true);
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const coords: [number, number] = [
-          position.coords.latitude,
-          position.coords.longitude,
-        ];
-        setCurrentLocation(coords);
-        setErrorMsg("");
-        setSuccessMsg("");
-        setIsWaiting(false);
-
-        zoomToLocation(coords, 15, () => fetchLocationDetails(coords));
-      },
-      () => {
-        setErrorMsg("Unable to retrieve your location");
-        setIsWaiting(false);
-      }
-    );
-  };
-
-  const handleCopy = () => {
+  // --- Clipboard ---
+  const handleCopy = useCallback(() => {
     if (currentLocation) {
-      const formattedCoords = `[${currentLocation[0]}, ${currentLocation[1]}]`;
-      navigator.clipboard.writeText(formattedCoords);
+      navigator.clipboard.writeText(
+        `[${currentLocation[0]}, ${currentLocation[1]}]`
+      );
       handleCopyClick();
     }
-  };
+  }, [currentLocation, handleCopyClick]);
 
-  const handleSearch = useCallback(async () => {
-    if (searchTerm.trim() === "") return;
-
-    setIsSearching(true);
-    const provider = new OpenStreetMapProvider();
-    try {
-      const results = await provider.search({ query: searchTerm });
-      if (results.length > 0) {
-        const { x, y } = results[0];
-        zoomToLocation([y, x], 15, () => onSearch([y, x]));
-        setSuccessMsg("The place was found");
-        setErrorMsg("");
-      } else {
-        setErrorMsg("No results found");
-        setSuccessMsg("");
-      }
-    } catch {
-      setErrorMsg("Error fetching geocoding data");
-      setSuccessMsg("");
-    } finally {
-      setIsSearching(false);
-    }
-  }, [searchTerm, zoomToLocation, onSearch]);
-
-  const handleSearchClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    handleSearch();
-  };
+  // --- Input Handlers ---
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value),
+    [setSearchTerm]
+  );
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       if (e.key === "Enter") {
         e.preventDefault();
-        handleSearch();
+        search();
       }
     },
-    [handleSearch]
+    [search]
   );
 
-  const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value),
-    []
+  const handleSearchClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      search();
+    },
+    [search]
   );
 
-  useEffect(() => {
-    if (errorMsg || successMsg) {
-      const timer = setTimeout(() => {
-        setErrorMsg("");
-        setSuccessMsg("");
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [errorMsg, successMsg]);
-
-  const handleLocationClickAnimation = (
-    e: React.MouseEvent | React.TouchEvent
-  ) => {
-    const targetElement = e.currentTarget as HTMLElement;
-    targetElement.style.transform = "scale(0.8)";
-    setTimeout(() => (targetElement.style.transform = "scale(1)"), 200);
-    handleLocationClick();
-  };
+  // --- Live Location Button ---
+  const handleLocationClick = useCallback(
+    (e: React.MouseEvent | React.TouchEvent) => {
+      e.stopPropagation();
+      const target = e.currentTarget as HTMLElement;
+      target.style.transform = "scale(0.8)";
+      setTimeout(() => (target.style.transform = "scale(1)"), 200);
+      getUserLocation();
+    },
+    [getUserLocation]
+  );
 
   const glowStyle = currentLocation ? "active-glow" : "inactive-glow";
 
   return (
     <>
+      {/* Search Input */}
       <div className="search-box">
         <input
           type="text"
@@ -172,28 +126,24 @@ const SearchBox: React.FC<SearchBoxProps> = ({
         </button>
       </div>
 
+      {/* Live Location */}
       <div
         className="location-icon-container"
         onMouseEnter={(e) => e.currentTarget?.classList.add("hovered")}
         onMouseLeave={(e) => e.currentTarget?.classList.remove("hovered")}
-        onClick={(e) => {
-          stopPropagation(e);
-          handleLocationClickAnimation(e);
-        }}
-        onTouchStart={(e) => {
-          stopPropagation(e);
-          handleLocationClickAnimation(e);
-        }}
+        onClick={handleLocationClick}
+        onTouchStart={handleLocationClick}
         title="🟢 Live location"
       >
-        {isWaiting ? (
+        {isFetchingLocation ? (
           <FaSpinner className="spinner-live" />
         ) : (
           <MdOutlineMyLocation className={`location-icon ${glowStyle}`} />
         )}
       </div>
 
-      {currentLocation && (
+      {/* Popup */}
+      {currentLocation && locationDetails && (
         <CreatePopup
           place={{
             type: "current",
@@ -208,9 +158,8 @@ const SearchBox: React.FC<SearchBoxProps> = ({
         />
       )}
 
-      {errorMsg && <div className="message error-message">{errorMsg}</div>}
-      {successMsg && (
-        <div className="message success-message">{successMsg}</div>
+      {message && (
+        <div className={`message ${message.type}-message`}>{message.text}</div>
       )}
     </>
   );
