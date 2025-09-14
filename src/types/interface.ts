@@ -13,7 +13,6 @@ export interface CreatePopupProps {
   mapRef: React.RefObject<any>;
   handleCopyClick: () => void;
   copySuccess: boolean;
-  onPlaceClick: (coords: [number, number]) => void;
   locationDetails?: {
     placeName: string;
     city: string;
@@ -39,13 +38,73 @@ export interface MapProps {
   locked?: boolean;
 }
 
+export interface PlaceMarkersProps {
+  visitedPlaces: MapProps["visitedPlaces"];
+  plannedPlaces: MapProps["plannedPlaces"];
+  highlightedPlaces?: MapProps["highlightedPlaces"];
+  mapRef: React.RefObject<L.Map | null>;
+  copyCoordsToClipboard: (coords: [number, number]) => void;
+  copySuccess: boolean;
+}
+
+export interface PopupHandlerProps {
+  popupCoords: [number, number] | null;
+  searchCoords: [number, number] | null;
+  locationDetails: {
+    placeName: string;
+    city: string;
+    country: string;
+    countryCode: string;
+  };
+  clickedLocationDetails: {
+    placeName: string;
+    city: string;
+    country: string;
+    countryCode: string;
+  };
+  mapRef: React.RefObject<L.Map | null>;
+  copyCoordsToClipboard: (coords: [number, number]) => void;
+  copySuccess: boolean;
+}
+
 export interface SearchBoxProps {
   map: any;
-  handleCopyClick: () => void;
   copySuccess: boolean;
   onSearch: (coords: [number, number]) => void;
+  handleCopyClick: (value: [number, number]) => void;
 }
 
 export interface MapEventsProps {
   onClick: (coords: [number, number]) => void;
+}
+
+export interface UseSearchResult {
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
+  search: () => void;
+  resultCoords: [number, number] | null;
+  isSearching: boolean;
+  error: string | null;
+  success: string | null;
+}
+
+export interface UsePopupOptionsProps {
+  autoOpen?: boolean;
+  coords?: [number, number];
+  handleCopyClick?: () => void;
+}
+
+export interface LocationDetails {
+  placeName: string;
+  city: string;
+  country: string;
+  countryCode: string;
+}
+
+export interface UseUserLocationResult {
+  coords: [number, number] | null;
+  locationDetails: LocationDetails | null;
+  isFetching: boolean;
+  error: string | null;
+  getUserLocation: () => void;
 }

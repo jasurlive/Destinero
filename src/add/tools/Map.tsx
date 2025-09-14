@@ -1,17 +1,21 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
-import { FaSearchLocation } from "react-icons/fa";
+import { MapContainer, TileLayer } from "react-leaflet";
+
 import { PiFlagPennantFill } from "react-icons/pi";
 import { BiSolidPlaneAlt } from "react-icons/bi";
 import { ImHeartBroken } from "react-icons/im";
-import { MdLocationPin } from "react-icons/md";
 import { useMediaQuery } from "@mui/material";
-import { MapProps } from "../../types/interface";
+
 import SearchBox from "./SearchBox";
-import MapEvents from "./MapEvents";
-import CreatePopup from "./PopUp";
-import { zoomToLocation } from "./Zoomin";
-import { useCountryHighlights } from "./hooks/useCountryHighlights";
+import MapEvents from "./components/MapEvents";
+import PlaceMarkers from "./components/PlaceMarkers";
+import PopupHandler from "./components/PopupHandler";
+import GeoHighlights from "./components/GeoHighlights";
+import LockOverlay from "./components/LockOverlay";
+
+import { useZoom } from "./hooks/useZoom";
+import { useCopyToClipboard } from "./hooks/useCopyToClipboard";
+import { MapProps } from "../../types/interface";
 
 import "../css/map.css";
 import "leaflet/dist/leaflet.css";
@@ -26,9 +30,8 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
   setSearchCoords,
   locked = true,
 }) => {
-  const geoData = useCountryHighlights();
-  const [copySuccess, setCopySuccess] = useState(false);
   const mapRef = useRef<L.Map | null>(null);
+  const { zoomToLocation } = useZoom(mapRef.current);
   const isMobile = useMediaQuery("(max-width:600px)");
   const defaultCenter: [number, number] = isMobile
     ? [41.505, -0.09]
@@ -59,27 +62,16 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
     );
   }, []);
 
-  const handleCopyClick = useCallback(() => {
-    setCopySuccess(true);
-    setTimeout(() => setCopySuccess(false), 1500);
-  }, []);
-
-  const copyCoordsToClipboard = useCallback(
-    (coords: [number, number]) => {
-      navigator.clipboard.writeText(`[${coords[0]}, ${coords[1]}]`);
-      handleCopyClick();
-    },
-    [handleCopyClick]
-  );
+  const { copyToClipboard, copySuccess } = useCopyToClipboard();
 
   useEffect(() => {
-    if (searchCoords && mapRef.current) {
-      zoomToLocation(mapRef.current, searchCoords);
-      fetchLocationDetails(searchCoords).then((details) =>
-        setLocationDetails(details)
-      );
+    if (searchCoords) {
+      zoomToLocation(searchCoords, 15, async () => {
+        const details = await fetchLocationDetails(searchCoords);
+        setLocationDetails(details);
+      });
     }
-  }, [searchCoords]);
+  }, [searchCoords, zoomToLocation]);
 
   const fetchLocationDetails = async (coords: [number, number]) => {
     const response = await fetch(
@@ -94,61 +86,6 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
       countryCode: data.address.country_code.toUpperCase(),
     };
   };
-
-  const places = [
-    ...visitedPlaces.map((place) => ({
-      ...place,
-      type: "visited",
-      icon: <PiFlagPennantFill className="custom-marker-icon-visited" />,
-    })),
-    ...plannedPlaces.map((place) => ({
-      ...place,
-      type: "planned",
-      icon: <BiSolidPlaneAlt className="custom-marker-icon-planned" />,
-    })),
-    ...highlightedPlaces.map((place, index) => ({
-      ...place,
-      type: "highlighted",
-      autoOpen: index === 0,
-      icon: <ImHeartBroken className="custom-marker-icon-highlighted" />,
-    })),
-  ];
-
-  const handlePlaceClick = useCallback((coords: [number, number]) => {
-    zoomToLocation(mapRef.current, coords);
-  }, []);
-
-  useEffect(() => {
-    const map = mapRef.current;
-    if (!map) return;
-
-    // Always start locked on first mount
-    if (locked) {
-      map.dragging.disable();
-      map.scrollWheelZoom.disable();
-      map.doubleClickZoom.disable();
-      map.boxZoom.disable();
-      map.keyboard.disable();
-      map.touchZoom.disable();
-      map.off("click");
-    } else {
-      map.dragging.enable();
-      map.scrollWheelZoom.enable();
-      map.doubleClickZoom.enable();
-      map.boxZoom.enable();
-      map.keyboard.enable();
-      map.touchZoom.enable();
-      map.on("click", (e: L.LeafletMouseEvent) => {
-        handleMapClickLocal([e.latlng.lat, e.latlng.lng]);
-      });
-    }
-
-    return () => {
-      if (map) {
-        map.off("click");
-      }
-    };
-  }, [locked, handleMapClickLocal, mapRef.current]);
 
   return (
     <div className="map-container">
@@ -174,67 +111,35 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
           url={`https://api.maptiler.com/maps/streets-v2/256/{z}/{x}/{y}.png?key=${mapKey}`}
         />
 
-        {geoData &&
-          geoData.map((countryGeo, idx) => (
-            <GeoJSON
-              key={idx}
-              data={countryGeo}
-              style={() => ({
-                fillColor: "rgba(108, 254, 154, 0.26)",
-                weight: 1,
-                color: "#0055bcff",
-                fillOpacity: 0.9,
-              })}
-            />
-          ))}
+        <GeoHighlights />
+        <LockOverlay locked={locked} mapRef={mapRef} />
+
         <SearchBox
           map={mapRef.current}
           onSearch={setSearchCoords}
-          handleCopyClick={handleCopyClick}
+          handleCopyClick={copyToClipboard}
           copySuccess={copySuccess}
         />
         {!locked && <MapEvents onClick={handleMapClickLocal} />}
-        {places.map((place) => (
-          <CreatePopup
-            key={`${place.type}-${place.coords.join(",")}`}
-            place={place}
-            mapRef={mapRef}
-            handleCopyClick={() => copyCoordsToClipboard(place.coords)}
-            copySuccess={copySuccess}
-            onPlaceClick={handlePlaceClick}
-            autoOpen={place.autoOpen || false}
-          />
-        ))}
-        {searchCoords && (
-          <CreatePopup
-            place={{
-              type: "searched",
-              coords: searchCoords,
-              icon: (
-                <FaSearchLocation className="custom-marker-icon-searched" />
-              ),
-            }}
-            mapRef={mapRef}
-            handleCopyClick={() => copyCoordsToClipboard(searchCoords)}
-            copySuccess={copySuccess}
-            onPlaceClick={handlePlaceClick}
-            locationDetails={locationDetails}
-          />
-        )}
-        {popupCoords && (
-          <CreatePopup
-            place={{
-              type: "clicked",
-              coords: popupCoords,
-              icon: <MdLocationPin className="custom-marker-icon-clicked" />,
-            }}
-            mapRef={mapRef}
-            handleCopyClick={() => copyCoordsToClipboard(popupCoords)}
-            copySuccess={copySuccess}
-            onPlaceClick={handlePlaceClick}
-            locationDetails={clickedLocationDetails}
-          />
-        )}
+
+        <PlaceMarkers
+          visitedPlaces={visitedPlaces}
+          plannedPlaces={plannedPlaces}
+          highlightedPlaces={highlightedPlaces}
+          mapRef={mapRef}
+          copyCoordsToClipboard={copyToClipboard}
+          copySuccess={copySuccess}
+        />
+
+        <PopupHandler
+          popupCoords={popupCoords}
+          searchCoords={searchCoords}
+          locationDetails={locationDetails}
+          clickedLocationDetails={clickedLocationDetails}
+          mapRef={mapRef}
+          copyCoordsToClipboard={copyToClipboard}
+          copySuccess={copySuccess}
+        />
       </MapContainer>
     </div>
   );

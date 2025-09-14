@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { getCountryFlag } from "./Flags";
-import L from "leaflet";
+import { getCountryFlag } from "../components/getCountryFlags";
 
 const useHandleClick = () => {
   const [clickedCoords, setClickedCoords] = useState<[number, number] | null>(
@@ -11,10 +10,7 @@ const useHandleClick = () => {
     flag: any;
   } | null>(null);
 
-  const handleMapClick = async (
-    coords: [number, number],
-    mapRef: React.RefObject<L.Map>
-  ) => {
+  const handleMapClick = async (coords: [number, number]) => {
     setClickedCoords(coords);
 
     const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coords[0]}&lon=${coords[1]}`;

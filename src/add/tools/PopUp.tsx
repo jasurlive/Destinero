@@ -1,32 +1,28 @@
-import { useState, useEffect, useRef } from "react";
 import { Marker, Popup } from "react-leaflet";
-import type { Marker as LeafletMarker } from "leaflet";
-import "../css/popup.css";
-import { FaSpinner } from "react-icons/fa";
-import { getCountryFlag } from "./Flags";
 import L from "leaflet";
 import ReactDOMServer from "react-dom/server";
+import { FaSpinner } from "react-icons/fa";
+import { usePopupOptions } from "./hooks/usePopUpOptions";
 import { CreatePopupProps } from "../../types/interface";
+import { getCountryFlag } from "./components/getCountryFlags";
+import "../css/popup.css";
 
 const CreatePopup: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
   place,
-  handleCopyClick,
-  copySuccess,
   locationDetails,
+  handleCopyClick,
   autoOpen = false,
 }) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const markerRef = useRef<LeafletMarker>(null);
+  const {
+    markerRef,
+    copySuccess,
+    copyToClipboard,
+    imageLoaded,
+    handleImageLoad,
+  } = usePopupOptions({ autoOpen, handleCopyClick });
 
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
-
-  const handleCopy = () => {
-    const formattedCoords = `[${place.coords[0]}, ${place.coords[1]}]`;
-    navigator.clipboard.writeText(formattedCoords);
-    handleCopyClick();
-  };
+  const handleCopy = () =>
+    copyToClipboard(`[${place.coords[0]}, ${place.coords[1]}]`);
 
   const getTitle = () => {
     switch (place.type) {
@@ -45,15 +41,6 @@ const CreatePopup: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
     }
   };
 
-  // open popup automatically
-  useEffect(() => {
-    if (autoOpen && markerRef.current) {
-      setTimeout(() => {
-        markerRef.current?.openPopup();
-      }, 0);
-    }
-  }, [autoOpen]);
-
   return (
     <Marker
       key={`${place.type}-${place.coords.join(",")}`}
@@ -67,6 +54,7 @@ const CreatePopup: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
       <Popup>
         <div className="pop-up-container">
           <h2 className="place-name">{getTitle()}</h2>
+
           {locationDetails && (
             <>
               <p>{locationDetails.placeName}</p>
@@ -75,7 +63,9 @@ const CreatePopup: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
                 {locationDetails.country?.trim() || "Unknown country"}{" "}
                 {getCountryFlag(locationDetails.countryCode || "")}
               </p>
-              <p>{`Latitude: ${place.coords[0]}, Longitude: ${place.coords[1]}`}</p>
+              <p>
+                Latitude: {place.coords[0]}, Longitude: {place.coords[1]}
+              </p>
               <button
                 className={`copy-button ${copySuccess ? "copied" : ""}`}
                 onClick={handleCopy}
@@ -84,6 +74,7 @@ const CreatePopup: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
               </button>
             </>
           )}
+
           {place.imageLink && (
             <>
               {!imageLoaded && <FaSpinner className="spinner-popup" />}
