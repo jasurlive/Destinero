@@ -1,9 +1,6 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 
-import { PiFlagPennantFill } from "react-icons/pi";
-import { BiSolidPlaneAlt } from "react-icons/bi";
-import { ImHeartBroken } from "react-icons/im";
 import { useMediaQuery } from "@mui/material";
 
 import SearchBox from "./SearchBox";
@@ -13,7 +10,7 @@ import PopupHandler from "./components/PopupHandler";
 import GeoHighlights from "./components/GeoHighlights";
 import LockOverlay from "./components/LockOverlay";
 
-import { useZoom } from "./hooks/useZoom";
+import { useLocationClick } from "./hooks/useLocationClick";
 import { useCopyToClipboard } from "./hooks/useCopyToClipboard";
 import { MapProps } from "../../types/interface";
 
@@ -31,7 +28,6 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
   locked = true,
 }) => {
   const mapRef = useRef<L.Map | null>(null);
-  const { zoomToLocation } = useZoom(mapRef.current);
   const isMobile = useMediaQuery("(max-width:600px)");
   const defaultCenter: [number, number] = isMobile
     ? [41.505, -0.09]
@@ -41,51 +37,16 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
     defaultCenter[0],
     defaultCenter[1] + (isMobile ? 22 : 70),
   ];
-  const [locationDetails, setLocationDetails] = useState({
-    placeName: "",
-    city: "",
-    country: "",
-    countryCode: "",
-  });
-  const [popupCoords, setPopupCoords] = useState<[number, number] | null>(null);
-  const [clickedLocationDetails, setClickedLocationDetails] = useState({
-    placeName: "",
-    city: "",
-    country: "",
-    countryCode: "",
-  });
-
-  const handleMapClickLocal = useCallback((coords: [number, number]) => {
-    setPopupCoords(coords);
-    fetchLocationDetails(coords).then((details) =>
-      setClickedLocationDetails(details)
-    );
-  }, []);
-
   const { copyToClipboard, copySuccess } = useCopyToClipboard();
+  const [locationDetails] = useState({
+    placeName: "",
+    city: "",
+    country: "",
+    countryCode: "",
+  });
 
-  useEffect(() => {
-    if (searchCoords) {
-      zoomToLocation(searchCoords, 15, async () => {
-        const details = await fetchLocationDetails(searchCoords);
-        setLocationDetails(details);
-      });
-    }
-  }, [searchCoords, zoomToLocation]);
-
-  const fetchLocationDetails = async (coords: [number, number]) => {
-    const response = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${coords[0]}&lon=${coords[1]}&addressdetails=1`
-    );
-    const data = await response.json();
-    return {
-      placeName: data.display_name,
-      city:
-        data.address.city || data.address.town || data.address.village || "",
-      country: data.address.country,
-      countryCode: data.address.country_code.toUpperCase(),
-    };
-  };
+  const { popupCoords, clickedLocationDetails, handleMapClick } =
+    useLocationClick();
 
   return (
     <div className="map-container">
@@ -97,10 +58,10 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
         zoomSnap={0.5}
         zoomDelta={0.5}
         zoomControl={false}
-        worldCopyJump={true}
+        worldCopyJump={false}
         maxBounds={[
-          [-85, -180],
-          [85, 180],
+          [-90, -200],
+          [90, 250],
         ]}
         maxBoundsViscosity={0}
         fadeAnimation={true}
@@ -112,7 +73,9 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
         />
 
         <GeoHighlights />
+
         <LockOverlay locked={locked} mapRef={mapRef} />
+        {!locked && <MapEvents onClick={handleMapClick} />}
 
         <SearchBox
           map={mapRef.current}
@@ -120,7 +83,6 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
           handleCopyClick={copyToClipboard}
           copySuccess={copySuccess}
         />
-        {!locked && <MapEvents onClick={handleMapClickLocal} />}
 
         <PlaceMarkers
           visitedPlaces={visitedPlaces}

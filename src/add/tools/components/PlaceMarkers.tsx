@@ -5,7 +5,6 @@ import { PiFlagPennantFill } from "react-icons/pi";
 import { BiSolidPlaneAlt } from "react-icons/bi";
 import { ImHeartBroken } from "react-icons/im";
 import { PlaceMarkersProps } from "../../../types/interface";
-import { useZoom } from "../hooks/useZoom";
 
 const PlaceMarkers: React.FC<PlaceMarkersProps> = ({
   visitedPlaces,
@@ -15,7 +14,6 @@ const PlaceMarkers: React.FC<PlaceMarkersProps> = ({
   copyCoordsToClipboard,
   copySuccess,
 }) => {
-  const { zoomToLocation } = useZoom(mapRef.current);
   const places = [
     ...visitedPlaces.map((place) => ({
       ...place,
@@ -34,13 +32,6 @@ const PlaceMarkers: React.FC<PlaceMarkersProps> = ({
       icon: <ImHeartBroken className="custom-marker-icon-highlighted" />,
     })),
   ];
-
-  const handlePlaceClick = useCallback(
-    (coords: [number, number]) => {
-      zoomToLocation(coords);
-    },
-    [zoomToLocation]
-  );
 
   return (
     <>
