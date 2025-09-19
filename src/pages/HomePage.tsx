@@ -1,7 +1,7 @@
 import Map from "../add/tools/Map"; //this is the main map component
 
 import { useState } from "react";
-import { usePlaces } from "../add/tools/hooks/usePlaces"; //custom hook to fetch places data from excel file
+import { usePlaces } from "../add/tools/hooks/useFetchPlaces"; //custom hook to fetch places data from excel file
 
 import { FaLock, FaLockOpen } from "react-icons/fa";
 import { RiResetLeftFill } from "react-icons/ri";
