@@ -2,23 +2,25 @@ import React, { useEffect } from "react";
 import CreatePopup from "./components/PopupWindow";
 import { MdLocationPin } from "react-icons/md";
 import { FaSearchLocation } from "react-icons/fa";
+import { BsPersonRaisedHand } from "react-icons/bs"; // 🔹 for live location popup
 import { PopupHandlerProps } from "../../types/interface";
 import { useLocationPopup } from "./hooks/useLocationPopup";
 
 const PopupHandler: React.FC<PopupHandlerProps> = ({
   popupCoords,
   searchCoords,
+  liveCoords, // 🔹 live location support
   copyCoordsToClipboard,
 }) => {
-  const { setCoordsAndFetch, locationDetails } = useLocationPopup();
+  const { setCoordsAndFetch, getDetailsForCoords } = useLocationPopup();
 
-  // ✅ Single effect to handle both popupCoords & searchCoords
+  // ✅ Single effect to trigger fetch for whichever coords are active
   useEffect(() => {
-    const coords = popupCoords || searchCoords;
+    const coords = popupCoords || searchCoords || liveCoords;
     if (coords) {
       setCoordsAndFetch(coords);
     }
-  }, [popupCoords, searchCoords, setCoordsAndFetch]);
+  }, [popupCoords, searchCoords, liveCoords, setCoordsAndFetch]);
 
   return (
     <>
@@ -31,7 +33,7 @@ const PopupHandler: React.FC<PopupHandlerProps> = ({
             icon: <MdLocationPin className="custom-marker-icon-clicked" />,
           }}
           handleCopyClick={() => copyCoordsToClipboard(popupCoords)}
-          locationDetails={locationDetails} // ✅ always fresh
+          locationDetails={getDetailsForCoords(popupCoords)} // 🔹 each popup uses its own details
         />
       )}
 
@@ -44,7 +46,22 @@ const PopupHandler: React.FC<PopupHandlerProps> = ({
             icon: <FaSearchLocation className="custom-marker-icon-searched" />,
           }}
           handleCopyClick={() => copyCoordsToClipboard(searchCoords)}
-          locationDetails={locationDetails} // ✅ always fresh
+          locationDetails={getDetailsForCoords(searchCoords)} // 🔹 separate details
+          autoOpen
+        />
+      )}
+
+      {/* 🔹 Live Location Popup */}
+      {liveCoords && (
+        <CreatePopup
+          place={{
+            type: "current",
+            coords: liveCoords,
+            icon: <BsPersonRaisedHand className="custom-marker-icon-live" />,
+          }}
+          handleCopyClick={() => copyCoordsToClipboard(liveCoords)}
+          locationDetails={getDetailsForCoords(liveCoords)} // 🔹 separate details
+          autoOpen
         />
       )}
     </>

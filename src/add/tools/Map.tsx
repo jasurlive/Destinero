@@ -8,6 +8,7 @@ import PlaceMarkers from "./components/PlaceMarkers";
 import PopupHandler from "./PopupHandler";
 import GeoHighlights from "./components/GeoHighlights";
 import LockOverlay from "./components/LockOverlay";
+import LiveLocation from "./components/LiveLocation";
 
 import { useLocationPopup } from "./hooks/useLocationPopup";
 import { MapProps } from "../../types/interface";
@@ -38,15 +39,17 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
 
   // --- Unified hook for location popup and clipboard ---
   const {
-    popupCoords,
-    locationDetails,
+    clickedCoords, // 🔹 renamed from popupCoords
+    liveCoords, // 🔹 get live location coords
+    setLiveCoords, // 🔹 setter for live location
     loading,
     copySuccess,
     copyToClipboard,
     imageLoaded,
     handleImageLoad,
-    handleMapClick,
+    handleMapClick, // 🔹 renamed from handleMapClick
     setCoordsAndFetch,
+    getDetailsForCoords, // 🔹 fetch details when rendering PopupHandler
   } = useLocationPopup();
 
   return (
@@ -91,10 +94,17 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
           highlightedPlaces={highlightedPlaces}
         />
 
+        {/* 🔹 Live Location Button */}
+        <LiveLocation map={mapRef.current} setLiveCoords={setLiveCoords} />
+
+        {/* 🔹 Popup Handler now uses clickedCoords + liveCoords */}
         <PopupHandler
-          popupCoords={popupCoords}
+          popupCoords={clickedCoords} // ✅ updated
           searchCoords={searchCoords}
-          locationDetails={locationDetails}
+          liveCoords={liveCoords}
+          locationDetails={getDetailsForCoords(
+            clickedCoords || searchCoords || liveCoords || null
+          )} // ✅ use hook’s resolver
           mapRef={mapRef}
           copyCoordsToClipboard={(coords: [number, number]) =>
             copyToClipboard(`${coords[0]}, ${coords[1]}`)
@@ -107,3 +117,15 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
 };
 
 export default Map;
+
+/* 
+  🔹 Updates after renaming:
+    - popupCoords -> clickedCoords
+    - handleMapClick -> handleMapClick
+    - locationDetails is resolved using getDetailsForCoords()
+  
+  To revert:
+    1. Rename clickedCoords -> popupCoords.
+    2. Rename handleMapClick -> handleMapClick.
+    3. Pass locationDetails directly from hook if you re-add it.
+*/

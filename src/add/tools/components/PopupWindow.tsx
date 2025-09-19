@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import ReactDOMServer from "react-dom/server";
@@ -22,6 +22,8 @@ const PopupWindow: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
     setCoordsAndFetch,
   } = useLocationPopup({ autoOpen, handleCopyClick });
 
+  const markerRef = useRef<L.Marker>(null);
+
   useEffect(() => {
     if (
       !locationDetails &&
@@ -30,6 +32,12 @@ const PopupWindow: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
       setCoordsAndFetch(place.coords);
     }
   }, [place.coords, place.type, locationDetails, setCoordsAndFetch]);
+
+  useEffect(() => {
+    if (autoOpen && markerRef.current) {
+      markerRef.current.openPopup();
+    }
+  }, [autoOpen]);
 
   const handleCopy = () =>
     copyToClipboard(`[${place.coords[0]}, ${place.coords[1]}]`);
@@ -53,6 +61,7 @@ const PopupWindow: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
 
   return (
     <Marker
+      ref={markerRef}
       key={`${place.type}-${place.coords.join(",")}`}
       position={place.coords}
       icon={L.divIcon({

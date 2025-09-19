@@ -1,13 +1,16 @@
+// MapEvents.tsx
 import { useMapEvents } from "react-leaflet";
-import { MapEventsProps } from "../../../types/interface";
 
-const MapEvents = ({ onClick }: MapEventsProps) => {
+interface MapEventsProps {
+  onClick: (coords: [number, number]) => void;
+}
+
+const MapEvents: React.FC<MapEventsProps> = ({ onClick }) => {
   useMapEvents({
-    click: ({ latlng: { lat, lng } }) => {
-      onClick([lat, lng]);
+    click(e) {
+      onClick([e.latlng.lat, e.latlng.lng]);
     },
   });
-
   return null;
 };
 

@@ -1,4 +1,3 @@
-// hooks/useLocationPopup.tsx
 import { useState, useRef, useCallback, useEffect } from "react";
 import { getCountryFlag } from "../components/getCountryFlags";
 
@@ -39,10 +38,17 @@ export const useLocationPopup = ({
   const [imageLoaded, setImageLoaded] = useState(false);
   const handleImageLoad = useCallback(() => setImageLoaded(true), []);
 
-  // --- Popup state ---
-  const [locationDetails, setLocationDetails] =
-    useState<LocationDetails | null>(null);
-  const [popupCoords, setPopupCoords] = useState<[number, number] | null>(null);
+  // --- Location state ---
+  // 🔹 renamed popupCoords -> clickedCoords
+  const [clickedCoords, setClickedCoords] = useState<[number, number] | null>(
+    null
+  );
+  const [liveCoords, setLiveCoordsState] = useState<
+    [number, number] | undefined
+  >();
+  const [locationMap, setLocationMap] = useState<
+    Record<string, LocationDetails>
+  >({});
   const [loading, setLoading] = useState(false);
 
   // --- Abort/dedupe ---
@@ -56,17 +62,21 @@ export const useLocationPopup = ({
     };
   }, []);
 
+  const coordsKey = (coords: [number, number]) => `${coords[0]},${coords[1]}`;
+
   const startFetchForCoords = useCallback(async (coords: [number, number]) => {
-    // Abort any in-flight request
     abortControllerRef.current?.abort();
     const controller = new AbortController();
     abortControllerRef.current = controller;
 
     const myRequestId = ++requestIdRef.current;
+    const key = coordsKey(coords);
 
-    // Reset immediately (prevents stale data showing)
-    setLocationDetails(null);
-    setPopupCoords(coords);
+    setLocationMap((prev) => {
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
     setLoading(true);
 
     try {
@@ -99,7 +109,7 @@ export const useLocationPopup = ({
       };
 
       if (requestIdRef.current === myRequestId) {
-        setLocationDetails(details);
+        setLocationMap((prev) => ({ ...prev, [key]: details }));
       }
     } catch (err: any) {
       if (err?.name !== "AbortError") {
@@ -113,8 +123,10 @@ export const useLocationPopup = ({
     }
   }, []);
 
+  // 🔹 renamed handleMapClick -> handleMapClick
   const handleMapClick = useCallback(
     (coords: [number, number]) => {
+      setClickedCoords(coords);
       startFetchForCoords(coords);
     },
     [startFetchForCoords]
@@ -122,20 +134,37 @@ export const useLocationPopup = ({
 
   const setCoordsAndFetch = useCallback(
     (coords: [number, number]) => {
+      setClickedCoords(coords);
       startFetchForCoords(coords);
     },
     [startFetchForCoords]
   );
 
+  const setLiveCoords = useCallback(
+    (coords: [number, number]) => {
+      setLiveCoordsState(coords);
+      startFetchForCoords(coords);
+    },
+    [startFetchForCoords]
+  );
+
+  const getDetailsForCoords = useCallback(
+    (coords: [number, number] | null | undefined) =>
+      coords ? locationMap[coordsKey(coords)] || null : null,
+    [locationMap]
+  );
+
   return {
-    popupCoords,
-    locationDetails,
+    clickedCoords, // 🔹 instead of popupCoords
+    liveCoords,
     loading,
     copySuccess,
     copyToClipboard,
     imageLoaded,
     handleImageLoad,
-    handleMapClick,
+    handleMapClick, // 🔹 instead of handleMapClick
     setCoordsAndFetch,
+    setLiveCoords,
+    getDetailsForCoords,
   };
 };

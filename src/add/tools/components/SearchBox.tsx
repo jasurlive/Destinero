@@ -4,7 +4,6 @@ import "../../css/searchbox.css";
 import { SearchBoxProps } from "../../../types/interface";
 import { useSearch } from "../hooks/useSearch";
 import { useZoom } from "../hooks/useZoom";
-import LiveLocation from "./LiveLocation";
 import { useLocationPopup } from "../hooks/useLocationPopup";
 
 type Message = { type: "error" | "success"; text: string } | null;
@@ -16,13 +15,10 @@ const SearchBox: React.FC<SearchBoxProps> = ({ map, onSearch }) => {
     searchTerm,
     setSearchTerm,
     search,
-    resultCoords,
     isSearching,
     error: searchError,
     success: searchSuccess,
   } = useSearch((coords) => zoomToLocation(coords, 15, () => onSearch(coords)));
-
-  const { copyToClipboard } = useLocationPopup();
 
   const [message, setMessage] = useState<Message>(null);
 
@@ -81,9 +77,6 @@ const SearchBox: React.FC<SearchBoxProps> = ({ map, onSearch }) => {
           )}
         </button>
       </div>
-
-      {/* Live Location button */}
-      <LiveLocation map={map} handleCopyClick={copyToClipboard} />
 
       {message && (
         <div className={`message ${message.type}-message`}>{message.text}</div>

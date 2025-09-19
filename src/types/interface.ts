@@ -61,6 +61,7 @@ export interface PlaceMarkersProps {
 export interface PopupHandlerProps {
   popupCoords: [number, number] | null;
   searchCoords: [number, number] | null;
+  liveCoords: [number, number] | null | undefined;
   locationDetails: LocationDetails | null;
   mapRef: React.RefObject<L.Map | null>;
   copyCoordsToClipboard: (coords: [number, number]) => void;
