@@ -1,48 +1,56 @@
-// PlaceMarkers.tsx
-import React, { useCallback } from "react";
-import CreatePopup from "../PopUp";
+import React from "react";
+import CreatePopup from "./PopupWindow";
 import { PiFlagPennantFill } from "react-icons/pi";
 import { BiSolidPlaneAlt } from "react-icons/bi";
 import { ImHeartBroken } from "react-icons/im";
 import { PlaceMarkersProps } from "../../../types/interface";
+import { useLocationPopup } from "../hooks/useLocationPopup";
 
 const PlaceMarkers: React.FC<PlaceMarkersProps> = ({
   visitedPlaces,
   plannedPlaces,
   highlightedPlaces = [],
-  mapRef,
-  copyCoordsToClipboard,
-  copySuccess,
 }) => {
+  // ✅ use universal clipboard from hook
+  const { copyToClipboard } = useLocationPopup();
+
   const places = [
     ...visitedPlaces.map((place) => ({
-      ...place,
-      type: "visited",
-      icon: <PiFlagPennantFill className="custom-marker-icon-visited" />,
+      place: {
+        ...place,
+        type: "visited" as const,
+        icon: <PiFlagPennantFill className="custom-marker-icon-visited" />,
+      },
+      autoOpen: false,
     })),
     ...plannedPlaces.map((place) => ({
-      ...place,
-      type: "planned",
-      icon: <BiSolidPlaneAlt className="custom-marker-icon-planned" />,
+      place: {
+        ...place,
+        type: "planned" as const,
+        icon: <BiSolidPlaneAlt className="custom-marker-icon-planned" />,
+      },
+      autoOpen: false,
     })),
     ...highlightedPlaces.map((place, index) => ({
-      ...place,
-      type: "highlighted",
+      place: {
+        ...place,
+        type: "highlighted" as const,
+        icon: <ImHeartBroken className="custom-marker-icon-highlighted" />,
+      },
       autoOpen: index === 0,
-      icon: <ImHeartBroken className="custom-marker-icon-highlighted" />,
     })),
   ];
 
   return (
     <>
-      {places.map((place) => (
+      {places.map(({ place, autoOpen }) => (
         <CreatePopup
           key={`${place.type}-${place.coords.join(",")}`}
           place={place}
-          mapRef={mapRef}
-          handleCopyClick={() => copyCoordsToClipboard(place.coords)}
-          copySuccess={copySuccess}
-          autoOpen={place.autoOpen || false}
+          handleCopyClick={() =>
+            copyToClipboard(`[${place.coords[0]}, ${place.coords[1]}]`)
+          }
+          autoOpen={autoOpen}
         />
       ))}
     </>

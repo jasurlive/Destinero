@@ -1,17 +1,16 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
-
 import { useMediaQuery } from "@mui/material";
 
-import SearchBox from "./SearchBox";
+import SearchBox from "./components/SearchBox";
 import MapEvents from "./components/MapEvents";
 import PlaceMarkers from "./components/PlaceMarkers";
-import PopupHandler from "./components/PopupHandler";
+import PopupHandler from "./PopupHandler";
 import GeoHighlights from "./components/GeoHighlights";
 import LockOverlay from "./components/LockOverlay";
+import LiveLocation from "./components/LiveLocation";
 
-import { useLocationClick } from "./hooks/useLocationClick";
-import { useCopyToClipboard } from "./hooks/useCopyToClipboard";
+import { useLocationPopup } from "./hooks/useLocationPopup";
 import { MapProps } from "../../types/interface";
 
 import "../css/map.css";
@@ -37,16 +36,21 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
     defaultCenter[0],
     defaultCenter[1] + (isMobile ? 22 : 70),
   ];
-  const { copyToClipboard, copySuccess } = useCopyToClipboard();
-  const [locationDetails] = useState({
-    placeName: "",
-    city: "",
-    country: "",
-    countryCode: "",
-  });
 
-  const { popupCoords, clickedLocationDetails, handleMapClick } =
-    useLocationClick();
+  // --- Unified hook for location popup and clipboard ---
+  const {
+    clickedCoords, // 🔹 renamed from popupCoords
+    liveCoords, // 🔹 get live location coords
+    setLiveCoords, // 🔹 setter for live location
+    loading,
+    copySuccess,
+    copyToClipboard,
+    imageLoaded,
+    handleImageLoad,
+    handleMapClick, // 🔹 renamed from handleMapClick
+    setCoordsAndFetch,
+    getDetailsForCoords, // 🔹 fetch details when rendering PopupHandler
+  } = useLocationPopup();
 
   return (
     <div className="map-container">
@@ -88,18 +92,23 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
           visitedPlaces={visitedPlaces}
           plannedPlaces={plannedPlaces}
           highlightedPlaces={highlightedPlaces}
-          mapRef={mapRef}
-          copyCoordsToClipboard={copyToClipboard}
-          copySuccess={copySuccess}
         />
 
+        {/* 🔹 Live Location Button */}
+        <LiveLocation map={mapRef.current} setLiveCoords={setLiveCoords} />
+
+        {/* 🔹 Popup Handler now uses clickedCoords + liveCoords */}
         <PopupHandler
-          popupCoords={popupCoords}
+          popupCoords={clickedCoords} // ✅ updated
           searchCoords={searchCoords}
-          locationDetails={locationDetails}
-          clickedLocationDetails={clickedLocationDetails}
+          liveCoords={liveCoords}
+          locationDetails={getDetailsForCoords(
+            clickedCoords || searchCoords || liveCoords || null
+          )} // ✅ use hook’s resolver
           mapRef={mapRef}
-          copyCoordsToClipboard={copyToClipboard}
+          copyCoordsToClipboard={(coords: [number, number]) =>
+            copyToClipboard(`${coords[0]}, ${coords[1]}`)
+          }
           copySuccess={copySuccess}
         />
       </MapContainer>
@@ -108,3 +117,15 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
 };
 
 export default Map;
+
+/* 
+  🔹 Updates after renaming:
+    - popupCoords -> clickedCoords
+    - handleMapClick -> handleMapClick
+    - locationDetails is resolved using getDetailsForCoords()
+  
+  To revert:
+    1. Rename clickedCoords -> popupCoords.
+    2. Rename handleMapClick -> handleMapClick.
+    3. Pass locationDetails directly from hook if you re-add it.
+*/

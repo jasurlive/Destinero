@@ -9,16 +9,29 @@ export interface Place {
 }
 
 export interface CreatePopupProps {
-  place: Place;
-  mapRef: React.RefObject<any>;
-  handleCopyClick: () => void;
-  copySuccess: boolean;
+  place: {
+    type:
+      | "current"
+      | "searched"
+      | "clicked"
+      | "visited"
+      | "planned"
+      | "highlighted";
+    coords: [number, number];
+    icon: React.ReactNode;
+    name?: string;
+    imageLink?: string;
+    description?: string;
+  };
   locationDetails?: {
     placeName: string;
     city: string;
     country: string;
     countryCode: string;
-  };
+  } | null;
+  handleCopyClick?: () => void;
+  autoOpen?: boolean; // optional for future auto-open behavior
+  onPlaceClick?: () => void;
 }
 
 export interface PlaceData {
@@ -42,26 +55,14 @@ export interface PlaceMarkersProps {
   visitedPlaces: MapProps["visitedPlaces"];
   plannedPlaces: MapProps["plannedPlaces"];
   highlightedPlaces?: MapProps["highlightedPlaces"];
-  mapRef: React.RefObject<L.Map | null>;
-  copyCoordsToClipboard: (coords: [number, number]) => void;
-  copySuccess: boolean;
+  autoOpen?: boolean;
 }
 
 export interface PopupHandlerProps {
   popupCoords: [number, number] | null;
   searchCoords: [number, number] | null;
-  locationDetails: {
-    placeName: string;
-    city: string;
-    country: string;
-    countryCode: string;
-  };
-  clickedLocationDetails: {
-    placeName: string;
-    city: string;
-    country: string;
-    countryCode: string;
-  };
+  liveCoords: [number, number] | null | undefined;
+  locationDetails: LocationDetails | null;
   mapRef: React.RefObject<L.Map | null>;
   copyCoordsToClipboard: (coords: [number, number]) => void;
   copySuccess: boolean;
@@ -71,7 +72,7 @@ export interface SearchBoxProps {
   map: any;
   copySuccess: boolean;
   onSearch: (coords: [number, number]) => void;
-  handleCopyClick: (value: [number, number]) => void;
+  handleCopyClick?: (coords: [number, number]) => void;
 }
 
 export interface MapEventsProps {
