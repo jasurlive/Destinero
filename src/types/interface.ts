@@ -28,7 +28,7 @@ export interface CreatePopupProps {
     city: string;
     country: string;
     countryCode: string;
-  };
+  } | null;
   handleCopyClick?: () => void;
   autoOpen?: boolean; // optional for future auto-open behavior
   onPlaceClick?: () => void;
@@ -61,18 +61,7 @@ export interface PlaceMarkersProps {
 export interface PopupHandlerProps {
   popupCoords: [number, number] | null;
   searchCoords: [number, number] | null;
-  locationDetails: {
-    placeName: string;
-    city: string;
-    country: string;
-    countryCode: string;
-  };
-  clickedLocationDetails: {
-    placeName: string;
-    city: string;
-    country: string;
-    countryCode: string;
-  };
+  locationDetails: LocationDetails | null;
   mapRef: React.RefObject<L.Map | null>;
   copyCoordsToClipboard: (coords: [number, number]) => void;
   copySuccess: boolean;
@@ -82,7 +71,7 @@ export interface SearchBoxProps {
   map: any;
   copySuccess: boolean;
   onSearch: (coords: [number, number]) => void;
-  handleCopyClick: (value: [number, number]) => void;
+  handleCopyClick?: (coords: [number, number]) => void;
 }
 
 export interface MapEventsProps {

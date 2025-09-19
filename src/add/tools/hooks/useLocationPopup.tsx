@@ -23,7 +23,10 @@ export const useLocationPopup = ({
   // --- Clipboard handling ---
   const [copySuccess, setCopySuccess] = useState(false);
   const copyToClipboard = useCallback(
-    (text: string) => {
+    (value: string | [number, number]) => {
+      const text =
+        typeof value === "string" ? value : `${value[0]}, ${value[1]}`;
+
       navigator.clipboard.writeText(text).catch(() => {});
       setCopySuccess(true);
       if (handleCopyClick) handleCopyClick();
@@ -129,7 +132,7 @@ export const useLocationPopup = ({
     locationDetails,
     loading,
     copySuccess,
-    copyToClipboard,
+    copyToClipboard, // ✅ now accepts string | [lat, lng]
     imageLoaded,
     handleImageLoad,
     handleMapClick,

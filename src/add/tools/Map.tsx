@@ -1,6 +1,5 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
-
 import { useMediaQuery } from "@mui/material";
 
 import SearchBox from "./SearchBox";
@@ -10,8 +9,7 @@ import PopupHandler from "./PopupHandler";
 import GeoHighlights from "./components/GeoHighlights";
 import LockOverlay from "./components/LockOverlay";
 
-import { useLocationClick } from "./hooks/useLocationClick";
-import { useCopyToClipboard } from "./hooks/useCopyToClipboard";
+import { useLocationPopup } from "./hooks/useLocationPopup";
 import { MapProps } from "../../types/interface";
 
 import "../css/map.css";
@@ -37,16 +35,19 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
     defaultCenter[0],
     defaultCenter[1] + (isMobile ? 22 : 70),
   ];
-  const { copyToClipboard, copySuccess } = useCopyToClipboard();
-  const [locationDetails] = useState({
-    placeName: "",
-    city: "",
-    country: "",
-    countryCode: "",
-  });
 
-  const { popupCoords, clickedLocationDetails, handleMapClick } =
-    useLocationClick();
+  // --- Unified hook for location popup and clipboard ---
+  const {
+    popupCoords,
+    locationDetails,
+    loading,
+    copySuccess,
+    copyToClipboard,
+    imageLoaded,
+    handleImageLoad,
+    handleMapClick,
+    setCoordsAndFetch,
+  } = useLocationPopup();
 
   return (
     <div className="map-container">
@@ -94,9 +95,10 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
           popupCoords={popupCoords}
           searchCoords={searchCoords}
           locationDetails={locationDetails}
-          clickedLocationDetails={clickedLocationDetails}
           mapRef={mapRef}
-          copyCoordsToClipboard={copyToClipboard}
+          copyCoordsToClipboard={(coords: [number, number]) =>
+            copyToClipboard(`${coords[0]}, ${coords[1]}`)
+          }
           copySuccess={copySuccess}
         />
       </MapContainer>
