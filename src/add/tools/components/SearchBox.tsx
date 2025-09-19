@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { FaSpinner } from "react-icons/fa";
-import "../css/searchbox.css";
-import { SearchBoxProps } from "../../types/interface";
-import { useSearch } from "./hooks/useSearch";
-import { useZoom } from "./hooks/useZoom";
-import LiveLocation from "../tools/components/LiveLocation";
-import { useLocationPopup } from "./hooks/useLocationPopup";
+import "../../css/searchbox.css";
+import { SearchBoxProps } from "../../../types/interface";
+import { useSearch } from "../hooks/useSearch";
+import { useZoom } from "../hooks/useZoom";
+import LiveLocation from "./LiveLocation";
+import { useLocationPopup } from "../hooks/useLocationPopup";
 
 type Message = { type: "error" | "success"; text: string } | null;
 

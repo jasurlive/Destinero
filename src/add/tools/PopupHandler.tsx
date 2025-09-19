@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CreatePopup from "./components/PopupWindow";
 import { MdLocationPin } from "react-icons/md";
 import { FaSearchLocation } from "react-icons/fa";
 import { PopupHandlerProps } from "../../types/interface";
+import { useLocationPopup } from "./hooks/useLocationPopup";
 
 const PopupHandler: React.FC<PopupHandlerProps> = ({
   popupCoords,
   searchCoords,
-  locationDetails,
   copyCoordsToClipboard,
 }) => {
+  const { setCoordsAndFetch, locationDetails } = useLocationPopup();
+
+  // ✅ Single effect to handle both popupCoords & searchCoords
+  useEffect(() => {
+    const coords = popupCoords || searchCoords;
+    if (coords) {
+      setCoordsAndFetch(coords);
+    }
+  }, [popupCoords, searchCoords, setCoordsAndFetch]);
+
   return (
     <>
       {/* Clicked Location Popup */}
@@ -21,7 +31,7 @@ const PopupHandler: React.FC<PopupHandlerProps> = ({
             icon: <MdLocationPin className="custom-marker-icon-clicked" />,
           }}
           handleCopyClick={() => copyCoordsToClipboard(popupCoords)}
-          locationDetails={locationDetails} // ✅ now using universal details
+          locationDetails={locationDetails} // ✅ always fresh
         />
       )}
 
@@ -34,7 +44,7 @@ const PopupHandler: React.FC<PopupHandlerProps> = ({
             icon: <FaSearchLocation className="custom-marker-icon-searched" />,
           }}
           handleCopyClick={() => copyCoordsToClipboard(searchCoords)}
-          locationDetails={locationDetails} // ✅ same here
+          locationDetails={locationDetails} // ✅ always fresh
         />
       )}
     </>

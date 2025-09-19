@@ -4,7 +4,7 @@ import { getCountryFlag } from "../components/getCountryFlags";
 
 export interface LocationDetails {
   coords: [number, number];
-  placeName: string; // full display_name now
+  placeName: string;
   city: string;
   country: string;
   countryCode: string;
@@ -132,7 +132,7 @@ export const useLocationPopup = ({
     locationDetails,
     loading,
     copySuccess,
-    copyToClipboard, // ✅ now accepts string | [lat, lng]
+    copyToClipboard,
     imageLoaded,
     handleImageLoad,
     handleMapClick,

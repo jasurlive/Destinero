@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { useMediaQuery } from "@mui/material";
 
-import SearchBox from "./SearchBox";
+import SearchBox from "./components/SearchBox";
 import MapEvents from "./components/MapEvents";
 import PlaceMarkers from "./components/PlaceMarkers";
 import PopupHandler from "./PopupHandler";
