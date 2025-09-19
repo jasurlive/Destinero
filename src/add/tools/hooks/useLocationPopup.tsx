@@ -39,7 +39,6 @@ export const useLocationPopup = ({
   const handleImageLoad = useCallback(() => setImageLoaded(true), []);
 
   // --- Location state ---
-  // 🔹 renamed popupCoords -> clickedCoords
   const [clickedCoords, setClickedCoords] = useState<[number, number] | null>(
     null
   );
@@ -51,102 +50,90 @@ export const useLocationPopup = ({
   >({});
   const [loading, setLoading] = useState(false);
 
-  // --- Abort/dedupe ---
-  const abortControllerRef = useRef<AbortController | null>(null);
-  const requestIdRef = useRef(0);
+  // --- Debounce ref for live coords ---
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     return () => {
-      abortControllerRef.current?.abort();
-      abortControllerRef.current = null;
+      if (debounceRef.current) clearTimeout(debounceRef.current);
     };
   }, []);
 
   const coordsKey = (coords: [number, number]) => `${coords[0]},${coords[1]}`;
 
-  const startFetchForCoords = useCallback(async (coords: [number, number]) => {
-    abortControllerRef.current?.abort();
-    const controller = new AbortController();
-    abortControllerRef.current = controller;
+  const fetchCoordsData = useCallback(
+    async (coords: [number, number]) => {
+      const key = coordsKey(coords);
 
-    const myRequestId = ++requestIdRef.current;
-    const key = coordsKey(coords);
+      // ✅ Skip fetch if already cached
+      if (locationMap[key]) return;
 
-    setLocationMap((prev) => {
-      const next = { ...prev };
-      delete next[key];
-      return next;
-    });
-    setLoading(true);
+      setLoading(true);
+      try {
+        const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coords[0]}&lon=${coords[1]}&addressdetails=1`;
+        const resp = await fetch(url);
 
-    try {
-      const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coords[0]}&lon=${coords[1]}&addressdetails=1`;
-      const resp = await fetch(url, { signal: controller.signal });
+        if (!resp.ok) {
+          throw new Error(`Reverse geocode failed: ${resp.status}`);
+        }
 
-      if (!resp.ok) {
-        throw new Error(`Reverse geocode failed: ${resp.status}`);
-      }
+        const data = await resp.json();
 
-      const data = await resp.json();
+        const {
+          city = "",
+          town = "",
+          village = "",
+          country = "Unknown Country",
+          country_code = "",
+        } = data.address || {};
 
-      if (requestIdRef.current !== myRequestId) return;
+        const details: LocationDetails = {
+          coords,
+          placeName: data.display_name || "Unknown Place",
+          city: city || town || village || "Unknown city",
+          country,
+          countryCode: (country_code || "").toUpperCase(),
+          flag: getCountryFlag((country_code || "").toUpperCase()),
+        };
 
-      const {
-        city = "",
-        town = "",
-        village = "",
-        country = "Unknown Country",
-        country_code = "",
-      } = data.address || {};
-
-      const details: LocationDetails = {
-        coords,
-        placeName: data.display_name || "Unknown Place",
-        city: city || town || village || "Unknown city",
-        country,
-        countryCode: (country_code || "").toUpperCase(),
-        flag: getCountryFlag((country_code || "").toUpperCase()),
-      };
-
-      if (requestIdRef.current === myRequestId) {
         setLocationMap((prev) => ({ ...prev, [key]: details }));
-      }
-    } catch (err: any) {
-      if (err?.name !== "AbortError") {
+      } catch (err) {
         console.error("Popup fetch error:", err);
-      }
-    } finally {
-      if (requestIdRef.current === myRequestId) {
+      } finally {
         setLoading(false);
-        abortControllerRef.current = null;
       }
+    },
+    [locationMap]
+  );
+
+  // --- Clicked coords trigger fetch immediately ---
+  useEffect(() => {
+    if (clickedCoords) {
+      fetchCoordsData(clickedCoords);
     }
+  }, [clickedCoords, fetchCoordsData]);
+
+  // --- Live coords trigger fetch with debounce ---
+  useEffect(() => {
+    if (!liveCoords) return;
+
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      fetchCoordsData(liveCoords);
+    }, 500); // fetch only after user stops moving
+  }, [liveCoords, fetchCoordsData]);
+
+  const handleMapClick = useCallback((coords: [number, number]) => {
+    setClickedCoords(coords); // ✅ effect will handle fetch
   }, []);
 
-  // 🔹 renamed handleMapClick -> handleMapClick
-  const handleMapClick = useCallback(
-    (coords: [number, number]) => {
-      setClickedCoords(coords);
-      startFetchForCoords(coords);
-    },
-    [startFetchForCoords]
-  );
+  const setCoordsAndFetch = useCallback((coords: [number, number]) => {
+    setClickedCoords(coords); // ✅ effect will handle fetch
+  }, []);
 
-  const setCoordsAndFetch = useCallback(
-    (coords: [number, number]) => {
-      setClickedCoords(coords);
-      startFetchForCoords(coords);
-    },
-    [startFetchForCoords]
-  );
-
-  const setLiveCoords = useCallback(
-    (coords: [number, number]) => {
-      setLiveCoordsState(coords);
-      startFetchForCoords(coords);
-    },
-    [startFetchForCoords]
-  );
+  const setLiveCoords = useCallback((coords: [number, number]) => {
+    setLiveCoordsState(coords); // ✅ effect will handle fetch
+  }, []);
 
   const getDetailsForCoords = useCallback(
     (coords: [number, number] | null | undefined) =>
@@ -155,14 +142,14 @@ export const useLocationPopup = ({
   );
 
   return {
-    clickedCoords, // 🔹 instead of popupCoords
+    clickedCoords,
     liveCoords,
     loading,
     copySuccess,
     copyToClipboard,
     imageLoaded,
     handleImageLoad,
-    handleMapClick, // 🔹 instead of handleMapClick
+    handleMapClick,
     setCoordsAndFetch,
     setLiveCoords,
     getDetailsForCoords,

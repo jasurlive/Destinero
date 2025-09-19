@@ -6,6 +6,8 @@ import { BsPersonRaisedHand } from "react-icons/bs"; // 🔹 for live location p
 import { PopupHandlerProps } from "../../types/interface";
 import { useLocationPopup } from "./hooks/useLocationPopup";
 
+import "../css/popup.css";
+
 const PopupHandler: React.FC<PopupHandlerProps> = ({
   popupCoords,
   searchCoords,
