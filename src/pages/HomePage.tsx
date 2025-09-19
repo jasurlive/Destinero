@@ -6,8 +6,6 @@ import { usePlaces } from "../add/tools/hooks/usePlaces"; //custom hook to fetch
 import { FaLock, FaLockOpen } from "react-icons/fa";
 import { RiResetLeftFill } from "react-icons/ri";
 
-import LockOverlay from "../add/tools/components/LockOverlay"; //for locking the map interactions on scroll
-
 import "../add/css/home.css";
 
 const HomePage = () => {

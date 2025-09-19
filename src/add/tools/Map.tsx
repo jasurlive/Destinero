@@ -6,7 +6,7 @@ import { useMediaQuery } from "@mui/material";
 import SearchBox from "./SearchBox";
 import MapEvents from "./components/MapEvents";
 import PlaceMarkers from "./components/PlaceMarkers";
-import PopupHandler from "./components/PopupHandler";
+import PopupHandler from "./PopupHandler";
 import GeoHighlights from "./components/GeoHighlights";
 import LockOverlay from "./components/LockOverlay";
 
@@ -88,9 +88,6 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
           visitedPlaces={visitedPlaces}
           plannedPlaces={plannedPlaces}
           highlightedPlaces={highlightedPlaces}
-          mapRef={mapRef}
-          copyCoordsToClipboard={copyToClipboard}
-          copySuccess={copySuccess}
         />
 
         <PopupHandler

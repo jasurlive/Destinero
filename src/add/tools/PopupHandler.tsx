@@ -1,18 +1,17 @@
 // PopupHandler.tsx
 import React from "react";
-import CreatePopup from "../PopUp";
+import CreatePopup from "./components/PopupWindow";
 import { MdLocationPin } from "react-icons/md";
 import { FaSearchLocation } from "react-icons/fa";
-import { PopupHandlerProps } from "../../../types/interface";
+import { PopupHandlerProps } from "../../types/interface";
 
 const PopupHandler: React.FC<PopupHandlerProps> = ({
   popupCoords,
   searchCoords,
   locationDetails,
   clickedLocationDetails,
-  mapRef,
+  mapRef, // ✅ keep in case you still need it elsewhere
   copyCoordsToClipboard,
-  copySuccess,
 }) => {
   return (
     <>
@@ -24,10 +23,7 @@ const PopupHandler: React.FC<PopupHandlerProps> = ({
             coords: popupCoords,
             icon: <MdLocationPin className="custom-marker-icon-clicked" />,
           }}
-          mapRef={mapRef}
           handleCopyClick={() => copyCoordsToClipboard(popupCoords)}
-          copySuccess={copySuccess}
-          onPlaceClick={() => {}}
           locationDetails={clickedLocationDetails}
         />
       )}
@@ -40,10 +36,7 @@ const PopupHandler: React.FC<PopupHandlerProps> = ({
             coords: searchCoords,
             icon: <FaSearchLocation className="custom-marker-icon-searched" />,
           }}
-          mapRef={mapRef}
           handleCopyClick={() => copyCoordsToClipboard(searchCoords)}
-          copySuccess={copySuccess}
-          onPlaceClick={() => {}}
           locationDetails={locationDetails}
         />
       )}
