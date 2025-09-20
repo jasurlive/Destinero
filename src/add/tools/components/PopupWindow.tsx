@@ -3,7 +3,7 @@ import { Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import ReactDOMServer from "react-dom/server";
 import { FaSpinner } from "react-icons/fa";
-import { useLocationPopup } from "../hooks/useLocationPopup";
+import { usePopupOptions } from "../hooks/usePopUpOptions";
 import { CreatePopupProps } from "../../../types/interface";
 import { getCountryFlag } from "./getCountryFlags";
 import "../../css/popup.css";
@@ -20,7 +20,7 @@ const PopupWindow: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
     imageLoaded,
     handleImageLoad,
     setCoordsAndFetch,
-  } = useLocationPopup({ autoOpen, handleCopyClick });
+  } = usePopupOptions({ autoOpen, handleCopyClick });
 
   const markerRef = useRef<L.Marker>(null);
 

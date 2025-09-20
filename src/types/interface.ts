@@ -66,6 +66,7 @@ export interface PopupHandlerProps {
   mapRef: React.RefObject<L.Map | null>;
   copyCoordsToClipboard: (coords: [number, number]) => void;
   copySuccess: boolean;
+  loading?: boolean;
 }
 
 export interface SearchBoxProps {
@@ -96,10 +97,12 @@ export interface UsePopupOptionsProps {
 }
 
 export interface LocationDetails {
+  coords?: [number, number];
   placeName: string;
   city: string;
   country: string;
   countryCode: string;
+  flag?: React.ReactNode;
 }
 
 export interface UseUserLocationResult {

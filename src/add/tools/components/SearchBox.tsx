@@ -4,7 +4,6 @@ import "../../css/searchbox.css";
 import { SearchBoxProps } from "../../../types/interface";
 import { useSearch } from "../hooks/useSearch";
 import { useZoom } from "../hooks/useZoom";
-import { useLocationPopup } from "../hooks/useLocationPopup";
 
 type Message = { type: "error" | "success"; text: string } | null;
 
