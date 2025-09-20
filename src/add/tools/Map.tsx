@@ -26,6 +26,7 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
   searchCoords,
   setSearchCoords,
   locked = true,
+  resetTrigger,
 }) => {
   const mapRef = useRef<L.Map | null>(null);
   const isMobile = useMediaQuery("(max-width:600px)");
@@ -50,6 +51,12 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
 
   // --- Location fetching hook (independent) ---
   const { fetchCoordsData, getDetailsForCoords, loading } = useFetchLocation();
+
+  useEffect(() => {
+    if (resetTrigger && mapRef.current) {
+      mapRef.current.setView(adjustedCenter, defaultZoom); // reset to default
+    }
+  }, [resetTrigger, adjustedCenter, defaultZoom]);
 
   // --- Fetch location details whenever clickedCoords, liveCoords, or searchCoords changes ---
   useEffect(() => {

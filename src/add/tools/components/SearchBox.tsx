@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { FaSpinner } from "react-icons/fa";
 import "../../css/searchbox.css";
 import { SearchBoxProps } from "../../../types/interface";
 import { useSearch } from "../hooks/useSearch";
 import { useZoom } from "../hooks/useZoom";
+import { usePreventTouches } from "../hooks/usePreventTouches";
 
 type Message = { type: "error" | "success"; text: string } | null;
 
@@ -20,6 +21,9 @@ const SearchBox: React.FC<SearchBoxProps> = ({ map, onSearch }) => {
   } = useSearch((coords) => zoomToLocation(coords, 15, () => onSearch(coords)));
 
   const [message, setMessage] = useState<Message>(null);
+
+  const searchBoxRef = useRef<HTMLDivElement>(null);
+  usePreventTouches(searchBoxRef); // a hook to prevent map interactions through the search box
 
   useEffect(() => {
     if (searchError) setMessage({ type: "error", text: searchError });
@@ -60,7 +64,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ map, onSearch }) => {
   return (
     <>
       {/* Search Input */}
-      <div className="search-box">
+      <div className="search-box" ref={searchBoxRef}>
         <input
           type="text"
           value={searchTerm}

@@ -49,6 +49,7 @@ export interface MapProps {
     React.SetStateAction<[number, number] | null>
   >;
   locked?: boolean;
+  resetTrigger?: boolean;
 }
 
 export interface PlaceMarkersProps {
