@@ -58,7 +58,6 @@ const PopupHandler: React.FC<PopupHandlerProps> = ({
             place={{ type, coords, icon }}
             handleCopyClick={() => copyCoordsToClipboard(coords)}
             locationDetails={locationDetails}
-            loading={!locationDetails} // 🔹 show loading until details arrive
             autoOpen={type !== "clicked"} // clicked may remain manual
           />
         );
