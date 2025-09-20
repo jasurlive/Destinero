@@ -1,8 +1,5 @@
 import { useState, useCallback } from "react";
-import {
-  LocationDetails,
-  UsePopupOptionsProps,
-} from "../../../types/interface";
+import { UsePopupOptionsProps } from "../../../types/interface";
 
 export const usePopupOptions = ({
   autoOpen = false,

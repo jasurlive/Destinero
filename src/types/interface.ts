@@ -32,6 +32,7 @@ export interface CreatePopupProps {
   handleCopyClick?: () => void;
   autoOpen?: boolean; // optional for future auto-open behavior
   onPlaceClick?: () => void;
+  loading?: boolean;
 }
 
 export interface PlaceData {
