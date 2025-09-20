@@ -14,9 +14,10 @@ const HomePage = () => {
     null
   );
   const [locked, setLocked] = useState(true);
+  const [resetTrigger, setResetTrigger] = useState(false);
 
   const resetView = () => {
-    window.location.reload();
+    setResetTrigger((prev) => !prev); // toggle to trigger map reset
   };
 
   return (
@@ -49,6 +50,7 @@ const HomePage = () => {
         searchCoords={searchCoords} // finds a place by search coordinates
         setSearchCoords={setSearchCoords} //manages search coordinates data
         locked={locked} // locks the map when true
+        resetTrigger={resetTrigger} // triggers reset when the function is called
       />
     </div>
   );
