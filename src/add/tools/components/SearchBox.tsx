@@ -50,6 +50,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ map, onSearch }) => {
 
   const handleSearchClick = useCallback(
     (e: React.MouseEvent) => {
+      e.stopPropagation();
       e.preventDefault();
       search();
     },

@@ -15,7 +15,8 @@ const LiveLocation: React.FC<LiveLocationProps> = ({ map, setLiveCoords }) => {
   const [isRequesting, setIsRequesting] = useState(false);
 
   // Request browser geolocation
-  const getUserLocation = useCallback(() => {
+  const getUserLocation = useCallback((e) => {
+    e.stopPropagation();
     if (!navigator.geolocation) {
       console.error("Geolocation not supported");
       return;
