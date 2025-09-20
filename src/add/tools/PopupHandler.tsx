@@ -2,70 +2,66 @@ import React, { useEffect } from "react";
 import CreatePopup from "./components/PopupWindow";
 import { MdLocationPin } from "react-icons/md";
 import { FaSearchLocation } from "react-icons/fa";
-import { BsPersonRaisedHand } from "react-icons/bs"; // 🔹 for live location popup
+import { BsPersonRaisedHand } from "react-icons/bs";
 import { PopupHandlerProps } from "../../types/interface";
-import { useLocationPopup } from "./hooks/useLocationPopup";
+
+import { usePopupOptions } from "./hooks/usePopUpOptions";
+import { useFetchLocation } from "./hooks/useFetchLocation";
 
 import "../css/popup.css";
 
 const PopupHandler: React.FC<PopupHandlerProps> = ({
   popupCoords,
   searchCoords,
-  liveCoords, // 🔹 live location support
+  liveCoords,
   copyCoordsToClipboard,
 }) => {
-  const { setCoordsAndFetch, getDetailsForCoords } = useLocationPopup();
+  const { setCoordsAndFetch } = usePopupOptions();
+  const { fetchCoordsData, getDetailsForCoords, loading } = useFetchLocation();
 
-  // ✅ Single effect to trigger fetch for whichever coords are active
+  // Unified coords array
+  const coordsList = [popupCoords, searchCoords, liveCoords].filter(
+    Boolean
+  ) as [number, number][];
+
   useEffect(() => {
-    const coords = popupCoords || searchCoords || liveCoords;
-    if (coords) {
+    coordsList.forEach((coords) => {
       setCoordsAndFetch(coords);
-    }
-  }, [popupCoords, searchCoords, liveCoords, setCoordsAndFetch]);
+      fetchCoordsData(coords); // async fetch, don't block rendering
+    });
+  }, [coordsList, fetchCoordsData, setCoordsAndFetch]);
 
   return (
     <>
-      {/* Clicked Location Popup */}
-      {popupCoords && (
-        <CreatePopup
-          place={{
-            type: "clicked",
-            coords: popupCoords,
-            icon: <MdLocationPin className="custom-marker-icon-clicked" />,
-          }}
-          handleCopyClick={() => copyCoordsToClipboard(popupCoords)}
-          locationDetails={getDetailsForCoords(popupCoords)} // 🔹 each popup uses its own details
-        />
-      )}
+      {coordsList.map((coords) => {
+        const type =
+          coords === popupCoords
+            ? "clicked"
+            : coords === searchCoords
+            ? "searched"
+            : "current";
 
-      {/* Searched Location Popup */}
-      {searchCoords && (
-        <CreatePopup
-          place={{
-            type: "searched",
-            coords: searchCoords,
-            icon: <FaSearchLocation className="custom-marker-icon-searched" />,
-          }}
-          handleCopyClick={() => copyCoordsToClipboard(searchCoords)}
-          locationDetails={getDetailsForCoords(searchCoords)} // 🔹 separate details
-          autoOpen
-        />
-      )}
+        const icon =
+          type === "clicked" ? (
+            <MdLocationPin className="custom-marker-icon-clicked" />
+          ) : type === "searched" ? (
+            <FaSearchLocation className="custom-marker-icon-searched" />
+          ) : (
+            <BsPersonRaisedHand className="custom-marker-icon-live" />
+          );
 
-      {/* 🔹 Live Location Popup */}
-      {liveCoords && (
-        <CreatePopup
-          place={{
-            type: "current",
-            coords: liveCoords,
-            icon: <BsPersonRaisedHand className="custom-marker-icon-live" />,
-          }}
-          handleCopyClick={() => copyCoordsToClipboard(liveCoords)}
-          locationDetails={getDetailsForCoords(liveCoords)} // 🔹 separate details
-          autoOpen
-        />
-      )}
+        const locationDetails = getDetailsForCoords(coords);
+
+        return (
+          <CreatePopup
+            key={`${coords[0]},${coords[1]}`}
+            place={{ type, coords, icon }}
+            handleCopyClick={() => copyCoordsToClipboard(coords)}
+            locationDetails={locationDetails}
+            autoOpen={type !== "clicked"} // clicked may remain manual
+          />
+        );
+      })}
     </>
   );
 };

@@ -3,7 +3,7 @@ import { Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import ReactDOMServer from "react-dom/server";
 import { FaSpinner } from "react-icons/fa";
-import { useLocationPopup } from "../hooks/useLocationPopup";
+import { usePopupOptions } from "../hooks/usePopUpOptions";
 import { CreatePopupProps } from "../../../types/interface";
 import { getCountryFlag } from "./getCountryFlags";
 import "../../css/popup.css";
@@ -20,7 +20,7 @@ const PopupWindow: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
     imageLoaded,
     handleImageLoad,
     setCoordsAndFetch,
-  } = useLocationPopup({ autoOpen, handleCopyClick });
+  } = usePopupOptions({ autoOpen, handleCopyClick });
 
   const markerRef = useRef<L.Marker>(null);
 
@@ -73,7 +73,11 @@ const PopupWindow: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
         <div className={`pop-up-container ${place.type}-popup`}>
           <h2 className="place-name">{getTitle()}</h2>
 
-          {/* current/searched/clicked */}
+          {/* spinner while fetching locationDetails for dynamic types */}
+          {["current", "searched", "clicked"].includes(place.type) &&
+            !locationDetails && <FaSpinner className="spinner-popup" />}
+
+          {/* show details only when fetched */}
           {["current", "searched", "clicked"].includes(place.type) &&
             locationDetails && (
               <>
@@ -98,6 +102,7 @@ const PopupWindow: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
           {/* visited / planned / highlighted styles */}
           {["visited", "planned", "highlighted"].includes(place.type)}
 
+          {/* image handling */}
           {place.imageLink && (
             <>
               {!imageLoaded && <FaSpinner className="spinner-popup" />}

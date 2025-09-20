@@ -4,7 +4,7 @@ import { PiFlagPennantFill } from "react-icons/pi";
 import { BiSolidPlaneAlt } from "react-icons/bi";
 import { ImHeartBroken } from "react-icons/im";
 import { PlaceMarkersProps } from "../../../types/interface";
-import { useLocationPopup } from "../hooks/useLocationPopup";
+import { usePopupOptions } from "../hooks/usePopUpOptions";
 
 const PlaceMarkers: React.FC<PlaceMarkersProps> = ({
   visitedPlaces,
@@ -12,7 +12,7 @@ const PlaceMarkers: React.FC<PlaceMarkersProps> = ({
   highlightedPlaces = [],
 }) => {
   // ✅ use universal clipboard from hook
-  const { copyToClipboard } = useLocationPopup();
+  const { copyToClipboard } = usePopupOptions();
 
   const places = [
     ...visitedPlaces.map((place) => ({
