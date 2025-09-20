@@ -9,20 +9,13 @@ html {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
 }
 
-
-.map-container,
-.spinner-live {
+.map-container {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.map-container {
+    height: 100vh;
     width: 100%;
-    height: 90vh;
-    overflow: hidden;
-    position: relative;
-    /* Ensure children can be absolutely positioned inside */
+    outline: none;
 }
 
 .spinner-live {

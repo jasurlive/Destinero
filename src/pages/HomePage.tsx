@@ -1,8 +1,6 @@
-import Map from "../add/tools/Map"; //this is the main map component
-
+import Map from "../add/tools/Map"; // main map component
 import { useState } from "react";
-import { usePlaces } from "../add/tools/hooks/useFetchPlaces"; //custom hook to fetch places data from excel file
-
+import { usePlaces } from "../add/tools/hooks/useFetchPlaces"; //custom hook
 import { FaLock, FaLockOpen } from "react-icons/fa";
 import { RiResetLeftFill } from "react-icons/ri";
 
@@ -17,40 +15,38 @@ const HomePage = () => {
   const [resetTrigger, setResetTrigger] = useState(false);
 
   const resetView = () => {
-    setResetTrigger((prev) => !prev); // toggle to trigger map reset
+    setResetTrigger((prev) => !prev);
   };
 
   return (
     <div>
-      <h1 className="map-home-title">
-        <div className="map-home-title-btn-row">
-          <button
-            className="map-home-reset-view-button"
-            onClick={() => setLocked(!locked)}
-            title={locked ? "Unlock map" : "Lock map"}
-          >
-            {locked ? <FaLock /> : <FaLockOpen />}
-          </button>
-        </div>
-        🚩Travel Map 🗺️
-        <div className="map-home-title-btn-row">
-          <button
-            className="map-home-reset-view-button"
-            onClick={resetView}
-            title="Reset view"
-          >
-            <RiResetLeftFill />
-          </button>
-        </div>
-      </h1>
+      {/* Floating buttons on top-left */}
+      <div className="map-buttons-top-left">
+        <button
+          className="map-home-reset-view-button"
+          onClick={() => setLocked(!locked)}
+          title={locked ? "Unlock map" : "Lock map"}
+        >
+          {locked ? <FaLock /> : <FaLockOpen />}
+        </button>
+
+        <button
+          className="map-home-reset-view-button"
+          onClick={resetView}
+          title="Reset view"
+        >
+          <RiResetLeftFill />
+        </button>
+      </div>
+
       <Map
-        visitedPlaces={visitedPlaces} //passes visited places
-        plannedPlaces={plannedPlaces} //passes planned places
-        highlightedPlaces={highlightedPlaces} // pass highlighted places
-        searchCoords={searchCoords} // finds a place by search coordinates
-        setSearchCoords={setSearchCoords} //manages search coordinates data
-        locked={locked} // locks the map when true
-        resetTrigger={resetTrigger} // triggers reset when the function is called
+        visitedPlaces={visitedPlaces}
+        plannedPlaces={plannedPlaces}
+        highlightedPlaces={highlightedPlaces}
+        searchCoords={searchCoords}
+        setSearchCoords={setSearchCoords}
+        locked={locked}
+        resetTrigger={resetTrigger}
       />
     </div>
   );

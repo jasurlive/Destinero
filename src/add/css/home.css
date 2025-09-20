@@ -1,10 +1,11 @@
-h1.map-home-title {
+.map-buttons-top-left {
+    position: absolute;
+    top: 3rem;
+    left: 10px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 2rem;
-    font-size: 1.5rem;
+    flex-direction: column;
     gap: 10px;
+    z-index: 500;
 }
 
 .map-home-reset-view-button {
@@ -12,13 +13,17 @@ h1.map-home-title {
     justify-content: center;
     align-items: center;
     border-radius: 4px;
-    background-color: #4285f4;
-    width: 4rem;
+    background: #164fa4;
     padding: 10px;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
     border: none;
+}
+
+.map-home-reset-view-button svg {
+    width: 1.5rem;
+    height: 1.5rem;
 }
 
 .map-home-reset-view-button:hover {
@@ -30,22 +35,13 @@ h1.map-home-title {
     transform: scale(0.85);
 }
 
-.map-home-title-btn-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: none;
-    border: none;
-    padding: 0;
-    width: auto;
-    color: inherit;
-    border-radius: 0;
-}
-
-
-/* ----------------------------------------------- MOBILE */
 @media (max-width: 600px) {
-    h1.map-home-title {
-        font-size: 1rem;
+    .map-home-reset-view-button {
+        width: 3rem;
+        padding: 8px;
+    }
+
+    .map-container {
+        height: 80vh;
     }
 }

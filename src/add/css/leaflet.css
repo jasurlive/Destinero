@@ -40,6 +40,10 @@
     height: 90%;
 }
 
+.leaflet-container:focus {
+    outline: steelblue solid 2px;
+}
+
 .leaflet-popup-content {
     background-color: #ffffff00;
     color: #333;

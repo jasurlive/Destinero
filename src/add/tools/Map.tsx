@@ -25,7 +25,7 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
   highlightedPlaces = [],
   searchCoords,
   setSearchCoords,
-  locked = true,
+  locked = false,
   resetTrigger,
 }) => {
   const mapRef = useRef<L.Map | null>(null);
