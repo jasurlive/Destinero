@@ -11,7 +11,6 @@ const PlaceMarkers: React.FC<PlaceMarkersProps> = ({
   plannedPlaces,
   highlightedPlaces = [],
 }) => {
-  // ✅ use universal clipboard from hook
   const { copyToClipboard } = usePopupOptions();
 
   const places = [
@@ -31,15 +30,34 @@ const PlaceMarkers: React.FC<PlaceMarkersProps> = ({
       },
       autoOpen: false,
     })),
-    ...highlightedPlaces.map((place, index) => ({
+    ...highlightedPlaces.map((place) => ({
       place: {
         ...place,
         type: "highlighted" as const,
         icon: <ImHeartBroken className="custom-marker-icon-highlighted" />,
       },
-      autoOpen: index === 0,
+      autoOpen: false,
     })),
   ];
+
+  /*  if (places.length > 0) {
+    const randomIndex = Math.floor(Math.random() * places.length);
+    places[randomIndex].autoOpen = true;
+  } */
+
+  if (places.length > 0) {
+    const eligibleIndexes = places
+      .map((p, i) =>
+        ["highlighted", "visited"].includes(p.place.type) ? i : null
+      )
+      .filter((i) => i !== null) as number[];
+
+    if (eligibleIndexes.length > 0) {
+      places[
+        eligibleIndexes[Math.floor(Math.random() * eligibleIndexes.length)]
+      ].autoOpen = true;
+    }
+  }
 
   return (
     <>

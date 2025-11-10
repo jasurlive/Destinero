@@ -76,7 +76,6 @@ export const usePlaces = () => {
           imageLink: row["Image Links"],
           type: "highlighted",
           icon: createCustomIcon("highlighted"),
-          autoOpenPopup: true, // auto open popup for highlighted places
         }));
 
         setVisitedPlaces(visited);

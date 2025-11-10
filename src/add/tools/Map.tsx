@@ -107,7 +107,7 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
           highlightedPlaces={highlightedPlaces}
         />
 
-        <LiveLocation map={mapRef.current} setLiveCoords={setLiveCoords} />
+        <LiveLocation />
 
         <PopupHandler
           popupCoords={clickedCoords}
