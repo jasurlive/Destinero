@@ -4,24 +4,21 @@ import { MdOutlineMyLocation } from "react-icons/md";
 import { useZoom } from "../hooks/useZoom";
 
 interface LiveLocationProps {
-  map: any;
-  setLiveCoords: (coords: [number, number]) => void;
+  map?: any;
+  setLiveCoords?: (coords: [number, number]) => void;
 }
 
 const LiveLocation: React.FC<LiveLocationProps> = ({ map, setLiveCoords }) => {
   const { zoomToLocation } = useZoom(map);
-
-  // 🔹 Local flag for immediate feedback
   const [isRequesting, setIsRequesting] = useState(false);
 
-  // Request browser geolocation
   const getUserLocation = useCallback(() => {
     if (!navigator.geolocation) {
       console.error("Geolocation not supported");
       return;
     }
 
-    setIsRequesting(true); // show spinner immediately
+    setIsRequesting(true);
 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
@@ -29,13 +26,14 @@ const LiveLocation: React.FC<LiveLocationProps> = ({ map, setLiveCoords }) => {
           pos.coords.latitude,
           pos.coords.longitude,
         ];
-        setLiveCoords(coords); // 🔹 send coords up instead of handling popup here
-        zoomToLocation(coords, 15); // zoom in
-        setIsRequesting(false); // stop spinner after coords received
+
+        setLiveCoords?.(coords);
+        zoomToLocation?.(coords, 15);
+        setIsRequesting(false);
       },
       (err) => {
         console.error("Geolocation error:", err.message);
-        setIsRequesting(false); // stop spinner on error
+        setIsRequesting(false);
       }
     );
   }, [setLiveCoords, zoomToLocation]);
@@ -43,11 +41,9 @@ const LiveLocation: React.FC<LiveLocationProps> = ({ map, setLiveCoords }) => {
   return (
     <div
       className="location-icon-container"
-      onMouseEnter={(e) => e.currentTarget?.classList.add("hovered")}
-      onMouseLeave={(e) => e.currentTarget?.classList.remove("hovered")}
       onClick={getUserLocation}
       onTouchStart={getUserLocation}
-      title="🟢 Live location"
+      title="Live location"
     >
       {isRequesting ? (
         <FaSpinner className="spinner-live" />
