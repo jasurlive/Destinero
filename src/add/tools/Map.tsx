@@ -52,12 +52,6 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
   // --- Location fetching hook (independent) ---
   const { fetchCoordsData, getDetailsForCoords, loading } = useFetchLocation();
 
-  useEffect(() => {
-    if (resetTrigger && mapRef.current) {
-      mapRef.current.setView(adjustedCenter, defaultZoom); // reset to default
-    }
-  }, [resetTrigger, adjustedCenter, defaultZoom]);
-
   // --- Fetch location details whenever clickedCoords, liveCoords, or searchCoords changes ---
   useEffect(() => {
     const coordsToFetch = clickedCoords || searchCoords || liveCoords;

@@ -12,15 +12,9 @@ const HomePage = () => {
     null
   );
   const [locked, setLocked] = useState(true);
-  const [resetTrigger, setResetTrigger] = useState(false);
-
-  const resetView = () => {
-    setResetTrigger((prev) => !prev);
-  };
 
   return (
     <div>
-      {/* Floating buttons on top-left */}
       <div className="map-buttons-top-left">
         <button
           className="map-home-reset-view-button"
@@ -28,14 +22,6 @@ const HomePage = () => {
           title={locked ? "Unlock map" : "Lock map"}
         >
           {locked ? <FaLock /> : <FaLockOpen />}
-        </button>
-
-        <button
-          className="map-home-reset-view-button"
-          onClick={resetView}
-          title="Reset view"
-        >
-          <RiResetLeftFill />
         </button>
       </div>
 
@@ -46,7 +32,6 @@ const HomePage = () => {
         searchCoords={searchCoords}
         setSearchCoords={setSearchCoords}
         locked={locked}
-        resetTrigger={resetTrigger}
       />
     </div>
   );
