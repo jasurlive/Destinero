@@ -2,6 +2,11 @@ import { useState, useCallback } from "react";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { UseSearchResult } from "../../../types/interface";
 
+interface SearchResultSafe {
+  x: number; // longitude
+  y: number; // latitude
+}
+
 export const useSearch = (
   onSearchCallback: (coords: [number, number]) => void
 ): UseSearchResult => {
@@ -14,29 +19,40 @@ export const useSearch = (
   const [success, setSuccess] = useState<string | null>(null);
 
   const search = useCallback(async () => {
-    if (searchTerm.trim() === "") return;
+    if (!searchTerm.trim()) return;
 
     setIsSearching(true);
+    setError(null);
+    setSuccess(null);
+
     const provider = new OpenStreetMapProvider();
 
     try {
       const results = await provider.search({ query: searchTerm });
-      if (results.length > 0) {
-        const { x, y } = results[0];
-        const coords: [number, number] = [y, x];
-        setResultCoords(coords);
-        setSuccess("The place was found");
-        setError(null);
-        onSearchCallback(coords);
-      } else {
-        setError("No results found");
-        setSuccess(null);
+      if (!results || results.length === 0) {
         setResultCoords(null);
+        setError("No results found");
+        return;
       }
+
+      const firstResult = results[0] as SearchResultSafe;
+
+      if (
+        typeof firstResult.x !== "number" ||
+        typeof firstResult.y !== "number"
+      ) {
+        setResultCoords(null);
+        setError("Invalid geocoding result");
+        return;
+      }
+
+      const coords: [number, number] = [firstResult.y, firstResult.x];
+      setResultCoords(coords);
+      setSuccess("Place found successfully");
+      onSearchCallback(coords);
     } catch {
-      setError("Error fetching geocoding data");
-      setSuccess(null);
       setResultCoords(null);
+      setError("Error fetching geocoding data");
     } finally {
       setIsSearching(false);
     }

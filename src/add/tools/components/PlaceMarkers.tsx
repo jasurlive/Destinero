@@ -17,45 +17,41 @@ const PlaceMarkers: React.FC<PlaceMarkersProps> = ({
   highlightedPlaces = [],
 }) => {
   const { copyToClipboard } = usePopupOptions();
-  const hasAutoOpenedRef = useRef(false);
+  const hasAutoOpened = useRef(false);
   const [places, setPlaces] = useState<PlaceWithAutoOpen[]>([]);
 
   const basePlaces = useMemo<PlaceWithAutoOpen[]>(() => {
+    const mapPlace = (place: any, type: string, icon: React.ReactNode) => ({
+      place: { ...place, type, icon },
+      autoOpen: false,
+    });
     return [
-      ...visitedPlaces.map((place) => ({
-        place: {
-          ...place,
-          type: "visited" as const,
-          icon: <PiFlagPennantFill className="custom-marker-icon-visited" />,
-        },
-        autoOpen: false,
-      })),
-      ...plannedPlaces.map((place) => ({
-        place: {
-          ...place,
-          type: "planned" as const,
-          icon: <BiSolidPlaneAlt className="custom-marker-icon-planned" />,
-        },
-        autoOpen: false,
-      })),
-      ...highlightedPlaces.map((place) => ({
-        place: {
-          ...place,
-          type: "highlighted" as const,
-          icon: <ImHeartBroken className="custom-marker-icon-highlighted" />,
-        },
-        autoOpen: false,
-      })),
+      ...visitedPlaces.map((p) =>
+        mapPlace(
+          p,
+          "visited",
+          <PiFlagPennantFill className="custom-marker-icon-visited" />
+        )
+      ),
+      ...plannedPlaces.map((p) =>
+        mapPlace(
+          p,
+          "planned",
+          <BiSolidPlaneAlt className="custom-marker-icon-planned" />
+        )
+      ),
+      ...highlightedPlaces.map((p) =>
+        mapPlace(
+          p,
+          "highlighted",
+          <ImHeartBroken className="custom-marker-icon-highlighted" />
+        )
+      ),
     ];
   }, [visitedPlaces, plannedPlaces, highlightedPlaces]);
 
   useEffect(() => {
-    if (hasAutoOpenedRef.current) {
-      setPlaces(basePlaces);
-      return;
-    }
-
-    if (basePlaces.length === 0) {
+    if (hasAutoOpened.current || basePlaces.length === 0) {
       setPlaces(basePlaces);
       return;
     }
@@ -73,14 +69,10 @@ const PlaceMarkers: React.FC<PlaceMarkersProps> = ({
 
     const selectedIndex =
       eligibleIndexes[Math.floor(Math.random() * eligibleIndexes.length)];
-
-    const updatedPlaces = basePlaces.map((p, i) => ({
-      ...p,
-      autoOpen: i === selectedIndex,
-    }));
-
-    hasAutoOpenedRef.current = true;
-    setPlaces(updatedPlaces);
+    setPlaces(
+      basePlaces.map((p, i) => ({ ...p, autoOpen: i === selectedIndex }))
+    );
+    hasAutoOpened.current = true;
   }, [basePlaces]);
 
   return (

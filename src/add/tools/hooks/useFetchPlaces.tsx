@@ -2,28 +2,20 @@ import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import { Place, PlaceData } from "../../../types/interface";
 
-// small helper to create custom icons. you can add more types if needed
-const createCustomIcon = (
-  type: "visited" | "planned" | "highlighted"
-): React.ReactElement => {
+type PlaceType = "visited" | "planned" | "highlighted";
+
+const createCustomIcon = (type: PlaceType): React.ReactElement => {
   return <div className={`${type}-icon`} />;
 };
 
-// helper to parse coords in "lat, lng" format
 const parseCoords = (coordsString?: string): [number, number] => {
   if (!coordsString) return [0, 0];
-
-  // handle JSON array string like "[lat, lng]" as well
   try {
     const parsed = JSON.parse(coordsString);
     if (Array.isArray(parsed) && parsed.length === 2) {
       return [Number(parsed[0]) || 0, Number(parsed[1]) || 0];
     }
-  } catch {
-    // ignore JSON.parse errors, will try comma split next
-  }
-
-  // handle "lat, lng" string
+  } catch {}
   const [lat, lng] = coordsString.split(",").map((c) => parseFloat(c.trim()));
   return [lat || 0, lng || 0];
 };
@@ -45,42 +37,24 @@ export const usePlaces = () => {
         const highlightedSheet = workbook.Sheets["Highlighted"];
 
         if (!visitedSheet || !plannedSheet || !highlightedSheet) {
-          console.error("Missing one or more required sheets in Excel file.");
+          console.error("Missing one or more sheets in Excel file.");
           return;
         }
 
-        const visitedData: PlaceData[] = XLSX.utils.sheet_to_json(visitedSheet);
-        const plannedData: PlaceData[] = XLSX.utils.sheet_to_json(plannedSheet);
-        const highlightedData: PlaceData[] =
-          XLSX.utils.sheet_to_json(highlightedSheet);
+        const mapSheet = (sheet: XLSX.Sheet, type: PlaceType): Place[] => {
+          const data: PlaceData[] = XLSX.utils.sheet_to_json(sheet);
+          return data.map((row) => ({
+            name: row.Name ?? "Unknown Place",
+            coords: parseCoords(row.Coords),
+            imageLink: row["Image Links"] ?? "",
+            type: type,
+            icon: createCustomIcon(type),
+          }));
+        };
 
-        const visited: Place[] = visitedData.map((row) => ({
-          name: row.Name ?? "Unknown Place",
-          coords: parseCoords(row.Coords),
-          imageLink: row["Image Links"],
-          type: "visited",
-          icon: createCustomIcon("visited"),
-        }));
-
-        const planned: Place[] = plannedData.map((row) => ({
-          name: row.Name ?? "Unknown Place",
-          coords: parseCoords(row.Coords),
-          imageLink: row["Image Links"],
-          type: "planned",
-          icon: createCustomIcon("planned"),
-        }));
-
-        const highlighted: Place[] = highlightedData.map((row) => ({
-          name: row.Name ?? "Unknown Place",
-          coords: parseCoords(row.Coords),
-          imageLink: row["Image Links"],
-          type: "highlighted",
-          icon: createCustomIcon("highlighted"),
-        }));
-
-        setVisitedPlaces(visited);
-        setPlannedPlaces(planned);
-        setHighlightedPlaces(highlighted);
+        setVisitedPlaces(mapSheet(visitedSheet, "visited"));
+        setPlannedPlaces(mapSheet(plannedSheet, "planned"));
+        setHighlightedPlaces(mapSheet(highlightedSheet, "highlighted"));
       } catch (error) {
         console.error("Error fetching or parsing Excel file:", error);
       }

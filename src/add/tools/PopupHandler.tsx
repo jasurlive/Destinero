@@ -8,18 +8,18 @@ import { PopupHandlerProps } from "../../types/interface";
 import { usePopupOptions } from "./hooks/usePopUpOptions";
 import { useFetchLocation } from "./hooks/useFetchLocation";
 
-import "../css/popup.css";
-
-const PopupHandler: React.FC<PopupHandlerProps> = ({
+const PopupHandler: React.FC<
+  PopupHandlerProps & { mapRef?: React.RefObject<L.Map | null> }
+> = ({
   popupCoords,
   searchCoords,
   liveCoords,
   copyCoordsToClipboard,
+  mapRef,
 }) => {
   const { setCoordsAndFetch } = usePopupOptions();
-  const { fetchCoordsData, getDetailsForCoords, loading } = useFetchLocation();
+  const { fetchCoordsData, getDetailsForCoords } = useFetchLocation();
 
-  // Unified coords array
   const coordsList = [popupCoords, searchCoords, liveCoords].filter(
     Boolean
   ) as [number, number][];
@@ -27,9 +27,25 @@ const PopupHandler: React.FC<PopupHandlerProps> = ({
   useEffect(() => {
     coordsList.forEach((coords) => {
       setCoordsAndFetch(coords);
-      fetchCoordsData(coords); // async fetch, don't block rendering
+      fetchCoordsData(coords);
+
+      // Auto-center live/searched popups
+      if (mapRef?.current && coords !== popupCoords) {
+        mapRef.current.panTo(coords, { animate: true });
+      }
     });
-  }, [coordsList, fetchCoordsData, setCoordsAndFetch]);
+  }, [coordsList, fetchCoordsData, setCoordsAndFetch, mapRef, popupCoords]);
+
+  const getIcon = (type: "clicked" | "searched" | "current") => {
+    switch (type) {
+      case "clicked":
+        return <MdLocationPin className="custom-marker-icon-clicked" />;
+      case "searched":
+        return <FaSearchLocation className="custom-marker-icon-searched" />;
+      case "current":
+        return <BsPersonRaisedHand className="custom-marker-icon-live" />;
+    }
+  };
 
   return (
     <>
@@ -41,24 +57,13 @@ const PopupHandler: React.FC<PopupHandlerProps> = ({
             ? "searched"
             : "current";
 
-        const icon =
-          type === "clicked" ? (
-            <MdLocationPin className="custom-marker-icon-clicked" />
-          ) : type === "searched" ? (
-            <FaSearchLocation className="custom-marker-icon-searched" />
-          ) : (
-            <BsPersonRaisedHand className="custom-marker-icon-live" />
-          );
-
-        const locationDetails = getDetailsForCoords(coords);
-
         return (
           <CreatePopup
             key={`${coords[0]},${coords[1]}`}
-            place={{ type, coords, icon }}
+            place={{ type, coords, icon: getIcon(type) }}
             handleCopyClick={() => copyCoordsToClipboard(coords)}
-            locationDetails={locationDetails}
-            autoOpen={type !== "clicked"} // clicked may remain manual
+            locationDetails={getDetailsForCoords(coords)}
+            autoOpen={type !== "clicked"}
           />
         );
       })}

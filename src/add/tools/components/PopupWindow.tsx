@@ -20,7 +20,10 @@ const PopupWindow: React.FC<CreatePopupProps & { autoOpen?: boolean }> = ({
     imageLoaded,
     handleImageLoad,
     setCoordsAndFetch,
-  } = usePopupOptions({ autoOpen, handleCopyClick });
+  } = usePopupOptions({
+    autoOpen,
+    handleCopyClick: handleCopyClick ?? (() => {}),
+  });
 
   const markerRef = useRef<L.Marker>(null);
 

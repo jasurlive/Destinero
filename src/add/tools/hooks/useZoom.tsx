@@ -8,27 +8,12 @@ export const useZoom = (map: L.Map | null) => {
       zoomLevel: number = 15,
       onZoomEnd?: () => void
     ) => {
-      if (!map) {
-        console.error("Map object is not defined");
-        return;
-      }
+      if (!map) return;
 
-      if (
-        !coords ||
-        coords.length !== 2 ||
-        typeof coords[0] !== "number" ||
-        typeof coords[1] !== "number"
-      ) {
-        console.error("Coords are not defined or invalid", coords);
-        return;
-      }
+      const [lat, lng] = coords;
+      if (typeof lat !== "number" || typeof lng !== "number") return;
 
-      if (typeof zoomLevel !== "number") {
-        console.error("Zoom level must be a number", zoomLevel);
-        return;
-      }
-
-      map.flyTo(coords, zoomLevel, {
+      map.flyTo([lat, lng], zoomLevel, {
         animate: true,
         duration: 2,
         easeLinearity: 0.1,

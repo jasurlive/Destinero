@@ -11,32 +11,23 @@ type Message = { type: "error" | "success"; text: string } | null;
 const SearchBox: React.FC<SearchBoxProps> = ({ map, onSearch }) => {
   const { zoomToLocation } = useZoom(map);
 
-  const {
-    searchTerm,
-    setSearchTerm,
-    search,
-    isSearching,
-    error: searchError,
-    success: searchSuccess,
-  } = useSearch((coords) => zoomToLocation(coords, 15, () => onSearch(coords)));
+  const { searchTerm, setSearchTerm, search, isSearching, error, success } =
+    useSearch((coords) => zoomToLocation(coords, 15, () => onSearch(coords)));
 
   const [message, setMessage] = useState<Message>(null);
-
   const searchBoxRef = useRef<HTMLDivElement>(null);
-  usePreventTouches(searchBoxRef); // a hook to prevent map interactions through the search box
+  usePreventTouches(searchBoxRef);
 
   useEffect(() => {
-    if (searchError) setMessage({ type: "error", text: searchError });
-    else if (searchSuccess)
-      setMessage({ type: "success", text: searchSuccess });
+    if (error) setMessage({ type: "error", text: error });
+    else if (success) setMessage({ type: "success", text: success });
 
-    if (searchError || searchSuccess) {
+    if (error || success) {
       const timer = setTimeout(() => setMessage(null), 3000);
       return () => clearTimeout(timer);
     }
-  }, [searchError, searchSuccess]);
+  }, [error, success]);
 
-  // --- Input Handlers ---
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value),
     [setSearchTerm]
@@ -62,7 +53,6 @@ const SearchBox: React.FC<SearchBoxProps> = ({ map, onSearch }) => {
 
   return (
     <>
-      {/* Search Input */}
       <div className="search-box" ref={searchBoxRef}>
         <input
           type="text"

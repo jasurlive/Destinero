@@ -4,19 +4,16 @@ import { MdOutlineMyLocation } from "react-icons/md";
 import { useZoom } from "../hooks/useZoom";
 
 interface LiveLocationProps {
-  map?: any;
+  map?: L.Map | null;
   setLiveCoords?: (coords: [number, number]) => void;
 }
 
 const LiveLocation: React.FC<LiveLocationProps> = ({ map, setLiveCoords }) => {
-  const { zoomToLocation } = useZoom(map);
+  const { zoomToLocation } = useZoom(map ?? null);
   const [isRequesting, setIsRequesting] = useState(false);
 
   const getUserLocation = useCallback(() => {
-    if (!navigator.geolocation) {
-      console.error("Geolocation not supported");
-      return;
-    }
+    if (!navigator.geolocation) return;
 
     setIsRequesting(true);
 
@@ -26,15 +23,11 @@ const LiveLocation: React.FC<LiveLocationProps> = ({ map, setLiveCoords }) => {
           pos.coords.latitude,
           pos.coords.longitude,
         ];
-
         setLiveCoords?.(coords);
-        zoomToLocation?.(coords, 15);
+        zoomToLocation(coords, 15);
         setIsRequesting(false);
       },
-      (err) => {
-        console.error("Geolocation error:", err.message);
-        setIsRequesting(false);
-      }
+      () => setIsRequesting(false)
     );
   }, [setLiveCoords, zoomToLocation]);
 

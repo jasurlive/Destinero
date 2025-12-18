@@ -2,7 +2,6 @@ import Map from "../add/tools/Map"; // main map component
 import { useState } from "react";
 import { usePlaces } from "../add/tools/hooks/useFetchPlaces"; //custom hook
 import { FaLock, FaLockOpen } from "react-icons/fa";
-import { RiResetLeftFill } from "react-icons/ri";
 
 import "../add/css/home.css";
 
@@ -17,7 +16,7 @@ const HomePage = () => {
     <div>
       <div className="map-buttons-top-left">
         <button
-          className="map-home-reset-view-button"
+          className="icon-button"
           onClick={() => setLocked(!locked)}
           title={locked ? "Unlock map" : "Lock map"}
         >

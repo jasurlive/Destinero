@@ -2,7 +2,6 @@ import { useState, useCallback } from "react";
 import { UsePopupOptionsProps } from "../../../types/interface";
 
 export const usePopupOptions = ({
-  autoOpen = false,
   handleCopyClick,
 }: UsePopupOptionsProps = {}) => {
   // --- Clipboard handling ---

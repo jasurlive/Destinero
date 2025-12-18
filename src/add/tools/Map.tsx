@@ -1,6 +1,5 @@
 import { useRef, useEffect } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
-import { useMediaQuery } from "@mui/material";
 
 import SearchBox from "./components/SearchBox";
 import MapEvents from "./components/MapEvents";
@@ -17,7 +16,7 @@ import { MapProps } from "../../types/interface";
 import "../css/map.css";
 import "leaflet/dist/leaflet.css";
 
-const mapKey = import.meta.env.VITE_MapKey;
+const mapKey = import.meta.env["VITE_MapKey"];
 
 const Map: React.FC<MapProps & { locked?: boolean }> = ({
   visitedPlaces,
@@ -25,21 +24,13 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
   highlightedPlaces = [],
   searchCoords,
   setSearchCoords,
-  locked = false,
-  resetTrigger,
+  locked = true,
 }) => {
   const mapRef = useRef<L.Map | null>(null);
-  const isMobile = useMediaQuery("(max-width:600px)");
-  const defaultCenter: [number, number] = isMobile
-    ? [41.505, -0.09]
-    : [31.505, -0.09];
-  const defaultZoom = isMobile ? 2.5 : 3.3;
-  const adjustedCenter: [number, number] = [
-    defaultCenter[0],
-    defaultCenter[1] + (isMobile ? 22 : 70),
-  ];
 
-  // --- Popup + UI state hook ---
+  const defaultCenter: [number, number] = [31.505, -0.09];
+  const defaultZoom = 3.3;
+
   const {
     clickedCoords,
     liveCoords,
@@ -49,21 +40,17 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
     handleMapClick,
   } = usePopupOptions();
 
-  // --- Location fetching hook (independent) ---
   const { fetchCoordsData, getDetailsForCoords, loading } = useFetchLocation();
 
-  // --- Fetch location details whenever clickedCoords, liveCoords, or searchCoords changes ---
   useEffect(() => {
     const coordsToFetch = clickedCoords || searchCoords || liveCoords;
-    if (coordsToFetch) {
-      fetchCoordsData(coordsToFetch);
-    }
+    if (coordsToFetch) fetchCoordsData(coordsToFetch);
   }, [clickedCoords, liveCoords, searchCoords, fetchCoordsData]);
 
   return (
     <div className="map-container">
       <MapContainer
-        center={adjustedCenter}
+        center={defaultCenter}
         zoom={defaultZoom}
         className="leaflet-map"
         ref={mapRef}
@@ -101,7 +88,9 @@ const Map: React.FC<MapProps & { locked?: boolean }> = ({
           highlightedPlaces={highlightedPlaces}
         />
 
-        <LiveLocation />
+        {mapRef.current && (
+          <LiveLocation map={mapRef.current} setLiveCoords={setLiveCoords} />
+        )}
 
         <PopupHandler
           popupCoords={clickedCoords}
