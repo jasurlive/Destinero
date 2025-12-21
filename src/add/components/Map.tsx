@@ -1,6 +1,6 @@
 import { MapContainer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import "../css/Map.css";
+import "../css/map.css";
 import "../css/leaflet.css";
 import MapTiler from "../tools/MapTiler";
 
