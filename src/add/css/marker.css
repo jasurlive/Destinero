@@ -1,0 +1,53 @@
+.custom-div-icon svg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+.custom-div-icon svg:hover {
+    transform: scale(1.2);
+}
+
+.marker-icon.visited {
+    color: #003380;
+}
+
+.marker-icon.planned {
+    color: #ff249c;
+}
+
+.marker-icon.searched {
+    color: #004ac9;
+}
+
+.marker-icon.live {
+    color: #ff3636;
+}
+
+.marker-icon.clicked {
+    color: #ff3636;
+}
+
+.marker-icon.highlighted {
+    color: #ff249c;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        color: #ff249c;
+    }
+
+    50% {
+        transform: scale(1.3);
+        color: #f200ff;
+    }
+
+    100% {
+        transform: scale(1);
+        color: #ff249c;
+    }
+}
