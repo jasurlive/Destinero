@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { useMapEvents, useMap } from "react-leaflet";
-import { AllPlaceTypes } from "../hooks/useFetchExcel";
+import { AllPlaceTypes } from "./useFetchExcel";
 
 export const useClickedMarker = () => {
   const [clickedMarker, setClickedMarkerState] = useState<AllPlaceTypes | null>(

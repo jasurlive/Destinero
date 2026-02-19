@@ -4,6 +4,8 @@ import { FaCopy, FaCheck } from "react-icons/fa";
 import { ImSpinner2 } from "react-icons/im";
 import "../css/popup.css";
 import { AllPlaceTypes } from "../hooks/useFetchExcel";
+
+import Flag from "react-flagkit";
 import { useCountryFlag } from "../hooks/useCountryFlags";
 
 type DynamicPlaceTypes = "clicked" | "searched" | "live";
@@ -21,7 +23,7 @@ const TITLE_BY_TYPE: Record<DynamicPlaceTypes, string> = {
 };
 
 const isDynamicType = (
-  type: AllPlaceTypes["type"]
+  type: AllPlaceTypes["type"],
 ): type is DynamicPlaceTypes =>
   type === "clicked" || type === "searched" || type === "live";
 
@@ -40,7 +42,7 @@ const PopUp = ({ place }: { place: AllPlaceTypes }) => {
       try {
         const [lat, lon] = place.coords;
         const res = await fetch(
-          `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`
+          `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`,
         );
         const data = await res.json();
 
@@ -90,10 +92,12 @@ const PopUp = ({ place }: { place: AllPlaceTypes }) => {
             <h2 className="place-name">{details.title}</h2>
             <p className="location-info">
               {details.info}
+
               {details.countryCode && (
-                <span className="country-flag">
-                  {useCountryFlag(details.countryCode)}
-                </span>
+                <Flag
+                  className="flag-size"
+                  country={useCountryFlag(details.countryCode)}
+                />
               )}
             </p>
           </>
