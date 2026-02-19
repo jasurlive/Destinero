@@ -49,7 +49,11 @@ const Marker = ({ place, autoOpen }: MarkerProps) => {
       ref={markerRef}
       eventHandlers={{
         popupopen: () => {
-          map.flyTo(place.coords, map.getZoom(), {
+          const zoom = map.getZoom();
+          const placecoords = map.project(place.coords, zoom);
+          const target = map.unproject(placecoords.subtract([0, 120]), zoom); //lower the flytocoords a bit
+
+          map.flyTo(target, zoom, {
             animate: true,
             duration: 0.6,
           });
