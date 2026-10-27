@@ -1,0 +1,48 @@
+/* shared styles for simple pages (stubs, 404, errors) */
+
+.page-container {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem;
+}
+
+.page-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  text-align: center;
+}
+
+.page-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.page-code {
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.page-text {
+  color: var(--muted);
+}
+
+.page-button {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  font-size: 0.875rem;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.page-button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
