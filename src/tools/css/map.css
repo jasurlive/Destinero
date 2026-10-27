@@ -146,8 +146,7 @@
 .map-buttons button:hover { background: var(--accent-soft); color: var(--accent); }
 
 @media (max-width: 768px) {
-  .map-legend { top: 4.25rem; }
-  .embed .map-legend { top: auto; bottom: 1.5rem; left: 1rem; max-width: calc(100% - 6rem); }
+  .map-legend { display: none; }
   .map-brand { display: none; }
 }
 

@@ -9,6 +9,7 @@
 .menu-page {
   position: relative;
   display: grid; /* lets a page stretch to full height (e.g. centered 404) */
+  grid-template-columns: minmax(0, 1fr); /* wide content can't push the page sideways */
   flex: 1;
   min-width: 0;
 }

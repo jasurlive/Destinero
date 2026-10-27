@@ -33,12 +33,29 @@ const DIV_ICONS = Object.fromEntries(
   ]),
 ) as Record<PinType, DivIcon>;
 
-export default function Marker({ pin, autoOpen }: { pin: Pin; autoOpen?: boolean }) {
+type MarkerProps = {
+  pin: Pin;
+  autoOpen?: boolean;
+  // auto-opened without the visitor asking: never move the map for it
+  still?: boolean;
+};
+
+export default function Marker({ pin, autoOpen, still }: MarkerProps) {
   const ref = useRef<LMarker>(null);
 
   useEffect(() => {
-    if (autoOpen) ref.current?.openPopup();
-  }, [autoOpen]);
+    const marker = ref.current;
+    const popup = marker?.getPopup();
+    if (!autoOpen || !marker || !popup) return;
+
+    // Leaflet re-pans on every content update (image / address loaded),
+    // so keep autoPan off until this popup is closed
+    if (still) {
+      popup.options.autoPan = false;
+      popup.once("remove", () => (popup.options.autoPan = true));
+    }
+    marker.openPopup();
+  }, [autoOpen, still]);
 
   return (
     <LeafletMarker
@@ -47,7 +64,7 @@ export default function Marker({ pin, autoOpen }: { pin: Pin; autoOpen?: boolean
       icon={DIV_ICONS[pin.type]}
     >
       {/* one smooth autoPan, kept clear of the legend / search bar */}
-      <Popup autoPanPaddingTopLeft={[20, 120]} autoPanPaddingBottomRight={[80, 20]}>
+      <Popup autoPanPaddingTopLeft={[20, 80]} autoPanPaddingBottomRight={[80, 20]}>
         <PopUp pin={pin} />
       </Popup>
     </LeafletMarker>

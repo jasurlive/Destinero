@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
+import { MapContainer, TileLayer, useMap, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "../css/map.css";
 import Marker from "../map/Markers";
 import Controls from "../map/Controls";
 import { DEFAULT_VIEW, type Pin } from "../map/types";
-import { usePlaces, type PlaceType } from "../hooks/usePlaces";
+import { usePlaces, type Place, type PlaceType } from "../hooks/usePlaces";
 import { useTheme } from "../hooks/useTheme";
 
 const KEY = import.meta.env.VITE_MAPKEY;
@@ -35,6 +35,40 @@ function ClickPin({ onPin }: { onPin: (pin: Pin) => void }) {
   return null;
 }
 
+// opens one popup on arrival without moving the map afterwards:
+// the focused place (view shifted down first to make room for its popup),
+// or a random place whose popup already fits on screen
+function AutoOpen({
+  places,
+  focus,
+  onOpen,
+}: {
+  places: Place[];
+  focus?: [number, number];
+  onOpen: (key: string) => void;
+}) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (focus) {
+      const zoom = map.getZoom();
+      const center = map.unproject(map.project(focus, zoom).subtract([0, 160]), zoom);
+      map.setView(center, zoom, { animate: false });
+      onOpen(focus.join());
+      return;
+    }
+
+    const { x: w, y: h } = map.getSize();
+    const fits = places.filter((p) => {
+      const { x, y } = map.latLngToContainerPoint(p.coords);
+      return x > 160 && x < w - 160 && y > 460 && y < h - 40; // popup is ~320px tall
+    });
+    if (fits.length) onOpen(fits[Math.floor(Math.random() * fits.length)].coords.join());
+  }, [map, places, focus, onOpen]);
+
+  return null;
+}
+
 export default function MapPage() {
   const { places } = usePlaces();
   const { theme } = useTheme();
@@ -45,11 +79,7 @@ export default function MapPage() {
   const [pins, setPins] = useState<Partial<Record<Pin["type"], Pin>>>({});
   const addPin = (pin: Pin) => setPins((prev) => ({ ...prev, [pin.type]: pin }));
 
-  // open the focused place, or a random one on a plain visit
-  const [seed] = useState(Math.random);
-  const openKey = focus
-    ? focus.join()
-    : places[Math.floor(seed * places.length)]?.coords.join();
+  const [openKey, setOpenKey] = useState<string | null>(null);
 
   const toggle = (type: PlaceType) =>
     setHidden((h) => (h.includes(type) ? h.filter((t) => t !== type) : [...h, type]));
@@ -74,10 +104,11 @@ export default function MapPage() {
         {/* key forces fresh tiles when the theme changes */}
         <TileLayer key={theme} url={tiles(theme === "dark")} />
         <ClickPin onPin={addPin} />
+        <AutoOpen places={places} focus={focus} onOpen={setOpenKey} />
         <Controls addPin={addPin} />
 
         {shown.map((p) => (
-          <Marker key={`${p.type}-${p.coords.join()}`} pin={p} autoOpen={p.coords.join() === openKey} />
+          <Marker key={`${p.type}-${p.coords.join()}`} pin={p} autoOpen={p.coords.join() === openKey} still />
         ))}
         {Object.values(pins).map((p) => (
           <Marker key={p.type} pin={p} autoOpen />

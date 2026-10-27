@@ -46,8 +46,8 @@ export default function Help() {
           All places live in <code>public/data/places.csv</code> (<code>type,name,lat,lng,image</code>).
           Edit it by hand or use the helper:
         </p>
-        <pre className="help-code">{`python python/places.py add "Tokyo, Japan" 35.68,139.76 --type planned --image https://…
-python python/places.py list`}</pre>
+        <pre className="help-code">{`python scripts/places.py add "Tokyo, Japan" 35.68,139.76 --type planned --image https://…
+python scripts/places.py list`}</pre>
       </section>
     </div>
   );
