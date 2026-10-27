@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router";
 import { MapContainer, TileLayer, useMap, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -27,11 +27,31 @@ const LEGEND: { type: PlaceType; label: string }[] = [
   { type: "highlighted", label: "Highlighted" },
 ];
 
-// clicking empty map drops a pin
+// clicking empty map drops a pin. Waits a moment first: a double-tap / pinch
+// on phones also fires click, and dropping a pin mid-zoom made the map jump
 function ClickPin({ onPin }: { onPin: (pin: Pin) => void }) {
+  const timer = useRef(0);
+  const lastZoom = useRef(0);
+  const cancel = () => clearTimeout(timer.current);
+  const zoomed = () => {
+    cancel();
+    lastZoom.current = Date.now();
+  };
+
   useMapEvents({
-    click: (e) => onPin({ type: "clicked", name: "Pinned", coords: [e.latlng.lat, e.latlng.lng] }),
+    click: (e) => {
+      cancel();
+      if (Date.now() - lastZoom.current < 500) return; // tail of a pinch
+      const coords: [number, number] = [e.latlng.lat, e.latlng.lng];
+      timer.current = window.setTimeout(() => onPin({ type: "clicked", name: "Pinned", coords }), 300);
+    },
+    dblclick: zoomed,
+    zoomstart: zoomed,
+    zoomend: zoomed,
+    dragstart: cancel,
   });
+
+  useEffect(() => cancel, []);
   return null;
 }
 
